@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StructuredData from "@/components/StructuredData";
@@ -10,6 +10,16 @@ const inter = Inter({
   preload: true,
   fallback: ['system-ui', 'arial']
 });
+
+// Separates Viewport-Export für mobile Responsiveness
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  // iPhone X und andere Geräte optimieren
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: {
