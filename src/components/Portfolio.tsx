@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, X } from 'lucide-react';
+import { ExternalLink, X, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -84,7 +84,6 @@ const Portfolio = () => {
                   <div className="h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-2xl">📱</span>
                       </div>
                       <p className="text-primary-700 font-medium">{project.category}</p>
                     </div>
@@ -134,6 +133,15 @@ const Portfolio = () => {
                     </span>
                   ))}
                 </div>
+
+                {/* Coming Soon Badge - nur für Praxis Center Weiss */}
+                {project.title === 'Praxis Center Weiss - Heilpraktikerin' && (
+                  <div className="flex justify-center mt-4">
+                    <div className="bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium">
+                      Coming Soon
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
