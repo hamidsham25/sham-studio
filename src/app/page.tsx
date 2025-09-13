@@ -4,6 +4,7 @@ import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
+import TestimonialStrip from "@/components/TestimonialStrip";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Navigation />
       <Hero />
+      <TestimonialStrip />
       <Services />
       <Portfolio />
       <About />

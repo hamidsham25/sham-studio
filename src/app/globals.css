@@ -57,6 +57,10 @@
   --animate-slide-in-right: slideInRight 0.6s ease-out;
   --animate-float: float 6s ease-in-out infinite;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-scroll: scroll 40s linear infinite;
+  --animate-scroll-mobile: scroll 25s linear infinite;
+  --animate-scroll-loop: scrollLoop 30s linear infinite;
+  --animate-scroll-loop-mobile: scrollLoop 20s linear infinite;
 }
 
 @keyframes fadeIn {
@@ -93,6 +97,16 @@
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollLoop {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
 }
 
 @layer base {
