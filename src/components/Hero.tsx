@@ -41,7 +41,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center bg-gradient-to-br from-background via-muted/50 to-primary-50/30">
+    <section id="hero" className="min-h-screen flex items-center bg-gradient-to-br from-background via-muted/50 to-primary-50/30 pt-20">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}

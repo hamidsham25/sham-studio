@@ -20,13 +20,13 @@ const Portfolio = () => {
       githubUrl: '#'
     },
     {
-      title: 'Sham Automobile - Gebrauchtwagen',
-      description: 'Vollständige Website für einen Gebrauchtwagenhändler mit CMS, Kontaktformular und modernem Design.',
-      image: '/images/sham-automobile.jpg',
-      tags: ['Next.js', 'CMS', 'Kontaktformular'],
+      title: 'Sham Estate - Immobilienberatung',
+      description: 'Vollständige Business-Website für Immobilienberatung mit modernem Design, Services und Kontaktformular.',
+      image: '/images/sham-estate.jpg',
+      tags: ['WIX', 'Business Website', 'Immobilien'],
       category: 'Business Website',
-      liveUrl: '#',
-      githubUrl: '#'
+      liveUrl: 'https://www.sham-estate.com',
+      githubUrl: null
     },
     {
       title: 'Ihre Website könnte hier stehen',
@@ -76,7 +76,16 @@ const Portfolio = () => {
                 scale: 1.02,
                 transition: { duration: 0.2, ease: "easeOut" }
               }}
-              className="card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group"
+              className={`card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group ${
+                project.liveUrl && project.liveUrl !== '#' && !project.isCTA 
+                  ? 'cursor-pointer' 
+                  : ''
+              }`}
+              onClick={() => {
+                if (project.liveUrl && project.liveUrl !== '#' && !project.isCTA) {
+                  window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+                }
+              }}
             >
               {/* Project Image */}
               <div className="relative h-48 overflow-hidden">
@@ -95,8 +104,15 @@ const Portfolio = () => {
                     alt={project.title}
                     width={400}
                     height={300}
-                    className="w-full h-full object-contain bg-gray-50 cursor-pointer hover:scale-105 transition-transform duration-300"
-                    onClick={() => setSelectedImage(project.image)}
+                    className={`w-full h-full object-contain bg-gray-50 hover:scale-105 transition-transform duration-300 ${
+                      project.liveUrl === '#' ? 'cursor-pointer' : 'cursor-default'
+                    }`}
+                    onClick={(e) => {
+                      if (project.liveUrl === '#') {
+                        e.stopPropagation(); // Verhindert Card-Click
+                        setSelectedImage(project.image);
+                      }
+                    }}
                     loading="lazy"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
