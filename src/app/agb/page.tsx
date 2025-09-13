@@ -131,7 +131,7 @@ export default function AGBPage() {
 
         <div className="mt-12 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500">
-            Stand: {new Date().toLocaleDateString('de-DE')}
+            Stand: 19.12.2024
           </p>
         </div>
         </div>

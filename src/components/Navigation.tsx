@@ -66,7 +66,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/#hero" className="text-2xl font-bold text-secondary-900">
+            <Link href="/#hero" className="text-2xl font-bold text-foreground">
               Sham Studio
             </Link>
           </div>

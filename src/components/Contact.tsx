@@ -221,7 +221,7 @@ const Contact = () => {
 
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-secondary-900 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
                     Name *
                   </label>
                   <input
@@ -237,7 +237,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-secondary-900 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
                     E-Mail *
                   </label>
                   <input
@@ -253,7 +253,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="project" className="block text-sm font-semibold text-secondary-900 mb-2">
+                  <label htmlFor="project" className="block text-sm font-semibold text-foreground mb-2">
                     Projekttyp
                   </label>
                   <select
@@ -272,7 +272,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-secondary-900 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
                     Nachricht *
                   </label>
                   <textarea

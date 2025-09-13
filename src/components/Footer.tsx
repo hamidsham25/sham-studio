@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
   const [showEmail, setShowEmail] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
 
@@ -43,7 +42,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-secondary-900 text-white">
+    <footer className="bg-secondary-900 text-secondary-50">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -63,14 +62,14 @@ const Footer = () => {
               <div className="flex space-x-4">
                 <button
                   onClick={handleEmailClick}
-                  className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200"
+                  className="w-10 h-10 bg-secondary-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200"
                   aria-label="E-Mail"
                 >
                   <span className="text-sm">📧</span>
                 </button>
                 <button
                   onClick={handlePhoneClick}
-                  className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200"
+                  className="w-10 h-10 bg-secondary-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200"
                   aria-label="Telefon"
                 >
                   <span className="text-sm">📞</span>
@@ -86,7 +85,7 @@ const Footer = () => {
                   <li key={index}>
                     <Link
                       href={link.href}
-                      className="text-secondary-300 hover:text-white transition-colors duration-200"
+                      className="text-secondary-300 hover:text-secondary-50 transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -114,20 +113,20 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="border-t border-secondary-800 py-6"
+          className="border-t border-secondary-700 py-6"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-secondary-400 text-sm">
-              © {currentYear} Sham Studio. Alle Rechte vorbehalten.
+            <p className="text-secondary-300 text-sm">
+              © 2024 Sham Studio. Alle Rechte vorbehalten.
             </p>
-            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm text-secondary-400">
-              <Link href="/impressum" className="hover:text-white transition-colors duration-200">
+            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm text-secondary-300">
+              <Link href="/impressum" className="hover:text-secondary-50 transition-colors duration-200">
                 Impressum
               </Link>
-              <Link href="/datenschutz" className="hover:text-white transition-colors duration-200">
+              <Link href="/datenschutz" className="hover:text-secondary-50 transition-colors duration-200">
                 Datenschutz
               </Link>
-              <Link href="/agb" className="hover:text-white transition-colors duration-200">
+              <Link href="/agb" className="hover:text-secondary-50 transition-colors duration-200">
                 AGB
               </Link>
             </div>

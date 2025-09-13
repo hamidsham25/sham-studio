@@ -109,13 +109,13 @@ const Hero = () => {
                 <div className="bg-gradient-to-br from-secondary-100 to-secondary-200 rounded-3xl p-6 shadow-2xl">
                   <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
                     {/* Browser Header */}
-                    <div className="bg-secondary-50 px-4 py-3 border-b border-secondary-200 flex items-center gap-2">
+                    <div className="bg-muted px-4 py-3 border-b border-border flex items-center gap-2">
                       <div className="flex gap-2">
                         <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                         <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                         <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                       </div>
-                      <div className="flex-1 bg-white rounded-md px-3 py-1 text-xs text-secondary-500">
+                      <div className="flex-1 bg-white rounded-md px-3 py-1 text-xs text-muted-foreground">
                         shamstudio.de
                       </div>
                     </div>
@@ -123,8 +123,8 @@ const Hero = () => {
                     {/* Browser Content */}
                     <div className="p-6 space-y-4">
                       <div className="h-4 bg-primary-200 rounded animate-shimmer"></div>
-                      <div className="h-4 bg-secondary-200 rounded w-3/4 animate-shimmer" style={{ animationDelay: '0.5s' }}></div>
-                      <div className="h-4 bg-secondary-200 rounded w-1/2 animate-shimmer" style={{ animationDelay: '1s' }}></div>
+                      <div className="h-4 bg-muted rounded w-3/4 animate-shimmer" style={{ animationDelay: '0.5s' }}></div>
+                      <div className="h-4 bg-muted rounded w-1/2 animate-shimmer" style={{ animationDelay: '1s' }}></div>
                       <div className="grid grid-cols-2 gap-4 mt-6">
                         <div className="h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg animate-shimmer" style={{ animationDelay: '1.5s' }}></div>
                         <div className="h-20 bg-gradient-to-br from-accent-100 to-accent-200 rounded-lg animate-shimmer" style={{ animationDelay: '2s' }}></div>
