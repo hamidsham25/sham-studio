@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, X } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Portfolio = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -33,7 +34,7 @@ const Portfolio = () => {
       image: '/api/placeholder/400/300',
       tags: ['Ihre Idee', 'Meine Expertise', 'Gemeinsam'],
       category: 'Ihr Projekt',
-      liveUrl: '#contact',
+      liveUrl: '/#contact',
       githubUrl: null,
       isCTA: true
     }
@@ -149,9 +150,9 @@ const Portfolio = () => {
           <p className="text-secondary-600 mb-6">
             Interessiert an einem ähnlichen Projekt?
           </p>
-          <a href="#contact" className="btn btn-primary">
+          <Link href="/#contact" className="btn btn-primary">
             Projekt besprechen
-          </a>
+          </Link>
         </motion.div>
       </div>
 

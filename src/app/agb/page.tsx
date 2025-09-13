@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Allgemeine Geschäftsbedingungen",
@@ -12,7 +14,9 @@ export const metadata: Metadata = {
 export default function AGBPage() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <Navigation />
+      <div className="pt-20">
+        <div className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Allgemeine Geschäftsbedingungen</h1>
         
         <div className="prose prose-lg max-w-none">
@@ -130,7 +134,9 @@ export default function AGBPage() {
             Stand: {new Date().toLocaleDateString('de-DE')}
           </p>
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

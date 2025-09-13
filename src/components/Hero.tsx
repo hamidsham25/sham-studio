@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 const Hero = () => {
   const containerVariants = {
@@ -79,19 +80,19 @@ const Hero = () => {
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <a
-                href="#portfolio"
+              <Link
+                href="/#portfolio"
                 className="btn btn-primary group"
               >
                 Portfolio ansehen
                 <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                href="/#contact"
                 className="btn btn-secondary"
               >
                 Projekt besprechen
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
 

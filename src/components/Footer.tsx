@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -35,10 +36,10 @@ const Footer = () => {
   };
 
   const footerLinks = [
-    { href: '#services', label: 'Services' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#about', label: 'Über mich' },
-    { href: '#contact', label: 'Kontakt' },
+    { href: '/#services', label: 'Services' },
+    { href: '/#portfolio', label: 'Portfolio' },
+    { href: '/#about', label: 'Über mich' },
+    { href: '/#contact', label: 'Kontakt' },
   ];
 
   return (
@@ -83,12 +84,12 @@ const Footer = () => {
               <ul className="space-y-2">
                 {footerLinks.map((link, index) => (
                   <li key={index}>
-                    <a
+                    <Link
                       href={link.href}
                       className="text-secondary-300 hover:text-white transition-colors duration-200"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -120,15 +121,15 @@ const Footer = () => {
               © {currentYear} Sham Studio. Alle Rechte vorbehalten.
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm text-secondary-400">
-              <a href="/impressum" className="hover:text-white transition-colors duration-200">
+              <Link href="/impressum" className="hover:text-white transition-colors duration-200">
                 Impressum
-              </a>
-              <a href="/datenschutz" className="hover:text-white transition-colors duration-200">
+              </Link>
+              <Link href="/datenschutz" className="hover:text-white transition-colors duration-200">
                 Datenschutz
-              </a>
-              <a href="/agb" className="hover:text-white transition-colors duration-200">
+              </Link>
+              <Link href="/agb" className="hover:text-white transition-colors duration-200">
                 AGB
-              </a>
+              </Link>
             </div>
           </div>
         </motion.div>

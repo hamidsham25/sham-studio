@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,10 +48,10 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { href: '#services', label: 'Services', id: 'services' },
-    { href: '#portfolio', label: 'Portfolio', id: 'portfolio' },
-    { href: '#about', label: 'Über mich', id: 'about' },
-    { href: '#contact', label: 'Kontakt', id: 'contact' },
+    { href: '/#services', label: 'Services', id: 'services' },
+    { href: '/#portfolio', label: 'Portfolio', id: 'portfolio' },
+    { href: '/#about', label: 'Über mich', id: 'about' },
+    { href: '/#contact', label: 'Kontakt', id: 'contact' },
   ];
 
   return (
@@ -65,15 +66,15 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#hero" className="text-2xl font-bold text-secondary-900">
+            <Link href="/#hero" className="text-2xl font-bold text-secondary-900">
               Sham Studio
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className={`font-medium transition-all duration-300 relative ${
@@ -86,14 +87,14 @@ const Navigation = () => {
                 {activeSection === item.id && (
                   <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 rounded-full animate-pulse"></div>
                 )}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="btn btn-primary"
             >
               Projekt starten
-            </a>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -113,7 +114,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-secondary-200">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className={`block px-3 py-2 rounded-lg font-medium transition-all duration-300 relative ${
@@ -127,15 +128,15 @@ const Navigation = () => {
                   {activeSection === item.id && (
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600 rounded-r-full"></div>
                   )}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 className="block mx-3 mt-4 btn btn-primary text-center"
                 onClick={() => setIsOpen(false)}
               >
                 Projekt starten
-              </a>
+              </Link>
             </div>
           </div>
         )}
