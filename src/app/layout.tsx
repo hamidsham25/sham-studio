@@ -17,8 +17,10 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  // iPhone X und andere Geräte optimieren
+  // Verhindert horizontales Scrollen komplett
   viewportFit: 'cover',
+  // WICHTIG: Verhindert das "Ruckeln" und elastische Scrollen
+  shrinkToFit: true,
 }
 
 export const metadata: Metadata = {

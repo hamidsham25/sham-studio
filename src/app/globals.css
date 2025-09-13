@@ -112,6 +112,10 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Verhindert nur horizontales Scrollen */
+    overflow-x: hidden;
+    /* Verhindert das elastische Scrollen auf iOS */
+    -webkit-overflow-scrolling: touch;
   }
   
   body {
@@ -119,6 +123,13 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     transition: background-color 0.3s ease, color 0.3s ease;
+    /* Verhindert nur horizontales Scrollen */
+    overflow-x: hidden;
+    /* Stellt sicher, dass der Body die volle Breite nutzt */
+    width: 100%;
+    max-width: 100vw;
+    /* Verhindert das elastische Scrollen */
+    position: relative;
   }
 
   /* Dark Mode Styles */
@@ -138,10 +149,18 @@
 @layer components {
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    /* Verhindert Overflow */
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
   
   .section {
     @apply py-16 lg:py-24;
+    /* Stellt sicher, dass Sektionen nicht überlaufen */
+    width: 100%;
+    max-width: 100vw;
+    /* KEIN overflow-x: hidden hier - das würde vertikales Scrollen verhindern */
   }
   
   .btn {
@@ -166,5 +185,28 @@
     color: var(--color-card-foreground);
     border: 1px solid var(--color-border);
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+}
+
+/* Zusätzliche Fixes für mobile Geräte */
+@layer utilities {
+  /* Verhindert horizontalen Scroll auf allen Elementen */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Verhindert das elastische Scrollen auf iOS - nur für horizontales Scrollen */
+  * {
+    overscroll-behavior-x: none;
+  }
+  
+  /* Spezielle Fixes für problematische Elemente */
+  .overflow-x-hidden {
+    overflow-x: hidden !important;
+  }
+  
+  /* Verhindert, dass Elemente über die Viewport-Breite hinausragen */
+  .max-w-screen {
+    max-width: 100vw !important;
   }
 }
