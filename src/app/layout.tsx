@@ -19,8 +19,6 @@ export const viewport: Viewport = {
   userScalable: false,
   // Verhindert horizontales Scrollen komplett
   viewportFit: 'cover',
-  // WICHTIG: Verhindert das "Ruckeln" und elastische Scrollen
-  shrinkToFit: true,
 }
 
 export const metadata: Metadata = {
