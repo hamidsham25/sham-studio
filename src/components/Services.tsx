@@ -27,7 +27,7 @@ const Services = () => {
 
 
   return (
-    <section id="services" className="section bg-secondary-50">
+    <section id="services" className="section bg-muted/30">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -36,10 +36,10 @@ const Services = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Was ich für dich tue
           </h2>
-          <p className="text-lg sm:text-xl text-secondary-600 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Von der ersten Idee bis zur fertigen Website – ich begleite dich durch den gesamten Prozess.
           </p>
         </motion.div>
@@ -61,7 +61,7 @@ const Services = () => {
                 scale: 1.02,
                 transition: { duration: 0.2, ease: "easeOut" }
               }}
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg group"
+              className="card rounded-2xl p-8 shadow-sm hover:shadow-lg group"
             >
               <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors duration-300">
                 <service.icon 
@@ -70,17 +70,17 @@ const Services = () => {
                 />
               </div>
               
-              <h3 className="text-xl font-bold text-secondary-900 mb-4">
+              <h3 className="text-xl font-bold text-card-foreground mb-4">
                 {service.title}
               </h3>
               
-              <p className="text-secondary-600 mb-6">
+              <p className="text-muted-foreground mb-6">
                 {service.description}
               </p>
               
               <ul className="space-y-2">
                 {service.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center text-sm text-secondary-500">
+                  <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
                     <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-3"></div>
                     {feature}
                   </li>

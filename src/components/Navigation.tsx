@@ -58,7 +58,7 @@ const Navigation = () => {
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-secondary-200' 
+          ? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-border' 
           : 'bg-transparent'
       }`}
     >
@@ -80,7 +80,7 @@ const Navigation = () => {
                 className={`font-medium transition-all duration-300 relative ${
                   activeSection === item.id
                     ? 'text-primary-600 scale-105 font-semibold'
-                    : 'text-secondary-600 hover:text-primary-600 hover:scale-105'
+                    : 'text-foreground hover:text-primary-600 hover:scale-105'
                 }`}
               >
                 {item.label}
@@ -101,7 +101,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-secondary-600 hover:text-primary-600 hover:bg-secondary-50 transition-colors duration-200"
+              className="p-2 rounded-lg text-foreground hover:text-primary-600 hover:bg-muted transition-colors duration-200"
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -112,7 +112,7 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-secondary-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-background border-t border-border">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -120,7 +120,7 @@ const Navigation = () => {
                   className={`block px-3 py-2 rounded-lg font-medium transition-all duration-300 relative ${
                     activeSection === item.id
                       ? 'text-primary-600 bg-primary-50 font-semibold scale-105'
-                      : 'text-secondary-600 hover:text-primary-600 hover:bg-secondary-50'
+                      : 'text-foreground hover:text-primary-600 hover:bg-muted'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >

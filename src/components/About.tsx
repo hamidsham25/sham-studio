@@ -27,7 +27,7 @@ const About = () => {
 
 
   return (
-    <section id="about" className="section bg-secondary-50">
+    <section id="about" className="section bg-muted/30">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
@@ -38,17 +38,17 @@ const About = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center lg:text-left"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               Über Sham Studio
             </h2>
             
-            <p className="text-lg text-secondary-600 mb-8">
+            <p className="text-lg text-muted-foreground mb-8">
               Ich bin ein leidenschaftlicher Webdesigner mit Fokus auf moderne, 
               benutzerfreundliche Lösungen. Jedes Projekt ist eine neue 
               Herausforderung, die ich mit Kreativität und technischer Präzision angehe.
             </p>
 
-            <p className="text-lg text-secondary-600 mb-8">
+            <p className="text-lg text-muted-foreground mb-8">
               Meine Mission ist es, nicht nur schöne Websites zu erstellen, sondern 
               auch solche, die deine Geschäftsziele erreichen und deine Kunden begeistern.
             </p>
@@ -83,10 +83,10 @@ const About = () => {
                   <div className="text-3xl font-bold text-primary-600 mb-1">
                     {stat.number}
                   </div>
-                  <div className="font-semibold text-secondary-900 mb-1">
+                  <div className="font-semibold text-foreground mb-1">
                     {stat.label}
                   </div>
-                  <div className="text-sm text-secondary-500">
+                  <div className="text-sm text-muted-foreground">
                     {stat.description}
                   </div>
                 </motion.div>

@@ -119,10 +119,10 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Lass uns zusammenarbeiten
           </h2>
-          <p className="text-lg sm:text-xl text-secondary-600 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Bereit für dein nächstes Projekt? Ich freue mich darauf, von dir zu hören.
           </p>
         </motion.div>
@@ -149,12 +149,12 @@ const Contact = () => {
                     <info.icon size={24} className="text-primary-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-secondary-900 mb-1">
+                    <div className="font-semibold text-foreground mb-1">
                       {info.label}
                     </div>
                     <button
                       onClick={info.onClick}
-                      className="text-secondary-600 hover:text-primary-600 transition-colors duration-200 text-left"
+                      className="text-muted-foreground hover:text-primary-600 transition-colors duration-200 text-left"
                     >
                       {info.value}
                     </button>
@@ -170,10 +170,10 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-12 p-6 bg-primary-50 rounded-2xl"
             >
-              <h3 className="font-bold text-secondary-900 mb-3">
+              <h3 className="font-bold text-foreground mb-3">
                 Warum Sham Studio?
               </h3>
-              <ul className="space-y-2 text-secondary-600">
+              <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-primary-600 rounded-full"></div>
                   Individuelle Lösungen für deine Bedürfnisse
@@ -201,7 +201,7 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm">
+            <form onSubmit={handleSubmit} className="card rounded-2xl p-8 shadow-sm">
               {/* Success/Error Messages */}
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">

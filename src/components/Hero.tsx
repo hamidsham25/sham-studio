@@ -41,7 +41,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center bg-gradient-to-br from-white via-secondary-50 to-primary-50/30">
+    <section id="hero" className="min-h-screen flex items-center bg-gradient-to-br from-background via-muted/50 to-primary-50/30">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
@@ -61,7 +61,7 @@ const Hero = () => {
 
             <motion.h1
               variants={titleVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-secondary-900 leading-tight mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6"
             >
               <span className="block">Moderne</span>
               <span className="block">Webdesign-</span>
@@ -70,7 +70,7 @@ const Hero = () => {
 
             <motion.p
               variants={itemVariants}
-              className="text-lg sm:text-xl text-secondary-600 mb-8 max-w-2xl mx-auto lg:mx-0"
+              className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0"
             >
               Professionelle Websites für Portfolios, Landing Pages und kleine Unternehmen. 
               Minimal, performant und auf deine Ziele ausgerichtet.

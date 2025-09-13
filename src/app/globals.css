@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Light Mode Colors */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-200: #bfdbfe;
@@ -37,6 +38,15 @@
   --color-accent-800: #92400e;
   --color-accent-900: #78350f;
   --color-accent-950: #451a03;
+
+  /* Background and Text Colors */
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
 
   --font-family-sans: 'Inter', system-ui, sans-serif;
 
@@ -92,6 +102,22 @@
   
   body {
     font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark Mode Styles */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: #0f172a;
+      --color-foreground: #f8fafc;
+      --color-card: #1e293b;
+      --color-card-foreground: #f8fafc;
+      --color-muted: #334155;
+      --color-muted-foreground: #94a3b8;
+      --color-border: #334155;
+    }
   }
 }
 
@@ -118,5 +144,13 @@
   
   .btn-outline {
     @apply bg-transparent text-secondary-600 border-2 border-secondary-300 hover:bg-secondary-50 focus:ring-secondary-500;
+  }
+
+  /* Dark Mode Card Styles */
+  .card {
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+    border: 1px solid var(--color-border);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 }

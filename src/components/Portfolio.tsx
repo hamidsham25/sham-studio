@@ -51,10 +51,10 @@ const Portfolio = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Ausgewählte Projekte
           </h2>
-          <p className="text-lg sm:text-xl text-secondary-600 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Jedes Projekt ist einzigartig und auf die spezifischen Bedürfnisse des Kunden zugeschnitten.
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ const Portfolio = () => {
                 scale: 1.02,
                 transition: { duration: 0.2, ease: "easeOut" }
               }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group"
+              className="card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group"
             >
               {/* Project Image */}
               <div className="relative h-48 overflow-hidden">
@@ -84,6 +84,7 @@ const Portfolio = () => {
                   <div className="h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span className="text-2xl">💻</span>
                       </div>
                       <p className="text-primary-700 font-medium">{project.category}</p>
                     </div>
@@ -115,11 +116,11 @@ const Portfolio = () => {
 
               {/* Project Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-secondary-900 mb-3">
+                <h3 className="text-xl font-bold text-card-foreground mb-3">
                   {project.title}
                 </h3>
                 
-                <p className="text-secondary-600 mb-4">
+                <p className="text-muted-foreground mb-4">
                   {project.description}
                 </p>
                 
@@ -127,7 +128,7 @@ const Portfolio = () => {
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="px-3 py-1 bg-secondary-100 text-secondary-600 text-sm font-medium rounded-full"
+                      className="px-3 py-1 bg-muted text-muted-foreground text-sm font-medium rounded-full"
                     >
                       {tag}
                     </span>
@@ -155,7 +156,7 @@ const Portfolio = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-16"
         >
-          <p className="text-secondary-600 mb-6">
+          <p className="text-muted-foreground mb-6">
             Interessiert an einem ähnlichen Projekt?
           </p>
           <Link href="/#contact" className="btn btn-primary">
