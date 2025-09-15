@@ -10,8 +10,8 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
       },
     },
   };
@@ -22,7 +22,7 @@ const Hero = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.4,
         ease: "easeOut" as const,
       },
     },
@@ -34,7 +34,7 @@ const Hero = () => {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.4,
         ease: "easeOut" as const,
       },
     },
@@ -100,7 +100,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             className="relative"
           >
             <div className="relative">
