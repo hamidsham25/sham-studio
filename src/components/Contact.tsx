@@ -168,7 +168,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-12 p-6 bg-primary-50 rounded-2xl"
+              className="mt-12 p-6 bg-secondary-100 dark:bg-secondary-800 rounded-2xl"
             >
               <h3 className="font-bold text-foreground mb-3">
                 Warum Sham Studio?
