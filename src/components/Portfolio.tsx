@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,14 +29,13 @@ const Portfolio = () => {
       githubUrl: null
     },
     {
-      title: 'Ihre Website könnte hier stehen',
-      description: 'Lassen Sie uns gemeinsam Ihre Vision verwirklichen. Von der ersten Idee bis zur fertigen Website.',
-      image: '/api/placeholder/400/300',
-      tags: ['Ihre Idee', 'Meine Expertise', 'Gemeinsam'],
-      category: 'Ihr Projekt',
-      liveUrl: '/#contact',
-      githubUrl: null,
-      isCTA: true
+      title: 'Sham Automobile - Gebrauchtwagenhändler',
+      description: 'Moderne Website für einen kleinen Gebrauchtwagenhändler mit CMS-Integration, EmailJS und benutzerfreundlichem Fahrzeugkatalog.',
+      image: '/images/sham-automobile.jpg',
+      tags: ['Next.js', 'CMS', 'EmailJS', 'Automotive'],
+      category: 'Business Website',
+      liveUrl: 'https://sham-automobile.de',
+      githubUrl: null
     }
   ];
 
@@ -76,58 +75,31 @@ const Portfolio = () => {
                 scale: 1.02,
                 transition: { duration: 0.2, ease: "easeOut" }
               }}
-              className={`card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group ${
-                project.liveUrl && project.liveUrl !== '#' && !project.isCTA 
-                  ? 'cursor-pointer' 
-                  : ''
-              }`}
+              className="card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg group cursor-pointer"
               onClick={() => {
-                if (project.liveUrl && project.liveUrl !== '#' && !project.isCTA) {
+                if (project.liveUrl && project.liveUrl !== '#') {
+                  // Für echte Projekte externe Links öffnen
                   window.open(project.liveUrl, '_blank', 'noopener,noreferrer');
+                } else if (project.liveUrl === '#') {
+                  // Für "Coming Soon" Projekte das Bild vergrößern
+                  setSelectedImage(project.image);
                 }
               }}
             >
               {/* Project Image */}
               <div className="relative h-48 overflow-hidden">
-                {project.isCTA ? (
-                  <div className="h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-2xl">💻</span>
-                      </div>
-                      <p className="text-primary-700 font-medium">{project.category}</p>
-                    </div>
-                  </div>
-                ) : (
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={400}
-                    height={300}
-                    className={`w-full h-full object-contain bg-gray-50 hover:scale-105 transition-transform duration-300 ${
-                      project.liveUrl === '#' ? 'cursor-pointer' : 'cursor-default'
-                    }`}
-                    onClick={(e) => {
-                      if (project.liveUrl === '#') {
-                        e.stopPropagation(); // Verhindert Card-Click
-                        setSelectedImage(project.image);
-                      }
-                    }}
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                )}
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-contain bg-gray-50 hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
                 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
-                  <a
-                    href={project.liveUrl}
-                    className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-colors duration-200 pointer-events-auto"
-                    aria-label={project.isCTA ? "Projekt starten" : "Live Demo ansehen"}
-                  >
-                    <ExternalLink size={18} />
-                  </a>
-                </div>
+                {/* Overlay - nur für visuellen Effekt */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 pointer-events-none"></div>
               </div>
 
               {/* Project Content */}
