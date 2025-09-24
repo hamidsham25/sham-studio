@@ -50,7 +50,7 @@ const Contact = () => {
         from_email: formData.email,
         project_type: formData.project || 'Nicht angegeben',
         message: formData.message,
-        to_email: 'hamidsham.studio@gmail.com' // Ihre E-Mail-Adresse
+        to_email: 'info@sham-studio.de' // Ihre E-Mail-Adresse
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -67,7 +67,7 @@ const Contact = () => {
   };
 
   // Verschlüsselte Kontaktdaten (ROT13-Verschlüsselung)
-  const encryptedEmail = 'unzvqfunz.fghqv@tznvy.pb'; // hamidsham.studio@gmail.com
+  const encryptedEmail = 'vasfgvfghqv@funz-fghqv.qr'; // info@sham-studio.de
   const encryptedPhone = '017632878739'; // Deine Telefonnummer
 
   const decodeROT13 = (str: string) => {
@@ -96,7 +96,7 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'E-Mail',
-      value: 'hamidsham.studio@gmail.com',
+      value: 'info@sham-studio.de',
       onClick: handleEmailClick,
       type: 'button' as const
     },

@@ -9,7 +9,7 @@ const Footer = () => {
   const [showPhone, setShowPhone] = useState(false);
 
   // Verschlüsselte Kontaktdaten (ROT13-Verschlüsselung)
-  const encryptedEmail = 'unzvqfunz.fghqv@tznvy.pb'; // hamidsham.studio@gmail.com
+  const encryptedEmail = 'vasfgvfghqv@funz-fghqv.qr'; // info@sham-studio.de
   const encryptedPhone = '017632878739'; // Deine Telefonnummer
 
   const decodeROT13 = (str: string) => {
