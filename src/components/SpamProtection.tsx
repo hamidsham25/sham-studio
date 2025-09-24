@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 export default function SpamProtection() {
   const [honeypot, setHoneypot] = useState('');
-  const [isVerified, setIsVerified] = useState(false);
 
   // Honeypot-Feld (versteckt für Bots)
   const honeypotStyle = {
@@ -37,7 +36,6 @@ export default function SpamProtection() {
           type="number"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="5"
-          onChange={(e) => setIsVerified(e.target.value === '5')}
           required
         />
       </div>
