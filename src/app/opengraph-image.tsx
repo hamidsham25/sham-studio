@@ -1,7 +1,5 @@
 import { ImageResponse } from 'next/og'
 
-export const runtime = 'edge'
-
 export const alt = 'Sham Studio - Webdesign & Entwicklung in Hannover'
 export const size = {
   width: 1200,
