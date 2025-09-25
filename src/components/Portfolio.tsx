@@ -31,7 +31,7 @@ const Portfolio = () => {
     {
       title: 'Sham Automobile - Gebrauchtwagenhändler',
       description: 'Moderne Website für einen kleinen Gebrauchtwagenhändler mit CMS-Integration, EmailJS und benutzerfreundlichem Fahrzeugkatalog.',
-      image: '/images/sham-automobile.jpg?v=' + Date.now(),
+      image: '/images/sham-automobile.jpg',
       tags: ['Next.js', 'CMS', 'EmailJS', 'Automotive'],
       category: 'Business Website',
       liveUrl: 'https://sham-automobile.de',

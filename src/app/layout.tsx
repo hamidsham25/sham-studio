@@ -9,7 +9,9 @@ const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
   preload: true,
-  fallback: ['system-ui', 'arial']
+  fallback: ['system-ui', 'arial'],
+  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700']
 });
 
 // Separates Viewport-Export für mobile Responsiveness
@@ -101,8 +103,10 @@ export default function RootLayout({
     <html lang="de">
       <head>
         <StructuredData />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${inter.variable}`}>
         {children}
         <SpeedInsights />
         <Analytics />
