@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Award, Clock, Users } from 'lucide-react';
+import Image from 'next/image';
 
 const About = () => {
   const stats = [
@@ -103,17 +104,16 @@ const About = () => {
             className="relative"
           >
             <div className="relative">
-              {/* Main Image Placeholder */}
+              {/* Main Image */}
               <div className="relative mx-auto max-w-md">
-                <div className="aspect-square bg-gradient-to-br from-primary-500 to-primary-700 rounded-3xl shadow-2xl flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-4xl">👨‍💻</span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">Dein Webdesigner</h3>
-                    <p className="text-primary-100">Sham Studio</p>
-                  </div>
-                </div>
+                <Image
+                  src="/images/about-img.png"
+                  alt="Sham Studio - Über mich"
+                  width={800}
+                  height={800}
+                  className="aspect-square object-cover rounded-3xl shadow-2xl"
+                  priority
+                />
               </div>
 
               {/* Floating Elements */}
