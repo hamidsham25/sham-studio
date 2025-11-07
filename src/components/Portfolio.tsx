@@ -11,30 +11,30 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: 'Praxis Center Weiss - Heilpraktikerin',
-      description: 'Moderne, responsive Website für eine Heilpraktikerin mit CMS-Integration und benutzerfreundlichem Design.',
-      image: '/images/praxis-center-weiss.jpg',
-      tags: ['Next.js', 'CMS', 'Responsive'],
+      title: 'Sham Automobile - Gebrauchtwagenhändler',
+      description: 'Moderne Website für einen Gebrauchtwagenhändler mit CMS-Integration und einem benutzerfreundlichen Fahrzeugkatalog.',
+      image: '/images/sham-automobile-neu.png',
+      tags: ['Next.js', 'CMS', 'Automotive'],
       category: 'Business Website',
-      liveUrl: '#',
-      githubUrl: '#'
-    },
-    {
-      title: 'Sham Estate - Immobilienberatung',
-      description: 'Vollständige Business-Website für Immobilienberatung mit modernem Design, Services und Kontaktformular.',
-      image: '/images/sham-estate.jpg',
-      tags: ['WIX', 'Business Website', 'Immobilien'],
-      category: 'Business Website',
-      liveUrl: 'https://www.sham-estate.com',
+      liveUrl: 'https://sham-automobile.de',
       githubUrl: null
     },
     {
-      title: 'Sham Automobile - Gebrauchtwagenhändler',
-      description: 'Moderne Website für einen kleinen Gebrauchtwagenhändler mit CMS-Integration, EmailJS und benutzerfreundlichem Fahrzeugkatalog.',
-      image: '/images/sham-automobile.jpg',
-      tags: ['Next.js', 'CMS', 'EmailJS', 'Automotive'],
+      title: 'Handwerker Hannover - Bau & Renovierung',
+      description: 'Landingpage für ein Handwerker-Team aus Hannover mit interaktiver Leistungsübersicht, smartem Anfrage-Flow und mikroanimierten Referenzen.',
+      image: '/images/handwerk-website.png',
+      tags: ['Next.js', 'Realtime Quote Flow', 'Handwerk'],
       category: 'Business Website',
-      liveUrl: 'https://sham-automobile.de',
+      liveUrl: 'https://handwerker-website.vercel.app',
+      githubUrl: null
+    },
+    {
+      title: 'Beauty Hannover - Salon Landingpage',
+      description: 'Elegante Beauty-Website mit dynamischer Preisübersicht, direktem Termin-CTA und sanften Microinteractions.',
+      image: '/images/beauty-website.png',
+      tags: ['Next.js', 'Dynamic Pricing UI', 'Beauty'],
+      category: 'Business Website',
+      liveUrl: 'https://beauty-website-two.vercel.app',
       githubUrl: null
     }
   ];
@@ -123,14 +123,6 @@ const Portfolio = () => {
                   ))}
                 </div>
 
-                {/* Coming Soon Badge - nur für Praxis Center Weiss */}
-                {project.title === 'Praxis Center Weiss - Heilpraktikerin' && (
-                  <div className="flex justify-center mt-4">
-                    <div className="bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium">
-                      Coming Soon
-                    </div>
-                  </div>
-                )}
               </div>
             </motion.div>
           ))}
