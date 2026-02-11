@@ -42,9 +42,6 @@ export default function ImpressumPage() {
         </div>
       </header>
       <main className="mx-auto max-w-3xl px-6 py-16 md:px-8">
-        <p className="mb-8 text-sm text-cyan-400/90">
-          Vorläufiges Impressum – Angaben werden bei Bedarf ergänzt.
-        </p>
         <h1 className="font-display text-3xl font-bold text-white sm:text-4xl">
           Impressum
         </h1>
@@ -58,11 +55,13 @@ export default function ImpressumPage() {
               Anbieter
             </h2>
             <p className="mt-2">
+              Hamid Sham
+              <br />
               Sham Studio
               <br />
-              [Straße, Hausnummer – wird ergänzt]
+              Walsroder Straße 237
               <br />
-              [PLZ Ort – wird ergänzt]
+              30855 Langenhagen
             </p>
           </section>
 
@@ -73,10 +72,10 @@ export default function ImpressumPage() {
             <p className="mt-2">
               E-Mail:{" "}
               <a
-                href="mailto:kontakt@shamstudio.de"
+                href="mailto:info@sham-studio.de"
                 className="text-cyan-400 hover:underline"
               >
-                kontakt@shamstudio.de
+                info@sham-studio.de
               </a>
             </p>
           </section>
@@ -86,19 +85,21 @@ export default function ImpressumPage() {
               Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
             </h2>
             <p className="mt-2">
-              Sham Studio
+              Hamid Sham
               <br />
-              [Anschrift – wird ergänzt]
+              Walsroder Straße 237
+              <br />
+              30855 Langenhagen
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-lg font-semibold text-white">
-              Umsatzsteuer-ID
+              Umsatzsteuer
             </h2>
             <p className="mt-2">
-              [Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG, sofern
-              vorhanden – wird ergänzt]
+              Als Kleinunternehmer im Sinne von § 19 UStG wird keine
+              Umsatzsteuer-Identifikationsnummer angegeben.
             </p>
           </section>
 
