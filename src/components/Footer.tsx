@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 
-const EMAIL = "kontakt@shamstudio.de";
+const EMAIL = "info@sham-studio.de";
 
 export default function Footer() {
   return (

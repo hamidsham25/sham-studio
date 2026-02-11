@@ -1,8 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Datenschutz | Sham Studio",
-  description: "Datenschutzerklärung – Sham Studio",
+const SITE_URL = "https://sham-studio.de";
+
+export const metadata: Metadata = {
+  title: "Datenschutz",
+  description: "Datenschutzerklärung – Sham Studio, Webdesign & Entwicklung in Hannover.",
+  openGraph: {
+    url: `${SITE_URL}/datenschutz`,
+    title: "Datenschutz | Sham Studio",
+    description: "Datenschutzerklärung – Sham Studio",
+  },
+  alternates: { canonical: `${SITE_URL}/datenschutz` },
 };
 
 export default function DatenschutzPage() {
