@@ -49,48 +49,84 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="section-padding"
+      className="flex min-h-screen min-h-[100dvh] flex-col bg-white pt-0 pb-16 rounded-b-[2rem] sm:rounded-b-[3rem] snap-start md:pb-24"
       aria-labelledby="services-heading"
     >
-      <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <motion.h2
-          id="services-heading"
-          className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+      <div className="h-px w-full shrink-0 bg-zinc-200" aria-hidden />
+      {/* Gleiche Struktur wie Über mich: mx-auto max-w-6xl px-6 md:px-8, section-padding für einheitliche Header-Position */}
+      <div className="mx-auto flex max-w-6xl flex-1 flex-col justify-center px-6 pt-16 pb-4 md:px-8 md:pt-24">
+        <motion.header
+          className="mb-12 md:mb-16"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          Services
-        </motion.h2>
-        <motion.p
-          className="mt-4 max-w-2xl text-zinc-400 md:text-lg"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          Von Konzept bis Launch – alles aus einer Hand.
-        </motion.p>
-        <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <h2
+            id="services-heading"
+            className="font-display text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl"
+          >
+            Services
+          </h2>
+          <p className="mt-4 max-w-2xl text-zinc-600 md:text-lg">
+            Von Konzept bis Launch – alles aus einer Hand.
+          </p>
+        </motion.header>
+
+        <ul className="grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {services.map((item, i) => (
             <motion.li
               key={item.title}
-              className="group rounded-2xl border border-zinc-800/80 bg-[#111] p-6 transition-colors hover:border-zinc-700 hover:bg-zinc-900/30"
-              initial={{ opacity: 0, y: 24 }}
+              className="group relative flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-7 cursor-default overflow-hidden"
+              initial={{ opacity: 0, y: 36 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 28,
+                delay: i * 0.08,
+              }}
+              whileHover="hover"
+              variants={{
+                hover: {
+                  y: -10,
+                  scale: 1.03,
+                  boxShadow:
+                    "0 24px 48px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(34,211,238,0.2)",
+                  transition: { type: "spring", stiffness: 400, damping: 26 },
+                },
+              }}
             >
-              <span className="inline-flex text-cyan-400" aria-hidden>
+              {/* Dezenter Hover-Glow im Hintergrund */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 pointer-events-none"
+                variants={{ hover: { opacity: 1 } }}
+                transition={{ duration: 0.3 }}
+                aria-hidden
+              />
+              <motion.span
+                className="relative inline-flex origin-left text-cyan-400"
+                variants={{ hover: { scale: 1.15 } }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                aria-hidden
+              >
                 {item.icon}
-              </span>
-              <h3 className="mt-4 font-display text-xl font-semibold text-white">
+              </motion.span>
+              <h3 className="relative mt-5 font-display text-xl font-semibold text-white sm:text-[1.25rem]">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              <p className="relative mt-2.5 flex-1 text-sm leading-relaxed text-zinc-300">
                 {item.description}
               </p>
+              {/* Unterer Akzent-Linie bei Hover */}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-0.5 origin-left bg-gradient-to-r from-cyan-400 to-cyan-600"
+                initial={{ scaleX: 0 }}
+                variants={{ hover: { scaleX: 1 } }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                aria-hidden
+              />
             </motion.li>
           ))}
         </ul>

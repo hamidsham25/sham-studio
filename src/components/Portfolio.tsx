@@ -65,38 +65,27 @@ export default function Portfolio() {
     offset: ["start start", "end end"],
   });
 
-  // Nur rotateX – keine Schräge. Zwei Flip-Ebenen: 1→2, dann 2→3.
-  // Mehr Scroll-Raum (500vh), damit Flip 2 zu Projekt 3 genug Platz hat.
-
-  // Flip 1: Puffer → Drehung 0→-180 → Puffer (Karte 2)
-  const flip1Rotate = useTransform(
+  // Eine Ebene, Drehung 0° → -360°. Scroll → geglätteter Winkel (Spring) → Anzeige + Content-Wechsel.
+  // Drehung wirkt smooth, Wechsel nur wenn die angezeigte Karte bei -90° / -270° (Kante zum User) steht.
+  // Start-Puffer (0–0.12): bei Karte 1 kann man hochscrollen, bevor es zur Hero geht. End-Puffer wie zuvor.
+  const rotateDeg = useTransform(
     scrollYProgress,
-    [0, 0.08, 0.28, 0.38, 0.42, 1],
-    [0, 0, -180, -180, -180, -180]
+    [0, 0.12, 0.22, 0.32, 0.42, 0.46, 0.49, 0.56, 0.66, 0.80, 1],
+    [0, 0, -90, -180, -180, -180, -180, -270, -360, -360, -360]
   );
-  const flip1RotateSmooth = useSpring(flip1Rotate, {
+  const rotateSmooth = useSpring(rotateDeg, {
     stiffness: 80,
     damping: 25,
     restDelta: 0.001,
   });
-  const flip1RotateX = useTransform(flip1RotateSmooth, (v) => `${v}deg`);
+  const rotateX = useTransform(rotateSmooth, (v) => `${v}deg`);
 
-  // Flip 2: Ab 0.42 sichtbar (Karte 2), dann volle Drehung -180→-360 wie bei Flip 1 (ca. 20 % Scroll)
-  const flip2Rotate = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.45, 0.65, 0.75, 1],
-    [-180, -180, -360, -360, -360, -360]
-  );
-  const flip2RotateSmooth = useSpring(flip2Rotate, {
-    stiffness: 80,
-    damping: 25,
-    restDelta: 0.001,
-  });
-  const flip2RotateX = useTransform(flip2RotateSmooth, (v) => `${v}deg`);
-
-  // Harter Wechsel bei 0.42 (kein Fade): Beide Ebenen zeigen dort Karte 2 → nur die Flip-Drehung ist sichtbar, wie bei 1→2
-  const flip1Opacity = useTransform(scrollYProgress, [0, 0.419, 0.421, 1], [1, 1, 0, 0]);
-  const flip2Opacity = useTransform(scrollYProgress, [0, 0.419, 0.421, 1], [0, 0, 1, 1]);
+  // Wechsel von derselben geglätteten Position wie die Anzeige → nur bei echter Kantenstellung
+  const frontCard1 = useTransform(rotateSmooth, (angle) => (angle > -90 ? 1 : 0));
+  const frontCard2 = useTransform(rotateSmooth, (angle) => (angle <= -90 && angle > -270 ? 1 : 0));
+  const frontCard3 = useTransform(rotateSmooth, (angle) => (angle <= -270 ? 1 : 0));
+  const backCard2 = useTransform(rotateSmooth, (angle) => (angle > -270 ? 1 : 0));
+  const backCard3 = useTransform(rotateSmooth, (angle) => (angle <= -270 ? 1 : 0));
 
   return (
     <div
@@ -122,21 +111,20 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Zwei Flip-Ebenen: 1→2, 2→3, nur rotateX (gerade), mit Puffer nach jeder Karte */}
+          {/* Eine Ebene: gleiche Flip-Animation 1→2 und 2→3, Content wird an den Kanten (-90° / -270°) getauscht */}
           <div
             className="relative z-10 w-full max-w-2xl"
             style={{ perspective: "1600px" }}
           >
-            {/* Flip 1: Karte 1 (vorn) ↔ Karte 2 (Rückseite) */}
             <motion.div
               className="absolute inset-0 w-full"
               style={{
-                opacity: flip1Opacity,
-                rotateX: flip1RotateX,
+                rotateX,
                 transformOrigin: "center center",
                 transformStyle: "preserve-3d",
               }}
             >
+              {/* Vorderseite: je nach Scroll Karte 1, 2 oder 3 (Wechsel bei -90° und -270°) */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -144,8 +132,17 @@ export default function Portfolio() {
                   transform: "rotateX(0deg)",
                 }}
               >
-                <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard1 }}>
+                  <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard2 }}>
+                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard3 }}>
+                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
+                </motion.div>
               </div>
+              {/* Rückseite: Karte 2 bis -270°, danach Karte 3 (Wechsel bei -270°) */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -153,37 +150,12 @@ export default function Portfolio() {
                   transform: "rotateX(180deg)",
                 }}
               >
-                <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
-              </div>
-            </motion.div>
-
-            {/* Flip 2: bei -180° 180°-Face = Karte 2, bei -360° 0°-Face = Karte 3 */}
-            <motion.div
-              className="absolute inset-0 w-full"
-              style={{
-                opacity: flip2Opacity,
-                rotateX: flip2RotateX,
-                transformOrigin: "center center",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              <div
-                className="absolute inset-0"
-                style={{
-                  backfaceVisibility: "hidden",
-                  transform: "rotateX(0deg)",
-                }}
-              >
-                <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
-              </div>
-              <div
-                className="absolute inset-0"
-                style={{
-                  backfaceVisibility: "hidden",
-                  transform: "rotateX(180deg)",
-                }}
-              >
-                <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
+                <motion.div className="absolute inset-0" style={{ opacity: backCard2 }}>
+                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: backCard3 }}>
+                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
+                </motion.div>
               </div>
             </motion.div>
 

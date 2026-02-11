@@ -6,10 +6,10 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="section-padding"
+      className="flex min-h-screen min-h-[100dvh] flex-col section-padding snap-start rounded-b-3xl"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto max-w-2xl px-6 md:px-8">
+      <div className="mx-auto flex max-w-2xl flex-1 flex-col justify-center px-6 md:px-8">
         <motion.h2
           id="contact-heading"
           className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl"
@@ -27,18 +27,21 @@ export default function Contact() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Sie haben ein Projekt im Kopf? Schreiben Sie mir – ich melde mich
-          zeitnah.
+          Bereit für Ihr Projekt? Lassen Sie uns Ihre Idee gemeinsam umsetzen –
+          schreiben Sie mir, ich melde mich zeitnah.
         </motion.p>
-        <motion.form
-          className="mt-10 flex flex-col gap-6"
+        <motion.div
+          className="mt-10 rounded-2xl border border-zinc-700 bg-[#1a1a1a] px-6 py-8 sm:px-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          onSubmit={(e) => e.preventDefault()}
-          noValidate
         >
+          <motion.form
+            className="flex flex-col gap-6"
+            onSubmit={(e) => e.preventDefault()}
+            noValidate
+          >
           <div className="grid gap-6 sm:grid-cols-2">
             <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-zinc-300">Name</span>
@@ -94,7 +97,8 @@ export default function Contact() {
               Senden
             </button>
           </div>
-        </motion.form>
+          </motion.form>
+        </motion.div>
       </div>
     </section>
   );

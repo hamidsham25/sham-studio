@@ -18,38 +18,23 @@ function useActiveSection() {
   useEffect(() => {
     const sections = ["hero", "services", "portfolio", "about", "contact"];
 
-    // For active nav highlight – detects section in middle of viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const id = entry.target.getAttribute("id");
-          if (id) setActiveId(id);
-        }
-      },
-      { rootMargin: "-15% 0px -50% 0px", threshold: 0 }
-    );
-
-    for (const id of sections) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-
-    // For navbar color – checks which section the navbar physically touches
+    // Active nav highlight + navbar color: section that *contains* the point just under the navbar
     const handleScroll = () => {
-      if (window.scrollY < 100) {
+      const navBottom = 64; // approx navbar height in px
+      if (window.scrollY < 50) {
         setActiveId("hero");
         setNavOverSection("hero");
         return;
       }
-      const navBottom = 64; // approx navbar height in px
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
+      for (const id of sections) {
+        const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= navBottom) {
-            setNavOverSection(sections[i]);
-            break;
+          // Section contains the line y=navBottom (top under navbar)
+          if (rect.top <= navBottom && rect.bottom > navBottom) {
+            setActiveId(id);
+            setNavOverSection(id);
+            return;
           }
         }
       }
@@ -58,7 +43,6 @@ function useActiveSection() {
     handleScroll();
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -173,7 +157,7 @@ export default function Header() {
     history.replaceState(null, "", window.location.pathname);
   };
 
-  const lightSections = ["portfolio"];
+  const lightSections = ["portfolio", "services"];
   const isLight = lightSections.includes(navOverSection);
 
   return (
