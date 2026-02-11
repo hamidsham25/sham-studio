@@ -5,17 +5,20 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
 const navLinks = [
-  { href: "#services", id: "services", label: "Services" },
   { href: "#portfolio", id: "portfolio", label: "Portfolio" },
+  { href: "#services", id: "services", label: "Services" },
   { href: "#about", id: "about", label: "Über mich" },
   { href: "#contact", id: "contact", label: "Kontakt" },
 ];
 
 function useActiveSection() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string>("hero");
+  const [navOverSection, setNavOverSection] = useState<string>("hero");
 
   useEffect(() => {
     const sections = ["hero", "services", "portfolio", "about", "contact"];
+
+    // For active nav highlight – detects section in middle of viewport
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -24,34 +27,62 @@ function useActiveSection() {
           if (id) setActiveId(id);
         }
       },
-      { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-15% 0px -50% 0px", threshold: 0 }
     );
 
     for (const id of sections) {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     }
-    return () => observer.disconnect();
+
+    // For navbar color – checks which section the navbar physically touches
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveId("hero");
+        setNavOverSection("hero");
+        return;
+      }
+      const navBottom = 64; // approx navbar height in px
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= navBottom) {
+            setNavOverSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  return activeId;
+  return { activeId, setActiveId, navOverSection };
 }
 
 function NavLink({
   href,
   label,
   isActive,
+  isLight,
 }: {
   href: string;
   label: string;
   isActive: boolean;
+  isLight: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+  const springX = useSpring(x, { stiffness: 150, damping: 25 });
+  const springY = useSpring(y, { stiffness: 150, damping: 25 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -68,15 +99,24 @@ function NavLink({
     y.set(0);
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Link
       ref={ref}
       href={href}
+      onClick={handleClick}
       onMouseEnter={() => setHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={`relative py-1.5 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
-        isActive ? "text-white" : "text-zinc-400"
+        isActive
+          ? isLight ? "text-zinc-900" : "text-white"
+          : isLight ? "text-zinc-500" : "text-zinc-400"
       }`}
     >
       <motion.span
@@ -99,7 +139,9 @@ function NavLink({
                   }
                 : {
                     y: 0,
-                    color: isActive ? "#ffffff" : "#a1a1aa",
+                    color: isActive
+                      ? isLight ? "#18181b" : "#ffffff"
+                      : isLight ? "#71717a" : "#a1a1aa",
                     transition: { duration: 0.25 },
                   }
             }
@@ -110,7 +152,7 @@ function NavLink({
       </motion.span>
       {isActive && (
         <motion.span
-          className="absolute bottom-0 left-0 h-px w-full bg-cyan-400/70"
+          className={`absolute bottom-0 left-0 h-px w-full ${isLight ? "bg-zinc-900/50" : "bg-cyan-400/70"}`}
           layoutId="nav-underline"
           transition={{ type: "spring", stiffness: 380, damping: 30 }}
         />
@@ -122,15 +164,24 @@ function NavLink({
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
-  const activeSection = useActiveSection();
+  const { activeId: activeSection, setActiveId, navOverSection } = useActiveSection();
 
   const scrollToHero = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    setActiveId("hero");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    history.replaceState(null, "", window.location.pathname);
   };
 
+  const lightSections = ["portfolio"];
+  const isLight = lightSections.includes(navOverSection);
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-zinc-800/50 bg-[#0a0a0a]/80 backdrop-blur-md">
+    <header
+      className={`fixed left-0 right-0 top-0 z-50 backdrop-blur-md transition-colors duration-300 ${
+        isLight ? "bg-white/80" : "bg-[#0a0a0a]/80"
+      }`}
+    >
       <nav
         className="relative flex w-full items-center justify-between px-6 py-4 md:px-8"
         aria-label="Hauptnavigation"
@@ -138,7 +189,9 @@ export default function Header() {
         <Link
           href="#hero"
           onClick={scrollToHero}
-          className="flex-shrink-0 font-display text-xl font-bold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+          className={`flex-shrink-0 font-display text-xl font-bold transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
+            isLight ? "text-zinc-900" : "text-white"
+          }`}
         >
           Sham Studio
         </Link>
@@ -149,11 +202,13 @@ export default function Header() {
                 href={link.href}
                 label={link.label}
                 isActive={activeSection === link.id}
+                isLight={isLight}
               />
             </li>
           ))}
         </ul>
         <div className="flex flex-shrink-0 items-center gap-3">
+          {/* Dark/Light Toggle – auskommentiert für später
           <button
             type="button"
             onClick={() => setIsDark((prev) => !prev)}
@@ -177,15 +232,22 @@ export default function Header() {
               )}
             </motion.span>
           </button>
+          */}
           <Link
             href="#contact"
-            className="hidden items-center justify-center rounded-full bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex"
+            className={`hidden items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex ${
+              isLight
+                ? "bg-zinc-900 text-white hover:bg-zinc-800"
+                : "bg-cyan-400 text-black hover:bg-cyan-300"
+            }`}
           >
             Projekt starten
           </Link>
           <motion.button
             type="button"
-            className="flex flex-col gap-1.5 rounded-lg p-2 text-zinc-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden"
+            className={`flex flex-col gap-1.5 rounded-lg p-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
+              isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
+            }`}
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label="Menü öffnen oder schließen"
@@ -198,7 +260,7 @@ export default function Header() {
       </nav>
       {open && (
         <motion.div
-          className="border-t border-zinc-800/50 bg-[#0a0a0a] px-6 py-4 md:hidden"
+          className={`px-6 py-4 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
@@ -211,7 +273,11 @@ export default function Header() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`block text-base font-medium ${isActive ? "text-white" : "text-zinc-400 hover:text-white"}`}
+                    className={`block text-base font-medium ${
+                      isActive
+                        ? isLight ? "text-zinc-900" : "text-white"
+                        : isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
+                    }`}
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -222,7 +288,9 @@ export default function Header() {
             <li>
               <Link
                 href="#contact"
-                className="inline-flex rounded-full bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-black"
+                className={`inline-flex rounded-full px-5 py-2.5 text-sm font-semibold ${
+                  isLight ? "bg-zinc-900 text-white" : "bg-cyan-400 text-black"
+                }`}
                 onClick={() => setOpen(false)}
               >
                 Projekt starten

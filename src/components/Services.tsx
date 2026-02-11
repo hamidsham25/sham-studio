@@ -49,7 +49,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="section-padding border-t border-zinc-800/50"
+      className="section-padding"
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-6xl px-6 md:px-8">

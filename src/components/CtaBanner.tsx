@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function CtaBanner() {
   return (
     <section
-      className="section-padding border-t border-zinc-800/50"
+      className="section-padding"
       aria-label="Call to Action"
     >
       <motion.div

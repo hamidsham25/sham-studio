@@ -5,20 +5,22 @@ import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import CtaBanner from "@/components/CtaBanner";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Home() {
   return (
     <>
+      <LoadingScreen />
       <Header />
       <main>
         <Hero />
-        <Services />
         <Portfolio />
+        <Services />
         <About />
         <Contact />
         <CtaBanner />
       </main>
-      <footer className="border-t border-zinc-800/50 py-8">
+      <footer className="py-8">
         <div className="mx-auto max-w-6xl px-6 md:px-8">
           <p className="text-center text-sm text-zinc-500">
             © {new Date().getFullYear()} Sham Studio. Alle Rechte vorbehalten.

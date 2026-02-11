@@ -7,7 +7,6 @@
   --accent: #22d3ee;
   --accent-hover: #06b6d4;
   --card: #111111;
-  --border: #27272a;
 }
 
 @theme inline {
@@ -35,6 +34,19 @@ body {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
+}
+
+/* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
+@keyframes portfolio-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-portfolio-marquee {
+  animation: portfolio-marquee 70s linear infinite;
 }
 
 /* Focus visible for accessibility */

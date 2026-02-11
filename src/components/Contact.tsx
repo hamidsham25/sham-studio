@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="section-padding border-t border-zinc-800/50"
+      className="section-padding"
       aria-labelledby="contact-heading"
     >
       <div className="mx-auto max-w-2xl px-6 md:px-8">

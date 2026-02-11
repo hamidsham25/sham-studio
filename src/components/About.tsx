@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="section-padding border-t border-zinc-800/50"
+      className="section-padding"
       aria-labelledby="about-heading"
     >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
