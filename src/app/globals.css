@@ -16,8 +16,14 @@
   --font-display: var(--font-display), system-ui, sans-serif;
 }
 
+/* Scroll-Snap nur ab Tablet – auf Mobile oft ruckelig */
 html {
-  scroll-snap-type: y proximity;
+  scroll-snap-type: none;
+}
+@media (min-width: 768px) {
+  html {
+    scroll-snap-type: y proximity;
+  }
 }
 
 body {
