@@ -4,19 +4,23 @@ import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import Link from "next/link";
 import { useRef, useEffect, useState, useCallback } from "react";
 
-// Each dust particle has unique physics and visual properties
+// Stiffness höher, Mass niedriger → Wolke folgt schneller, bei rascher Bewegung keine „mehreren Objekte“
 const dustParticles = [
-  // --- Cyan family – stretched, organic, wispy shapes ---
-  { w: 340, h: 200, offsetX: 0, offsetY: 0, stiffness: 90, damping: 18, mass: 0.8, blur: 60, color: "rgba(34,211,238,0.16)", radius: "20% 80% 65% 35% / 70% 25% 75% 30%", gradientPos: "25% 30%", opacity: 1 },
-  { w: 220, h: 130, offsetX: 45, offsetY: -55, stiffness: 55, damping: 22, mass: 1.4, blur: 50, color: "rgba(34,211,238,0.12)", radius: "75% 25% 30% 70% / 25% 75% 20% 80%", gradientPos: "65% 35%", opacity: 0.85 },
-  { w: 150, h: 90, offsetX: -65, offsetY: 35, stiffness: 40, damping: 20, mass: 2.0, blur: 45, color: "rgba(34,211,238,0.10)", radius: "35% 65% 80% 20% / 55% 45% 30% 70%", gradientPos: "40% 60%", opacity: 0.75 },
-  { w: 500, h: 300, offsetX: 15, offsetY: 25, stiffness: 25, damping: 24, mass: 3.0, blur: 90, color: "rgba(34,211,238,0.07)", radius: "60% 40% 25% 75% / 35% 65% 55% 45%", gradientPos: "50% 40%", opacity: 0.6 },
-  // --- Purple accent – elongated wisps ---
-  { w: 200, h: 100, offsetX: 75, offsetY: 45, stiffness: 35, damping: 16, mass: 1.8, blur: 55, color: "rgba(168,85,247,0.10)", radius: "25% 75% 70% 30% / 65% 35% 20% 80%", gradientPos: "35% 65%", opacity: 0.8 },
-  { w: 130, h: 70, offsetX: -85, offsetY: -65, stiffness: 28, damping: 14, mass: 2.5, blur: 40, color: "rgba(168,85,247,0.08)", radius: "80% 20% 35% 65% / 30% 70% 60% 40%", gradientPos: "60% 30%", opacity: 0.7 },
-  // --- Small scatter wisps ---
-  { w: 90, h: 45, offsetX: -35, offsetY: -85, stiffness: 70, damping: 12, mass: 0.6, blur: 30, color: "rgba(34,211,238,0.14)", radius: "30% 70% 75% 25% / 60% 40% 35% 65%", gradientPos: "50% 45%", opacity: 0.9 },
-  { w: 65, h: 35, offsetX: 95, offsetY: -35, stiffness: 100, damping: 14, mass: 0.5, blur: 25, color: "rgba(6,182,212,0.12)", radius: "70% 30% 25% 75% / 40% 60% 70% 30%", gradientPos: "40% 55%", opacity: 0.85 },
+  // --- Cyan – große, organische Formen ---
+  { w: 380, h: 180, offsetX: 0, offsetY: 0, stiffness: 180, damping: 24, mass: 0.4, blur: 65, color: "rgba(34,211,238,0.22)", radius: "15% 85% 70% 30% / 80% 20% 60% 40%", gradientPos: "28% 35%", opacity: 1 },
+  { w: 260, h: 160, offsetX: 50, offsetY: -50, stiffness: 140, damping: 26, mass: 0.5, blur: 55, color: "rgba(34,211,238,0.18)", radius: "80% 20% 25% 75% / 20% 80% 70% 30%", gradientPos: "60% 38%", opacity: 0.9 },
+  { w: 180, h: 110, offsetX: -70, offsetY: 40, stiffness: 120, damping: 25, mass: 0.6, blur: 48, color: "rgba(34,211,238,0.15)", radius: "40% 60% 85% 15% / 50% 50% 25% 75%", gradientPos: "42% 58%", opacity: 0.85 },
+  { w: 520, h: 280, offsetX: 20, offsetY: 30, stiffness: 80, damping: 28, mass: 0.9, blur: 95, color: "rgba(34,211,238,0.11)", radius: "65% 35% 20% 80% / 30% 70% 60% 40%", gradientPos: "48% 42%", opacity: 0.7 },
+  { w: 140, h: 220, offsetX: -40, offsetY: -30, stiffness: 130, damping: 25, mass: 0.55, blur: 52, color: "rgba(6,182,212,0.17)", radius: "30% 70% 60% 40% / 75% 25% 35% 65%", gradientPos: "35% 55%", opacity: 0.88 },
+  // --- Purple – längliche Wisps ---
+  { w: 240, h: 95, offsetX: 80, offsetY: 50, stiffness: 110, damping: 24, mass: 0.65, blur: 58, color: "rgba(168,85,247,0.15)", radius: "20% 80% 75% 25% / 70% 30% 15% 85%", gradientPos: "38% 62%", opacity: 0.85 },
+  { w: 160, h: 85, offsetX: -90, offsetY: -70, stiffness: 100, damping: 23, mass: 0.75, blur: 42, color: "rgba(168,85,247,0.12)", radius: "85% 15% 40% 60% / 25% 75% 55% 45%", gradientPos: "62% 28%", opacity: 0.78 },
+  { w: 100, h: 200, offsetX: 60, offsetY: -40, stiffness: 105, damping: 24, mass: 0.7, blur: 45, color: "rgba(192,132,252,0.11)", radius: "55% 45% 80% 20% / 35% 65% 25% 75%", gradientPos: "45% 50%", opacity: 0.8 },
+  // --- Kleine Streuer ---
+  { w: 100, h: 55, offsetX: -38, offsetY: -88, stiffness: 200, damping: 22, mass: 0.3, blur: 32, color: "rgba(34,211,238,0.2)", radius: "25% 75% 80% 20% / 65% 35% 40% 60%", gradientPos: "52% 48%", opacity: 0.95 },
+  { w: 75, h: 40, offsetX: 98, offsetY: -38, stiffness: 220, damping: 22, mass: 0.28, blur: 28, color: "rgba(6,182,212,0.18)", radius: "72% 28% 20% 80% / 38% 62% 68% 32%", gradientPos: "42% 58%", opacity: 0.9 },
+  { w: 120, h: 70, offsetX: -100, offsetY: 55, stiffness: 160, damping: 24, mass: 0.45, blur: 38, color: "rgba(34,211,238,0.16)", radius: "10% 90% 90% 10% / 50% 50% 50% 50%", gradientPos: "48% 52%", opacity: 0.88 },
+  { w: 85, h: 140, offsetX: 88, offsetY: 30, stiffness: 165, damping: 24, mass: 0.45, blur: 40, color: "rgba(168,85,247,0.13)", radius: "60% 40% 15% 85% / 70% 30% 60% 40%", gradientPos: "55% 45%", opacity: 0.82 },
 ];
 
 function DustParticle({
@@ -172,7 +176,7 @@ function PaintCloud() {
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
       aria-hidden
     >
       {dustParticles.map((particle, i) => (
@@ -269,9 +273,14 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6"
+      className="hero-bg relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6"
       aria-label="Willkommen"
     >
+      {/* Bildschicht mit Opacity – darunter, PaintCloud darüber */}
+      <div
+        className="hero-bg-image absolute inset-0 z-0 opacity-15"
+        aria-hidden
+      />
       <PaintCloud />
 
       <motion.div

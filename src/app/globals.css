@@ -16,14 +16,8 @@
   --font-display: var(--font-display), system-ui, sans-serif;
 }
 
-/* Scroll-Snap nur ab Tablet – auf Mobile oft ruckelig */
 html {
-  scroll-snap-type: none;
-}
-@media (min-width: 768px) {
-  html {
-    scroll-snap-type: y proximity;
-  }
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -46,15 +40,6 @@ body {
   }
 }
 
-/* Abstand beim Scrollen, damit fixer Header sichtbar bleibt (nur Mobile) */
-@media (max-width: 767px) {
-  #about,
-  #services,
-  #contact {
-    scroll-margin-top: 4.5rem;
-  }
-}
-
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
 @keyframes portfolio-marquee {
   from {
@@ -66,6 +51,18 @@ body {
 }
 .animate-portfolio-marquee {
   animation: portfolio-marquee 70s linear infinite;
+}
+
+/* Hero: Schwarz als Basis, Bild kommt als eigene Schicht mit Opacity */
+.hero-bg {
+  background-color: #0a0a0a;
+}
+
+.hero-bg-image {
+  background-image: url("/images/hero-image.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Focus visible for accessibility */
