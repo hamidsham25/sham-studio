@@ -63,7 +63,7 @@ function CardFace({
           {tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300 sm:text-sm"
+              className="rounded-full bg-zinc-800 px-3 py-1.5 text-sm font-medium text-white sm:text-base"
             >
               {tag}
             </li>
@@ -75,9 +75,24 @@ function CardFace({
 }
 
 const CARDS = [
-  { title: "Projekt Eins", tags: ["Design", "UI/UX", "Branding"], image: "/images/card-background-1.jpg", overlayImage: "/images/card-image-1.png" },
-  { title: "Projekt Zwei", tags: ["Web", "Motion", "Konzept"], image: "/images/card-background-2.jpg", overlayImage: "/images/card-image-2.png" },
-  { title: "Projekt Drei", tags: ["App", "Design", "Development"], image: "/images/card-background-3.jpg" },
+  {
+    title: "Sham Automobile",
+    tags: ["CMS", "Individuelles Design", "Moderne Website"],
+    image: "/images/card-background-1.jpg",
+    overlayImage: "/images/card-image-1.png",
+  },
+  {
+    title: "Handwerker-Website",
+    tags: ["Responsive", "Professionelles Design", "Übersichtliche Struktur"],
+    image: "/images/card-background-2.jpg",
+    overlayImage: "/images/card-image-2.png",
+  },
+  {
+    title: "Beauty-Page",
+    tags: ["Moderne Optik", "Responsive", "Klare Struktur"],
+    image: "/images/card-background-3.jpg",
+    overlayImage: "/images/card-image-3.png",
+  },
 ];
 
 export default function Portfolio() {
