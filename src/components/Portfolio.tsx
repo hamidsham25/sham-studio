@@ -23,18 +23,37 @@ function MarqueeStrip() {
 function CardFace({
   title,
   tags,
+  image,
+  overlayImage,
 }: {
   title: string;
   tags: string[];
+  image?: string;
+  overlayImage?: string;
 }) {
   return (
     <article className="relative h-full w-full overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-xl">
       <div className="px-4 pt-4 pb-2 sm:px-5 sm:pt-5 sm:pb-3">
         <motion.div
-          className="aspect-[3/2] w-full rounded-lg border border-zinc-600/80 bg-zinc-800"
+          className="relative aspect-[3/2] w-full overflow-hidden rounded-lg border border-zinc-600/80 bg-zinc-800"
           whileHover={{ scale: 0.98 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-        />
+        >
+          {image ? (
+            <img
+              src={image}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : null}
+          {overlayImage ? (
+            <img
+              src={overlayImage}
+              alt=""
+              className="absolute inset-0 h-full w-full scale-105 object-contain object-center translate-y-1"
+            />
+          ) : null}
+        </motion.div>
       </div>
       <div className="px-5 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2">
         <h3 className="font-display text-lg font-semibold text-white sm:text-xl">
@@ -56,9 +75,9 @@ function CardFace({
 }
 
 const CARDS = [
-  { title: "Projekt Eins", tags: ["Design", "UI/UX", "Branding"] },
-  { title: "Projekt Zwei", tags: ["Web", "Motion", "Konzept"] },
-  { title: "Projekt Drei", tags: ["App", "Design", "Development"] },
+  { title: "Projekt Eins", tags: ["Design", "UI/UX", "Branding"], image: "/images/card-background-1.jpg", overlayImage: "/images/card-image-1.png" },
+  { title: "Projekt Zwei", tags: ["Web", "Motion", "Konzept"], image: "/images/card-background-2.jpg", overlayImage: "/images/card-image-2.png" },
+  { title: "Projekt Drei", tags: ["App", "Design", "Development"], image: "/images/card-background-3.jpg" },
 ];
 
 export default function Portfolio() {
@@ -153,13 +172,13 @@ export default function Portfolio() {
                 }}
               >
                 <motion.div className="absolute inset-0" style={{ opacity: frontCard1, pointerEvents: pointerEvents1 }}>
-                  <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
+                  <CardFace title={CARDS[0].title} tags={CARDS[0].tags} image={CARDS[0].image} overlayImage={CARDS[0].overlayImage} />
                 </motion.div>
                 <motion.div className="absolute inset-0" style={{ opacity: frontCard2, pointerEvents: pointerEvents2 }}>
-                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
+                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} image={CARDS[1].image} overlayImage={CARDS[1].overlayImage} />
                 </motion.div>
                 <motion.div className="absolute inset-0" style={{ opacity: frontCard3, pointerEvents: pointerEvents3 }}>
-                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
+                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} image={CARDS[2].image} overlayImage={CARDS[2].overlayImage} />
                 </motion.div>
               </div>
               {/* Rückseite: Karte 2 bis -270°, danach Karte 3 (Wechsel bei -270°) */}
@@ -171,16 +190,16 @@ export default function Portfolio() {
                 }}
               >
                 <motion.div className="absolute inset-0" style={{ opacity: backCard2, pointerEvents: backPointer2 }}>
-                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
+                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} image={CARDS[1].image} overlayImage={CARDS[1].overlayImage} />
                 </motion.div>
                 <motion.div className="absolute inset-0" style={{ opacity: backCard3, pointerEvents: backPointer3 }}>
-                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
+                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} image={CARDS[2].image} overlayImage={CARDS[2].overlayImage} />
                 </motion.div>
               </div>
             </motion.div>
 
             <div className="pointer-events-none invisible">
-              <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
+              <CardFace title={CARDS[0].title} tags={CARDS[0].tags} image={CARDS[0].image} overlayImage={CARDS[0].overlayImage} />
             </div>
           </div>
           </div>

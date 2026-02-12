@@ -186,7 +186,34 @@ export default function DatenschutzPage() {
 
           <section>
             <h2 className="font-display text-lg font-semibold text-white">
-              11. Änderungen dieser Datenschutzerklärung
+              11. Bildquellen (Unsplash)
+            </h2>
+            <p className="mt-2">
+              Auf dieser Website werden teilweise Fotos von{" "}
+              <a
+                href="https://unsplash.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:underline"
+              >
+                Unsplash
+              </a>{" "}
+              (Unsplash, Inc.) verwendet. Die Bilder stehen unter der{" "}
+              <a
+                href="https://unsplash.com/license"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:underline"
+              >
+                Unsplash-Lizenz
+              </a>{" "}
+              und können kostenlos genutzt werden. Ein gesonderter Bildnachweis ist nicht erforderlich; wir weisen an dieser Stelle auf die Quelle hin.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg font-semibold text-white">
+              12. Änderungen dieser Datenschutzerklärung
             </h2>
             <p className="mt-2">
               Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslage oder an Änderungen der Website bzw. der von uns eingesetzten Dienste anzugleichen. Die jeweils aktuelle Version finden Sie auf dieser Seite.
