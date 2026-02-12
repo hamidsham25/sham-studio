@@ -30,7 +30,11 @@ function CardFace({
   return (
     <article className="relative h-full w-full overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-xl">
       <div className="px-4 pt-4 pb-2 sm:px-5 sm:pt-5 sm:pb-3">
-        <div className="aspect-[4/3] w-full rounded-lg border border-zinc-600/80 bg-zinc-800" />
+        <motion.div
+          className="aspect-[3/2] w-full rounded-lg border border-zinc-600/80 bg-zinc-800"
+          whileHover={{ scale: 0.98 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        />
       </div>
       <div className="px-5 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2">
         <h3 className="font-display text-lg font-semibold text-white sm:text-xl">
@@ -87,6 +91,13 @@ export default function Portfolio() {
   const backCard2 = useTransform(rotateSmooth, (angle) => (angle > -270 ? 1 : 0));
   const backCard3 = useTransform(rotateSmooth, (angle) => (angle <= -270 ? 1 : 0));
 
+  // Nur die sichtbare Karte soll Hover erhalten (sonst fängt immer Projekt 3 ab, da oben im Stack)
+  const pointerEvents1 = useTransform(frontCard1, (v) => (v > 0.5 ? "auto" : "none"));
+  const pointerEvents2 = useTransform(frontCard2, (v) => (v > 0.5 ? "auto" : "none"));
+  const pointerEvents3 = useTransform(frontCard3, (v) => (v > 0.5 ? "auto" : "none"));
+  const backPointer2 = useTransform(backCard2, (v) => (v > 0.5 ? "auto" : "none"));
+  const backPointer3 = useTransform(backCard3, (v) => (v > 0.5 ? "auto" : "none"));
+
   return (
     <div
       ref={sectionRef}
@@ -96,13 +107,13 @@ export default function Portfolio() {
     >
       <section
         id="portfolio"
-        className="sticky top-0 left-0 right-0 flex min-h-screen overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
+        className="sticky top-0 left-0 right-0 flex min-h-screen flex-col overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
         aria-label="Portfolio"
       >
-        <div className="relative flex min-h-screen w-full items-center justify-center">
-          {/* Marquee */}
+        <div className="relative min-h-screen w-full">
+          {/* PORTFOLIO-Schriftzug: oben, aber näher an der Card (nicht am oberen Rand) */}
           <div
-            className="absolute inset-y-0 left-[-1.5rem] right-[-1.5rem] flex items-center overflow-hidden sm:left-[-2rem] sm:right-[-2rem]"
+            className="absolute left-0 right-0 top-[20%] z-0 overflow-hidden py-2 md:left-[-2rem] md:right-[-2rem] md:top-1/2 md:-translate-y-1/2 md:py-0"
             aria-hidden
           >
             <div className="flex w-max animate-portfolio-marquee items-center gap-20">
@@ -110,8 +121,9 @@ export default function Portfolio() {
               <MarqueeStrip />
             </div>
           </div>
-
-          {/* Eine Ebene: gleiche Flip-Animation 1→2 und 2→3, Content wird an den Kanten (-90° / -270°) getauscht */}
+          {/* Card immer mittig auf dem Bildschirm */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-8">
+            {/* Eine Ebene: gleiche Flip-Animation 1→2 und 2→3, Content wird an den Kanten (-90° / -270°) getauscht */}
           <div
             className="relative z-10 w-full max-w-2xl"
             style={{ perspective: "1600px" }}
@@ -132,13 +144,13 @@ export default function Portfolio() {
                   transform: "rotateX(0deg)",
                 }}
               >
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard1 }}>
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard1, pointerEvents: pointerEvents1 }}>
                   <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard2 }}>
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard2, pointerEvents: pointerEvents2 }}>
                   <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard3 }}>
+                <motion.div className="absolute inset-0" style={{ opacity: frontCard3, pointerEvents: pointerEvents3 }}>
                   <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
                 </motion.div>
               </div>
@@ -150,10 +162,10 @@ export default function Portfolio() {
                   transform: "rotateX(180deg)",
                 }}
               >
-                <motion.div className="absolute inset-0" style={{ opacity: backCard2 }}>
+                <motion.div className="absolute inset-0" style={{ opacity: backCard2, pointerEvents: backPointer2 }}>
                   <CardFace title={CARDS[1].title} tags={CARDS[1].tags} />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: backCard3 }}>
+                <motion.div className="absolute inset-0" style={{ opacity: backCard3, pointerEvents: backPointer3 }}>
                   <CardFace title={CARDS[2].title} tags={CARDS[2].tags} />
                 </motion.div>
               </div>
@@ -162,6 +174,7 @@ export default function Portfolio() {
             <div className="pointer-events-none invisible">
               <CardFace title={CARDS[0].title} tags={CARDS[0].tags} />
             </div>
+          </div>
           </div>
         </div>
       </section>

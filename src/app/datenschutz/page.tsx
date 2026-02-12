@@ -132,31 +132,7 @@ export default function DatenschutzPage() {
               6. Google Analytics
             </h2>
             <p className="mt-2">
-              Diese Website nutzt Google Analytics, einen Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland („Google“). Google Analytics verwendet Cookies, die eine Analyse Ihrer Nutzung der Website ermöglichen. Die durch das Cookie erzeugten Informationen über Ihre Nutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Wir haben die IP-Anonymisierung aktiviert; Ihre IP-Adresse wird von Google innerhalb des EWR bzw. in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt. Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server in den USA übertragen und dort gekürzt.
-            </p>
-            <p className="mt-3">
-              Google nutzt die erhobenen Daten im Auftrag des Betreibers dieser Website, um Ihre Nutzung auszuwerten, Reports über die Websiteaktivitäten zusammenzustellen und weitere mit der Websitenutzung verbundene Dienstleistungen zu erbringen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Analyse und Optimierung des Angebots). Die Speicherdauer der Cookies beträgt bis zu 24 Monate; Einzelheiten entnehmen Sie der Datenschutzerklärung von Google.
-            </p>
-            <p className="mt-3">
-              Sie können die Erfassung durch Google Analytics verhindern, indem Sie das{" "}
-              <a
-                href="https://tools.google.com/dlpage/gaoptout"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyan-400 hover:underline"
-              >
-                Google-Analytics-Opt-Out-Browser-Add-on
-              </a>
-              {" "}installieren oder Cookies in Ihrem Browser deaktivieren. Weitere Informationen:{" "}
-              <a
-                href="https://policies.google.com/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyan-400 hover:underline"
-              >
-                Google Datenschutz
-              </a>
-              .
+              <strong className="text-zinc-300">Google Analytics wird derzeit nicht eingesetzt.</strong> Geplant ist der spätere Einsatz von Google Analytics (Webanalysedienst der Google Ireland Limited bzw. Google LLC). Sobald Google Analytics eingebunden wird, werden wir diese Datenschutzerklärung entsprechend ergänzen und Sie u. a. über verwendete Cookies, IP-Anonymisierung, Zweck, Rechtsgrundlage sowie Ihre Widerspruchs- und Opt-Out-Möglichkeiten informieren.
             </p>
           </section>
 
@@ -165,7 +141,7 @@ export default function DatenschutzPage() {
               7. Cookies
             </h2>
             <p className="mt-2">
-              Diese Website setzt Cookies ein. Neben technisch notwendigen Cookies (z. B. für die Funktion der Website) werden Cookies von Google Analytics (siehe Abschnitt 6) verwendet. Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und diese einzeln ablehnen oder die Annahme von Cookies für bestimmte Fälle oder generell ausschließen. Bei der Deaktivierung von Cookies kann die Funktionalität dieser Website eingeschränkt sein.
+              Diese Website setzt derzeit nur technisch notwendige Cookies ein (soweit für die Funktion der Website erforderlich). Sollte künftig Google Analytics zum Einsatz kommen, werden dabei weitere Cookies verwendet und dieser Abschnitt sowie Abschnitt 6 entsprechend ergänzt. Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und diese einzeln ablehnen oder die Annahme von Cookies für bestimmte Fälle oder generell ausschließen. Bei der Deaktivierung von Cookies kann die Funktionalität dieser Website eingeschränkt sein.
             </p>
           </section>
 
@@ -174,7 +150,7 @@ export default function DatenschutzPage() {
               8. Übermittlung in Drittländer
             </h2>
             <p className="mt-2">
-              Soweit wir Daten in Ländern außerhalb des Europäischen Wirtschaftsraums (EWR) verarbeiten oder verarbeiten lassen (USA: Vercel, EmailJS, Google), erfolgt dies nur auf Grundlage geeigneter Garantien (z. B. von der EU-Kommission beschlossene Standardvertragsklauseln, Angemessenheitsbeschluss oder Zertifizierungen) sowie ggf. ergänzender Maßnahmen. Auf Wunsch können wir Ihnen eine Kopie der Garantien zur Verfügung stellen.
+              Soweit wir Daten in Ländern außerhalb des Europäischen Wirtschaftsraums (EWR) verarbeiten oder verarbeiten lassen (derzeit USA: Vercel, EmailJS; bei künftigem Einsatz von Google Analytics auch Google), erfolgt dies nur auf Grundlage geeigneter Garantien (z. B. von der EU-Kommission beschlossene Standardvertragsklauseln, Angemessenheitsbeschluss oder Zertifizierungen) sowie ggf. ergänzender Maßnahmen. Auf Wunsch können wir Ihnen eine Kopie der Garantien zur Verfügung stellen.
             </p>
           </section>
 

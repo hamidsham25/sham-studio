@@ -238,7 +238,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6"
       aria-label="Willkommen"
     >
       <PaintCloud />

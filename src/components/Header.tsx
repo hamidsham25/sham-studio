@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
@@ -229,60 +229,120 @@ export default function Header() {
           </Link>
           <motion.button
             type="button"
-            className={`flex flex-col gap-1.5 rounded-lg p-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
+            className={`relative flex h-10 w-10 flex-col justify-center gap-1.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
               isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
             }`}
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label="Menü öffnen oder schließen"
           >
-            <span className={`h-0.5 w-6 bg-current transition-transform ${open ? "translate-y-2 rotate-45" : ""}`} />
-            <span className={`h-0.5 w-6 bg-current transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`h-0.5 w-6 bg-current transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+            <motion.span
+              className="absolute left-2 top-[13px] h-0.5 w-6 origin-center bg-current"
+              animate={{
+                rotate: open ? 45 : 0,
+                y: open ? 6 : 0,
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
+            <motion.span
+              className="absolute left-2 top-[19px] h-0.5 w-6 origin-center bg-current"
+              animate={{ opacity: open ? 0 : 1 }}
+              transition={{ duration: 0.12 }}
+            />
+            <motion.span
+              className="absolute left-2 top-[25px] h-0.5 w-6 origin-center bg-current"
+              animate={{
+                rotate: open ? -45 : 0,
+                y: open ? -6 : 0,
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
           </motion.button>
         </div>
       </nav>
-      {open && (
-        <motion.div
-          className={`px-6 py-4 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <ul className="flex flex-col gap-4">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`block text-base font-medium ${
-                      isActive
-                        ? isLight ? "text-zinc-900" : "text-white"
-                        : isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
-                    }`}
-                    onClick={() => setOpen(false)}
+      <AnimatePresence mode="wait">
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            className={`overflow-hidden px-6 pb-6 pt-2 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
+            initial={{ opacity: 0, maxHeight: 0 }}
+            animate={{
+              opacity: 1,
+              maxHeight: 400,
+              transition: {
+                maxHeight: { duration: 0.36, ease: [0.25, 0.46, 0.45, 0.94] },
+                opacity: { duration: 0.2 },
+              },
+            }}
+            exit={{
+              opacity: 0,
+              maxHeight: 0,
+              transition: {
+                maxHeight: { duration: 0.28, ease: [0.32, 0.72, 0, 1] },
+                opacity: { duration: 0.16 },
+              },
+            }}
+          >
+            <ul className="flex flex-col gap-1">
+              {navLinks.map((link, i) => {
+                const isActive = activeSection === link.id;
+                return (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      transition: { delay: 0.03 + i * 0.025, duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] },
+                    }}
+                    exit={{ opacity: 0, x: -8, transition: { duration: 0.2 } }}
                   >
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
-            <li>
-              <Link
-                href="#contact"
-                className={`inline-flex rounded-full px-5 py-2.5 text-sm font-semibold ${
-                  isLight ? "bg-zinc-900 text-white" : "bg-cyan-400 text-black"
-                }`}
-                onClick={() => setOpen(false)}
+                    <Link
+                      href={link.href}
+                      className={`block rounded-lg py-3 text-base font-medium transition-colors ${
+                        isActive
+                          ? isLight ? "text-zinc-900" : "text-white"
+                          : isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
+                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpen(false);
+                        document.getElementById(link.id)?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.li>
+                );
+              })}
+              <motion.li
+                initial={{ opacity: 0, x: -12 }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { delay: 0.03 + navLinks.length * 0.025, duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] },
+                }}
+                exit={{ opacity: 0, x: -8, transition: { duration: 0.2 } }}
+                className="mt-3"
               >
-                Projekt starten
-              </Link>
-            </li>
-          </ul>
-        </motion.div>
-      )}
+                <Link
+                  href="#contact"
+                  className={`inline-flex rounded-full px-5 py-2.5 text-sm font-semibold ${
+                    isLight ? "bg-zinc-900 text-white" : "bg-cyan-400 text-black"
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(false);
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Projekt starten
+                </Link>
+              </motion.li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
