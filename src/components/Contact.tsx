@@ -110,9 +110,17 @@ export default function Contact() {
       return;
     }
 
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+    const missing: string[] = [];
+    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
+    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
+    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
+    if (missing.length > 0) {
       setStatus("error");
-      setErrorMessage("E-Mail ist nicht konfiguriert. Bitte später erneut versuchen.");
+      const hint =
+        process.env.NODE_ENV === "development"
+          ? ` Fehlende Umgebungsvariablen: ${missing.join(", ")}. .env.local prüfen und Dev-Server neu starten (npm run dev).`
+          : " Bitte die E-Mail-Umgebungsvariablen im Hosting-Dashboard setzen (z. B. Vercel).";
+      setErrorMessage("E-Mail ist nicht konfiguriert." + hint);
       return;
     }
 
