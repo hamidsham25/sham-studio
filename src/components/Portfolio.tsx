@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "motion/react";
 
 const MARQUEE_REPEAT = 12;
@@ -69,14 +69,23 @@ export default function Portfolio() {
     offset: ["start start", "end end"],
   });
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const set = () => setIsMobile(mq.matches);
+    set();
+    mq.addEventListener("change", set);
+    return () => mq.removeEventListener("change", set);
+  }, []);
+
+  // Keyframes: Desktop = eng, Mobile = minimaler Puffer an Übergängen 1↔2 und 2↔3
+  const scrollInput = isMobile
+    ? [0, 0.14, 0.25, 0.36, 0.44, 0.50, 0.52, 0.60, 0.70, 0.82, 1]
+    : [0, 0.12, 0.22, 0.32, 0.42, 0.46, 0.49, 0.56, 0.66, 0.80, 1];
+  const rotateOutput = [0, 0, -90, -180, -180, -180, -180, -270, -360, -360, -360];
+
   // Eine Ebene, Drehung 0° → -360°. Scroll → geglätteter Winkel (Spring) → Anzeige + Content-Wechsel.
-  // Drehung wirkt smooth, Wechsel nur wenn die angezeigte Karte bei -90° / -270° (Kante zum User) steht.
-  // Start-Puffer (0–0.12): bei Karte 1 kann man hochscrollen, bevor es zur Hero geht. End-Puffer wie zuvor.
-  const rotateDeg = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.22, 0.32, 0.42, 0.46, 0.49, 0.56, 0.66, 0.80, 1],
-    [0, 0, -90, -180, -180, -180, -180, -270, -360, -360, -360]
-  );
+  const rotateDeg = useTransform(scrollYProgress, scrollInput, rotateOutput);
   const rotateSmooth = useSpring(rotateDeg, {
     stiffness: 80,
     damping: 25,

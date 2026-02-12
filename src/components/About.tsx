@@ -66,7 +66,7 @@ export default function About() {
         aria-hidden
       />
 
-      <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pt-16 md:flex-row md:items-center md:gap-14 md:px-8 md:pt-24 lg:gap-16">
+      <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pt-24 md:flex-row md:items-center md:gap-14 md:px-8 md:pt-24 lg:gap-16">
         {/* Links: Große Headlines + ein Satz (wie Referenzen) */}
         <motion.div
           className="flex min-h-0 flex-1 flex-col justify-center"
