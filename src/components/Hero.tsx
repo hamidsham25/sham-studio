@@ -128,12 +128,43 @@ function PaintCloud() {
       if (idleTimer.current) clearTimeout(idleTimer.current);
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!e.touches[0]) return;
+      const rect = container.getBoundingClientRect();
+      mouseX.set(e.touches[0].clientX - rect.left);
+      mouseY.set(e.touches[0].clientY - rect.top);
+      setIsActive(true);
+      startIdleTimer();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches[0]) return;
+      const rect = container.getBoundingClientRect();
+      mouseX.set(e.touches[0].clientX - rect.left);
+      mouseY.set(e.touches[0].clientY - rect.top);
+      setIsActive(true);
+      startIdleTimer();
+    };
+
+    const handleTouchEnd = () => {
+      setIsActive(false);
+      if (idleTimer.current) clearTimeout(idleTimer.current);
+    };
+
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("mouseleave", handleLeave);
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd);
+    container.addEventListener("touchcancel", handleTouchEnd);
 
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("mouseleave", handleLeave);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
+      container.removeEventListener("touchcancel", handleTouchEnd);
       if (idleTimer.current) clearTimeout(idleTimer.current);
     };
   }, [mouseX, mouseY, startIdleTimer]);

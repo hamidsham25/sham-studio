@@ -101,8 +101,7 @@ export default function Portfolio() {
   return (
     <div
       ref={sectionRef}
-      className="relative"
-      style={{ height: "500vh" }}
+      className="relative h-[500vh] max-md:h-[360vh]"
       aria-hidden
     >
       <section

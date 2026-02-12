@@ -115,7 +115,7 @@ export default function About() {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="relative h-[min(50vh,360px)] w-[min(40vh,288px)] shrink-0 overflow-hidden rounded-lg bg-white/5 shadow-2xl ring-1 ring-white/20 md:h-[min(58vh,420px)] md:w-[min(46vh,336px)]">
+          <div className="relative mb-6 h-[min(50vh,360px)] w-[min(40vh,288px)] shrink-0 overflow-hidden rounded-lg bg-white/5 shadow-2xl ring-1 ring-white/20 md:mb-0 md:h-[min(58vh,420px)] md:w-[min(46vh,336px)]">
             <Image
               src="/images/about-img.png"
               alt="Porträt – Sham Studio"

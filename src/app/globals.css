@@ -46,6 +46,15 @@ body {
   }
 }
 
+/* Abstand beim Scrollen, damit fixer Header sichtbar bleibt (nur Mobile) */
+@media (max-width: 767px) {
+  #about,
+  #services,
+  #contact {
+    scroll-margin-top: 4.5rem;
+  }
+}
+
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
 @keyframes portfolio-marquee {
   from {
