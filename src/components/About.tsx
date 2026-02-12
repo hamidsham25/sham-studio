@@ -66,10 +66,10 @@ export default function About() {
         aria-hidden
       />
 
-      <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pt-24 md:flex-row md:items-center md:gap-14 md:px-8 md:pt-24 lg:gap-16">
-        {/* Links: Große Headlines + ein Satz (wie Referenzen) */}
+      <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-6 px-6 pb-8 pt-24 sm:gap-8 md:flex-row md:items-center md:gap-14 md:px-8 md:pb-0 md:pt-24 lg:gap-16">
+        {/* Links: Große Headlines + ein Satz (wie Referenzen) – z-10 damit Link auf Mobile nie hinter dem Bild liegt */}
         <motion.div
-          className="flex min-h-0 flex-1 flex-col justify-center"
+          className="relative z-10 flex min-h-0 flex-1 flex-col justify-center"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}
@@ -107,15 +107,15 @@ export default function About() {
           </Link>
         </motion.div>
 
-        {/* Rechts: Porträt mit dezentem Rahmen (wie Referenz 1) */}
+        {/* Rechts: Porträt – auf Mobile unter dem Text, niedriger z-index damit Text/Link nie verdeckt werden */}
         <motion.div
-          className="mt-10 flex shrink-0 justify-center md:mt-0 md:justify-end"
+          className="relative z-0 flex shrink-0 justify-center md:mt-0 md:justify-end"
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="relative mb-6 h-[min(50vh,360px)] w-[min(40vh,288px)] shrink-0 overflow-hidden rounded-lg bg-white/5 shadow-2xl ring-1 ring-white/20 md:mb-0 md:h-[min(58vh,420px)] md:w-[min(46vh,336px)]">
+          <div className="relative h-[min(42vh,280px)] w-[min(34vh,224px)] shrink-0 overflow-hidden rounded-lg bg-white/5 shadow-2xl ring-1 ring-white/20 sm:h-[min(48vh,320px)] sm:w-[min(38vh,256px)] md:mb-0 md:h-[min(58vh,420px)] md:w-[min(46vh,336px)]">
             <Image
               src="/images/about-img.png"
               alt="Porträt – Sham Studio"
