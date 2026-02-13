@@ -32,8 +32,8 @@ function CardFace({
   overlayImage?: string;
 }) {
   return (
-    <article className="relative h-full w-full overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-xl">
-      <div className="px-4 pt-4 pb-2 sm:px-5 sm:pt-5 sm:pb-3">
+    <article className="relative h-full w-full min-h-0 overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-xl flex flex-col">
+      <div className="flex-shrink-0 px-4 pt-4 pb-2 sm:px-5 sm:pt-5 sm:pb-3">
         <motion.div
           className="relative aspect-[3/2] w-full overflow-hidden rounded-lg border border-zinc-600/80 bg-zinc-800"
           whileHover={{ scale: 0.98 }}
@@ -55,15 +55,15 @@ function CardFace({
           ) : null}
         </motion.div>
       </div>
-      <div className="px-5 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2">
+      <div className="flex-shrink-0 px-5 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2 min-h-[5rem] sm:min-h-[5.5rem]">
         <h3 className="font-display text-lg font-semibold text-white sm:text-xl">
           {title}
         </h3>
-        <ul className="mt-3 flex flex-wrap gap-2 sm:gap-3">
+        <ul className="mt-3 flex flex-wrap gap-2 sm:gap-3 overflow-visible">
           {tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-full bg-zinc-800 px-3 py-1.5 text-sm font-medium text-white sm:text-base"
+              className="rounded-full bg-zinc-800 px-2.5 py-1.5 text-xs font-medium text-white sm:px-3 sm:text-sm"
             >
               {tag}
             </li>
@@ -152,10 +152,11 @@ export default function Portfolio() {
         className="sticky top-0 left-0 right-0 flex min-h-screen flex-col overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
         aria-label="Portfolio"
       >
-        <div className="relative min-h-screen w-full">
-          {/* PORTFOLIO-Schriftzug: oben, aber näher an der Card (nicht am oberen Rand) */}
+        {/* Karte exakt mittig; Mobile: Banner darüber, Tablet/Desktop: Banner in der Mitte */}
+        <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
+          {/* PORTFOLIO-Banner Tablet/PC: mittig im Viewport (in der Mitte der Cards) */}
           <div
-            className="absolute left-0 right-0 top-[20%] z-0 overflow-hidden py-2 md:left-[-2rem] md:right-[-2rem] md:top-1/2 md:-translate-y-1/2 md:py-0"
+            className="absolute left-0 right-0 top-1/2 z-0 hidden -translate-y-1/2 overflow-hidden py-2 md:-mx-4 md:block md:py-4"
             aria-hidden
           >
             <div className="flex w-max animate-portfolio-marquee items-center gap-20">
@@ -163,13 +164,22 @@ export default function Portfolio() {
               <MarqueeStrip />
             </div>
           </div>
-          {/* Card immer mittig auf dem Bildschirm */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center px-4 sm:px-8">
-            {/* Eine Ebene: gleiche Flip-Animation 1→2 und 2→3, Content wird an den Kanten (-90° / -270°) getauscht */}
-          <div
-            className="relative z-10 w-full max-w-2xl"
-            style={{ perspective: "1600px" }}
-          >
+          <div className="relative w-full max-w-2xl">
+            {/* PORTFOLIO-Banner nur Mobile: knapp über der Karte */}
+            <div
+              className="absolute left-0 right-0 bottom-full z-0 overflow-hidden py-2 sm:py-3 mb-4 sm:mb-5 md:hidden"
+              aria-hidden
+            >
+              <div className="flex w-max animate-portfolio-marquee items-center gap-20">
+                <MarqueeStrip />
+                <MarqueeStrip />
+              </div>
+            </div>
+            {/* Card-Bereich: definiert die Zentrierung (Karte mittig im Viewport) */}
+            <div
+              className="relative z-10 w-full"
+              style={{ perspective: "1600px" }}
+            >
             <motion.div
               className="absolute inset-0 w-full"
               style={{

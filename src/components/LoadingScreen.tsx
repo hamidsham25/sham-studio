@@ -5,6 +5,17 @@ import { useState, useEffect } from "react";
 
 const text = "Sham Studio.";
 const STORAGE_KEY = "loadingScreenShown";
+// Nach dieser Zeit (ms) wird der Loading Screen beim Reload wieder angezeigt
+const SHOW_AGAIN_AFTER_MS = 1 * 1000; // 1 Minute
+
+function shouldSkipLoadingScreen(): boolean {
+  if (typeof window === "undefined") return false;
+  const raw = sessionStorage.getItem(STORAGE_KEY);
+  if (!raw) return false;
+  const timestamp = parseInt(raw, 10);
+  if (Number.isNaN(timestamp)) return true; // alter Wert "1" → skip
+  return Date.now() - timestamp < SHOW_AGAIN_AFTER_MS;
+}
 
 export default function LoadingScreen() {
   const [displayText, setDisplayText] = useState("");
@@ -12,9 +23,9 @@ export default function LoadingScreen() {
   const [visible, setVisible] = useState(true);
   const [skip, setSkip] = useState(false);
 
-  // Beim Zurücknavigieren (z. B. von Impressum/Datenschutz) keinen Loading Screen zeigen
+  // Skip nur wenn kürzlich schon gezeigt (innerhalb SHOW_AGAIN_AFTER_MS)
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem(STORAGE_KEY) === "1") {
+    if (shouldSkipLoadingScreen()) {
       setSkip(true);
     }
   }, []);
@@ -36,7 +47,7 @@ export default function LoadingScreen() {
 
   const handleExitComplete = () => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem(STORAGE_KEY, "1");
+      sessionStorage.setItem(STORAGE_KEY, String(Date.now()));
     }
     setVisible(false);
   };

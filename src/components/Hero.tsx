@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import Link from "next/link";
 import { useRef, useEffect, useState, useCallback } from "react";
 
 // Stiffness höher, Mass niedriger → Wolke folgt schneller, bei rascher Bewegung keine „mehreren Objekte“
@@ -243,28 +242,24 @@ function Typewriter() {
 function ScrollIndicator() {
   return (
     <motion.div
-      className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
+      className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 pointer-events-none"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.6 }}
+      aria-hidden
     >
-      <Link
-        href="#services"
-        className="flex flex-col items-center gap-2 text-zinc-500 transition-colors hover:text-zinc-300"
-        aria-label="Nach unten scrollen"
+      <span className="text-xs uppercase tracking-[0.15em] lg:hidden">Swipe</span>
+      <span className="text-xs uppercase tracking-[0.15em] hidden lg:inline">Scroll</span>
+      <motion.svg
+        className="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="text-xs uppercase tracking-[0.15em]">Scroll</span>
-        <motion.svg
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-        </motion.svg>
-      </Link>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+      </motion.svg>
     </motion.div>
   );
 }
