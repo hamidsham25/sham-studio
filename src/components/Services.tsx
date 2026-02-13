@@ -49,7 +49,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="flex min-h-screen min-h-[100dvh] flex-col bg-white pt-0 pb-16 rounded-b-[2rem] sm:rounded-b-[3rem] snap-start md:pb-24"
+      className="flex min-h-screen min-h-[100dvh] flex-col bg-white pt-0 pb-16 rounded-b-[2rem] sm:rounded-b-[3rem] md:pb-24"
       aria-labelledby="services-heading"
     >
       <div className="h-px w-full shrink-0 bg-zinc-200" aria-hidden />

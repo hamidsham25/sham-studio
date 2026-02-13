@@ -58,7 +58,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative flex h-screen h-[100dvh] flex-col overflow-hidden snap-start"
+      className="relative flex h-screen h-[100dvh] flex-col overflow-hidden"
       aria-labelledby="about-heading"
     >
       <div

@@ -16,8 +16,9 @@
   --font-display: var(--font-display), system-ui, sans-serif;
 }
 
+/* Kein scroll-snap auf Mobile/Tablet – natives Scrollen für bessere UX */
 html {
-  scroll-snap-type: y proximity;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {

@@ -106,7 +106,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className="scroll-smooth">
+    <html lang="de">
       <body
         className={`${syne.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
       >
