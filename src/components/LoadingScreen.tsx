@@ -3,10 +3,11 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 
+/** Nur optisches Overlay – Hero & Rest sind bereits im DOM und geladen. */
 const text = "Sham Studio.";
 const STORAGE_KEY = "loadingScreenShown";
 // Nach dieser Zeit (ms) wird der Loading Screen beim Reload wieder angezeigt
-const SHOW_AGAIN_AFTER_MS = 1 * 1000; // 1 Minute
+const SHOW_AGAIN_AFTER_MS = 60 * 1000; // 1 Minute
 
 function shouldSkipLoadingScreen(): boolean {
   if (typeof window === "undefined") return false;
@@ -58,7 +59,8 @@ export default function LoadingScreen() {
     <AnimatePresence onExitComplete={handleExitComplete}>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0e0e0e]"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0e0e0e] pointer-events-auto"
+          aria-hidden="true"
           exit={{ y: "-100%" }}
           transition={{
             y: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },

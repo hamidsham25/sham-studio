@@ -10,7 +10,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 export default function Home() {
   return (
     <>
-      <LoadingScreen />
+      {/* Hero & Inhalt zuerst im DOM → LCP kann früher gemessen werden */}
       <Header />
       <main>
         <Hero />
@@ -21,6 +21,8 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      {/* Nur optisches Overlay – liegt mit z-index darüber */}
+      <LoadingScreen />
     </>
   );
 }

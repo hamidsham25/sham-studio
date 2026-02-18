@@ -78,20 +78,20 @@ const CARDS = [
   {
     title: "Sham Automobile",
     tags: ["CMS", "Individuelles Design", "Moderne Website"],
-    image: "/images/card-background-1.jpg",
-    overlayImage: "/images/card-image-1.png",
+    image: "/images/card-background-1.webp",
+    overlayImage: "/images/card-image-1.webp",
   },
   {
     title: "Handwerker-Website",
     tags: ["Responsive", "Professionelles Design", "Übersichtliche Struktur"],
-    image: "/images/card-background-2.jpg",
-    overlayImage: "/images/card-image-2.png",
+    image: "/images/card-background-2.webp",
+    overlayImage: "/images/card-image-2.webp",
   },
   {
     title: "Beauty-Page",
     tags: ["Moderne Optik", "Responsive", "Klare Struktur"],
-    image: "/images/card-background-3.jpg",
-    overlayImage: "/images/card-image-3.png",
+    image: "/images/card-background-3.webp",
+    overlayImage: "/images/card-image-3.webp",
   },
 ];
 
