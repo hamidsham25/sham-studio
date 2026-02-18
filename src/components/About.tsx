@@ -58,7 +58,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative flex min-h-[28rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-y-auto"
+      className="relative z-10 flex min-h-[28rem] min-h-[100dvh] flex-col"
       aria-labelledby="about-heading"
     >
       <div

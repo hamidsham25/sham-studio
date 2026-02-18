@@ -119,10 +119,10 @@ export default function Portfolio() {
     return () => mq.removeEventListener("change", set);
   }, []);
 
-  // Keyframes: Desktop = eng, Mobile = minimaler Puffer an Übergängen 1↔2 und 2↔3
+  // Keyframes: Animation endet früher (weniger "leeres" Scrollen nach Card 3)
   const scrollInput = isMobile
-    ? [0, 0.14, 0.25, 0.36, 0.44, 0.50, 0.52, 0.60, 0.70, 0.82, 1]
-    : [0, 0.12, 0.22, 0.32, 0.42, 0.46, 0.49, 0.56, 0.66, 0.80, 1];
+    ? [0, 0.16, 0.28, 0.40, 0.50, 0.56, 0.58, 0.66, 0.74, 0.82, 1]
+    : [0, 0.14, 0.26, 0.38, 0.48, 0.52, 0.54, 0.62, 0.70, 0.78, 1];
   const rotateOutput = [0, 0, -90, -180, -180, -180, -180, -270, -360, -360, -360];
 
   // Eine Ebene, Drehung 0° → -360°. Scroll → geglätteter Winkel (Spring) → Anzeige + Content-Wechsel.
@@ -151,12 +151,12 @@ export default function Portfolio() {
   return (
     <div
       ref={sectionRef}
-      className="relative h-[500vh] max-md:h-[360vh]"
+      className="relative z-0 h-[400vh] max-md:h-[280vh]"
       aria-hidden
     >
       <section
         id="portfolio"
-        className="sticky top-0 left-0 right-0 flex min-h-[24rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
+        className="sticky top-0 left-0 right-0 z-0 flex min-h-[24rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-clip rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
         aria-label="Portfolio"
       >
         {/* Karte exakt mittig; Mobile: Banner darüber, Tablet/Desktop: Banner in der Mitte */}

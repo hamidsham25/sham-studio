@@ -17,10 +17,12 @@ export default function Home() {
       <main>
         <Hero />
         <Portfolio />
-        <Services />
-        <About />
-        <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
-        <Contact />
+        <div className="relative z-20 isolate" style={{ transform: "translateZ(0)" }}>
+          <Services />
+          <About />
+          <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
+          <Contact />
+        </div>
       </main>
       <Footer />
       {/* Nur optisches Overlay – liegt mit z-index darüber */}

@@ -162,7 +162,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-50 backdrop-blur-md transition-colors duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-[9999] isolate backdrop-blur-md transition-colors duration-300 ${
         isLight ? "bg-white/80" : "bg-[#0a0a0a]/80"
       }`}
     >
