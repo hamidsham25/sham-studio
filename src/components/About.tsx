@@ -58,7 +58,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative flex h-screen h-[100dvh] flex-col overflow-hidden"
+      className="relative flex min-h-[28rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-y-auto"
       aria-labelledby="about-heading"
     >
       <div
@@ -67,9 +67,9 @@ export default function About() {
       />
 
       <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-6 px-6 pb-8 pt-24 sm:gap-8 md:flex-row md:items-center md:gap-14 md:px-8 md:pb-0 md:pt-24 lg:gap-16">
-        {/* Links: Große Headlines + ein Satz (wie Referenzen) – z-10 damit Link auf Mobile nie hinter dem Bild liegt */}
+        {/* Links: Große Headlines + Button – hoher z-index und Abstand, damit „Projekt besprechen“ auf Mobile nie hinter dem Bild liegt */}
         <motion.div
-          className="relative z-10 flex min-h-0 flex-1 flex-col justify-center"
+          className="relative z-20 flex min-h-0 flex-1 flex-col justify-center pb-10 sm:pb-12 md:pb-0"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}
@@ -98,7 +98,7 @@ export default function About() {
               e.preventDefault();
               document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+            className="relative z-10 mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
           >
             Projekt besprechen
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
@@ -107,9 +107,9 @@ export default function About() {
           </Link>
         </motion.div>
 
-        {/* Rechts: Porträt – auf Mobile unter dem Text, niedriger z-index damit Text/Link nie verdeckt werden */}
+        {/* Rechts: Porträt – auf Mobile unter dem Text, z-[1] damit Text/Link (z-20) immer darüber liegen */}
         <motion.div
-          className="relative z-0 flex shrink-0 justify-center md:mt-0 md:justify-end"
+          className="relative z-[1] flex shrink-0 justify-center md:mt-0 md:justify-end"
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-40px" }}

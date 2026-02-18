@@ -41,6 +41,12 @@ body {
   }
 }
 
+/* Viewport-sichere Sektionshöhe: min/max für Zoom und verschiedene Bildschirmgrößen */
+.section-viewport-safe {
+  min-height: min(100dvh, 100svh);
+  max-height: 100dvh;
+}
+
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
 @keyframes portfolio-marquee {
   from {

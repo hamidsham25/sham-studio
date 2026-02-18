@@ -156,7 +156,7 @@ export default function Portfolio() {
     >
       <section
         id="portfolio"
-        className="sticky top-0 left-0 right-0 flex min-h-screen flex-col overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
+        className="sticky top-0 left-0 right-0 flex min-h-[24rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-hidden rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
         aria-label="Portfolio"
       >
         {/* Karte exakt mittig; Mobile: Banner darüber, Tablet/Desktop: Banner in der Mitte */}

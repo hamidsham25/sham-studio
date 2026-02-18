@@ -268,7 +268,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="hero-bg relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6"
+      className="hero-bg relative flex min-h-[24rem] min-h-[100dvh] max-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6"
       aria-label="Willkommen"
     >
       {/* Bildschicht mit Opacity – darunter, PaintCloud darüber */}

@@ -172,7 +172,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="flex min-h-screen min-h-[100dvh] flex-col section-padding rounded-b-3xl"
+      className="flex min-h-[28rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-y-auto section-padding rounded-b-3xl"
       aria-labelledby="contact-heading"
     >
       <div className="mx-auto flex max-w-2xl flex-1 flex-col justify-center px-6 md:px-8">

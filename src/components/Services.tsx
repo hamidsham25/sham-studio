@@ -49,7 +49,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="flex min-h-screen min-h-[100dvh] flex-col bg-white pt-0 pb-16 rounded-b-[2rem] sm:rounded-b-[3rem] md:pb-24"
+      className="flex min-h-[28rem] min-h-[100dvh] max-h-[100dvh] flex-col overflow-y-auto bg-white pt-0 pb-16 rounded-b-[2rem] sm:rounded-b-[3rem] md:pb-24"
       aria-labelledby="services-heading"
     >
       <div className="h-px w-full shrink-0 bg-zinc-200" aria-hidden />
@@ -77,7 +77,7 @@ export default function Services() {
           {services.map((item, i) => (
             <motion.li
               key={item.title}
-              className="group relative flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-7 cursor-default overflow-hidden"
+              className="group relative flex flex-col rounded-2xl border border-zinc-300 bg-zinc-100 p-6 shadow-md shadow-zinc-300/40 sm:p-7 cursor-default overflow-hidden"
               initial={{ opacity: 0, y: 36 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -93,7 +93,7 @@ export default function Services() {
                   y: -10,
                   scale: 1.03,
                   boxShadow:
-                    "0 24px 48px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(34,211,238,0.2)",
+                    "0 24px 48px -12px rgba(0,0,0,0.18), 0 0 0 1px rgba(34,211,238,0.35)",
                   transition: { type: "spring", stiffness: 400, damping: 26 },
                 },
               }}
@@ -106,17 +106,17 @@ export default function Services() {
                 aria-hidden
               />
               <motion.span
-                className="relative inline-flex origin-left text-cyan-400"
+                className="relative inline-flex origin-left text-cyan-500"
                 variants={{ hover: { scale: 1.15 } }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 aria-hidden
               >
                 {item.icon}
               </motion.span>
-              <h3 className="relative mt-5 font-display text-xl font-semibold text-white sm:text-[1.25rem]">
+              <h3 className="relative mt-5 font-display text-xl font-semibold text-zinc-900 sm:text-[1.25rem]">
                 {item.title}
               </h3>
-              <p className="relative mt-2.5 flex-1 text-sm leading-relaxed text-zinc-300">
+              <p className="relative mt-2.5 flex-1 text-sm leading-relaxed text-zinc-600">
                 {item.description}
               </p>
               {/* Unterer Akzent-Linie bei Hover */}
