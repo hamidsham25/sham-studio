@@ -229,34 +229,36 @@ export default function Header() {
           </Link>
           <motion.button
             type="button"
-            className={`relative flex h-10 w-10 flex-col justify-center gap-1.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
+            className={`relative flex h-10 w-10 flex-col justify-center rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
               isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
             }`}
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label="Menü öffnen oder schließen"
           >
-            <motion.span
-              className="absolute left-2 top-[13px] h-0.5 w-6 origin-center bg-current"
-              animate={{
-                rotate: open ? 45 : 0,
-                y: open ? 6 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            />
-            <motion.span
-              className="absolute left-2 top-[19px] h-0.5 w-6 origin-center bg-current"
-              animate={{ opacity: open ? 0 : 1 }}
-              transition={{ duration: 0.12 }}
-            />
-            <motion.span
-              className="absolute left-2 top-[25px] h-0.5 w-6 origin-center bg-current"
-              animate={{
-                rotate: open ? -45 : 0,
-                y: open ? -6 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            />
+            <span className="absolute inset-0 flex flex-col justify-center items-center gap-1.5" aria-hidden>
+              <motion.span
+                className="h-0.5 w-6 shrink-0 origin-center bg-current"
+                animate={{
+                  rotate: open ? 45 : 0,
+                  y: open ? 6 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+              <motion.span
+                className="h-0.5 w-6 shrink-0 origin-center bg-current"
+                animate={{ opacity: open ? 0 : 1 }}
+                transition={{ duration: 0.12 }}
+              />
+              <motion.span
+                className="h-0.5 w-6 shrink-0 origin-center bg-current"
+                animate={{
+                  rotate: open ? -45 : 0,
+                  y: open ? -6 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            </span>
           </motion.button>
         </div>
       </nav>

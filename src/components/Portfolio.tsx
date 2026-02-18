@@ -1,7 +1,10 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "motion/react";
+
+const CARD_IMAGE_SIZES = "(max-width: 768px) 100vw, 672px";
 
 const MARQUEE_REPEAT = 12;
 
@@ -40,17 +43,21 @@ function CardFace({
           transition={{ duration: 0.2, ease: "easeOut" }}
         >
           {image ? (
-            <img
+            <Image
               src={image}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover"
+              fill
+              sizes={CARD_IMAGE_SIZES}
+              className="object-cover"
             />
           ) : null}
           {overlayImage ? (
-            <img
+            <Image
               src={overlayImage}
               alt=""
-              className="absolute inset-0 h-full w-full scale-105 object-contain object-center translate-y-1"
+              fill
+              sizes={CARD_IMAGE_SIZES}
+              className="object-contain object-center scale-105 translate-y-1"
             />
           ) : null}
         </motion.div>

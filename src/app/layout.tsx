@@ -107,6 +107,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
+      <head>
+        <link rel="preload" href="/images/hero-image.webp" as="image" />
+      </head>
       <body
         className={`${syne.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
       >
