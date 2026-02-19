@@ -59,7 +59,7 @@ export default function LoadingScreen() {
     <AnimatePresence onExitComplete={handleExitComplete}>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0e0e0e] pointer-events-auto"
+          className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0e0e0e] pointer-events-auto"
           aria-hidden="true"
           exit={{ y: "-100%" }}
           transition={{
