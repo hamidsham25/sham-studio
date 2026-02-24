@@ -48,6 +48,11 @@ body {
   min-height: 100svh;
 }
 
+/* Nur Portfolio: large viewport (100lvh) – kein schwarzer Streifen wenn Browser-Leiste weggeht, Card bleibt mittig. */
+.min-h-viewport-large {
+  min-height: 100lvh;
+}
+
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
 @keyframes portfolio-marquee {
   from {
