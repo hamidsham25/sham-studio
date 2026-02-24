@@ -41,10 +41,17 @@ body {
   }
 }
 
-/* Viewport-sichere Sektionshöhe: min/max für Zoom und verschiedene Bildschirmgrößen */
+/* Stabile Viewport-Höhe: --app-height wird per JS nur bei Load/Orientationswechsel gesetzt.
+   Kein Reflow beim Zoomen, kein Ruckeln durch ein-/ausblendende Browser-Leisten. Fallback: 100svh. */
+.min-h-app {
+  min-height: var(--app-height, 100svh);
+}
+.max-h-app {
+  max-height: var(--app-height, 100svh);
+}
 .section-viewport-safe {
-  min-height: min(100dvh, 100svh);
-  max-height: 100dvh;
+  min-height: var(--app-height, 100svh);
+  max-height: var(--app-height, 100svh);
 }
 
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */

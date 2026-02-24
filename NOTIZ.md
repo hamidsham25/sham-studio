@@ -4,8 +4,7 @@
 ---
 
 ## 1. Hauptnavigation
-- **Start** · **Angebote** · **Über mich** · **Erstgespräch** · **Kontakt**
-- Optional als 6. Punkt: **Blog / Impulse** – kurze Texte oder Gedanken, die Vertrauen aufbauen
+- **Start** · **Angebote** · **Über mich** · **Erstgespräch** · **Kontakt** . **Aktuelles**
 
 ---
 
@@ -23,16 +22,12 @@
 ### Leistungen (Angebote im Überblick)
 - Vier Schwerpunkte als **visuelle Kacheln**
 - Pro Kachel: Icon oder kleines Bild, Titel, ein Satz
-- Kein langer Text → **„Mehr erfahren →"**
+- Kein langer Text → Unterpage für die Leistungen (shiatsu, Traumaheilung usw.)
 
 ### Über mich (kurze Vorstellung)
 - Persönliches Foto + 3–4 Sätze: Wer bin ich, was treibt mich an, wofür stehe ich?
 - **Authentizität schlägt Vollständigkeit**
 - Link: **„Meine Geschichte →"**
-
-### Stimmen / Zitate (optional)
-- 1–2 kurze, anonymisierte Rückmeldungen von Klienten
-- Vertrauen ohne aufdringlich zu wirken
 
 ### Kontakt / nächster Schritt
 - Einladung zum Erstgespräch, Telefonnummer, kurzes Kontaktformular
@@ -66,7 +61,34 @@
 - **Sprache des Klienten** statt Fachsprache
 - **Ich-Form** – die Praxisinhaberin schreibt über sich in der ersten Person
   - Beispiel: *„Ich begleite Menschen, die spüren, dass es so nicht weitergehen kann – und noch nicht wissen, wie es weitergehen soll."*
-- **Optional:** Kurzes Video (z. B. 60 Sek. Handy-Video), warum sie diese Arbeit macht – schafft Verbindung vor dem ersten Anruf
+
+---
+
+## 6. Kompletter Projektumfang
+
+### Design & Konzept
+- Analyse der bestehenden Website
+- Konzeption der neuen Seitenstruktur
+- Modernes, ruhiges Design passend zur Zielgruppe – Farben, Typografie, Layout
+- Mobiloptimierung für alle Geräte (Smartphone, Tablet, Desktop)
+
+### Entwicklung
+- Eigener Code mit Next.js, TypeScript und Tailwind CSS – kein Template, kein Baukastensystem
+- Unterseiten: z.B. Start, Angebote, Über mich, Aktuelles, Kontakt
+- Sanity CMS Integration für die Aktuelles-Seite – sie kann selbst neue Einträge anlegen, bearbeiten und löschen ohne technisches Wissen
+- Grundlegende SEO-Struktur (Seitentitel, Meta-Beschreibungen, saubere URL-Struktur)
+- Google Maps Einbindung für die Praxisadresse
+- Erstellung eines Logos und Stockfotos
+
+### Inhalte
+- Übernahme und Überarbeitung vorhandener Texte
+- Strukturierung und Kürzung der Inhalte für mehr Klarheit
+- Einpflegen aller Inhalte, Bilder und Texte
+
+### Übergabe
+- Deployment und Veröffentlichung der Website
+- Kurze Einweisung in Sanity damit sie die Aktuelles-Seite selbst pflegen kann
+- Eine Runde Korrekturen nach der ersten Präsentation
 
 ---
 
