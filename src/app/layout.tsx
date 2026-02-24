@@ -73,6 +73,10 @@ export const metadata: Metadata = {
   category: "business",
 };
 
+export const viewport = {
+  width: "device-width",
+};
+
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -113,11 +117,6 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
       >
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var d=document.documentElement;function h(){d.style.setProperty('--app-height',window.innerHeight+'px');}h();window.addEventListener('load',h);window.addEventListener('orientationchange',h);})();`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
