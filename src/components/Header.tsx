@@ -148,7 +148,21 @@ function NavLink({
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [isLandscape, setIsLandscape] = useState(false);
   const { activeId: activeSection, setActiveId, navOverSection } = useActiveSection();
+
+  useEffect(() => {
+    const checkLandscape = () => {
+      setIsLandscape(
+        typeof window !== "undefined" &&
+          window.matchMedia("(orientation: landscape) and (max-height: 500px)").matches
+      );
+    };
+    checkLandscape();
+    const mq = window.matchMedia("(orientation: landscape) and (max-height: 500px)");
+    mq.addEventListener("change", checkLandscape);
+    return () => mq.removeEventListener("change", checkLandscape);
+  }, []);
 
   const scrollToHero = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -266,11 +280,12 @@ export default function Header() {
         {open && (
           <motion.div
             key="mobile-menu"
-            className={`overflow-hidden px-6 pb-6 pt-2 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
+            className={`header-mobile-menu overflow-y-auto overflow-x-hidden px-6 pb-6 pt-2 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
+            style={isLandscape ? { maxHeight: "75vh" } : undefined}
             initial={{ opacity: 0, maxHeight: 0 }}
             animate={{
               opacity: 1,
-              maxHeight: 400,
+              maxHeight: isLandscape ? "75vh" : 400,
               transition: {
                 maxHeight: { duration: 0.36, ease: [0.25, 0.46, 0.45, 0.94] },
                 opacity: { duration: 0.2 },

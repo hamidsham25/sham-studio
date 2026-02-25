@@ -7,6 +7,7 @@
   --accent: #22d3ee;
   --accent-hover: #06b6d4;
   --card: #111111;
+  --header-height: 4.5rem;
 }
 
 @theme inline {
@@ -53,6 +54,37 @@ body {
   min-height: 100lvh;
 }
 
+/* Portfolio: Karten im Landscape deutlich kleiner + Abstand nach oben, damit Navbar die Karte nicht überdeckt */
+@media (orientation: landscape) and (max-height: 500px) {
+  .portfolio-section-inner {
+    padding-top: var(--header-height);
+    align-items: center;
+  }
+  .portfolio-card-wrap {
+    max-width: 28rem;
+    transform: scale(0.72);
+    transform-origin: center;
+  }
+}
+
+/* Navbar: Mobile-Menü im Landscape kompakter, CTA bleibt sichtbar */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header-mobile-menu ul {
+    gap: 0;
+  }
+  .header-mobile-menu a.block {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .header-mobile-menu .mt-3 {
+    margin-top: 0.75rem;
+  }
+  .header-mobile-menu {
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
 /* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
 @keyframes portfolio-marquee {
   from {
@@ -69,6 +101,44 @@ body {
 /* Hero: Schwarz als Basis, Bild kommt als eigene Schicht mit Opacity */
 .hero-bg {
   background-color: #0a0a0a;
+}
+
+/* Hero: Top-Padding in Navbar-Höhe, damit nichts von der fixen Navbar überdeckt wird */
+#hero {
+  padding-top: var(--header-height);
+}
+
+/* Hero im Landscape: alle Inhalte kleiner, damit alles unter der Navbar sichtbar ist */
+@media (orientation: landscape) and (max-height: 500px) {
+  #hero .hero-content {
+    transform: scale(0.82);
+    transform-origin: center center;
+  }
+  #hero .hero-content h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+  }
+  #hero .hero-content .hero-typewriter {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+  }
+  #hero .hero-content .hero-lead {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  #hero .hero-content .hero-badge {
+    font-size: 0.65rem;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.15em;
+  }
+  #hero .hero-scroll-indicator {
+    bottom: 0.5rem;
+    font-size: 0.65rem;
+  }
+  #hero .hero-scroll-indicator svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .hero-bg-image {

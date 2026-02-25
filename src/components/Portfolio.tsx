@@ -160,7 +160,7 @@ export default function Portfolio() {
         aria-label="Portfolio"
       >
         {/* Karte exakt mittig; Mobile: Banner darüber, Tablet/Desktop: Banner in der Mitte */}
-        <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8">
+        <div className="portfolio-section-inner absolute inset-0 flex items-center justify-center px-4 sm:px-8">
           {/* PORTFOLIO-Banner Tablet/PC: mittig im Viewport (in der Mitte der Cards) */}
           <div
             className="absolute left-0 right-0 top-1/2 z-0 hidden -translate-y-1/2 overflow-hidden py-2 md:-mx-4 md:block md:py-4"
@@ -171,7 +171,7 @@ export default function Portfolio() {
               <MarqueeStrip />
             </div>
           </div>
-          <div className="relative w-full max-w-2xl">
+          <div className="portfolio-card-wrap relative w-full max-w-2xl">
             {/* PORTFOLIO-Banner nur Mobile: knapp über der Karte */}
             <div
               className="absolute left-0 right-0 bottom-full z-0 overflow-hidden py-2 sm:py-3 mb-4 sm:mb-5 md:hidden"

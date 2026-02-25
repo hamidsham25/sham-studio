@@ -226,7 +226,7 @@ function Typewriter() {
 
   return (
     <motion.h2
-      className="mt-4 text-2xl font-medium text-cyan-400 sm:text-3xl md:text-4xl"
+      className="hero-typewriter mt-4 text-2xl font-medium text-cyan-400 sm:text-3xl md:text-4xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3, duration: 0.5 }}
@@ -242,7 +242,7 @@ function Typewriter() {
 function ScrollIndicator() {
   return (
     <motion.div
-      className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 pointer-events-none"
+      className="hero-scroll-indicator absolute bottom-10 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 pointer-events-none"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.6 }}
@@ -279,13 +279,13 @@ export default function Hero() {
       <PaintCloud />
 
       <motion.div
-        className="relative z-10 mx-auto -mt-24 max-w-4xl text-center"
+        className="hero-content relative z-10 mx-auto -mt-24 max-w-4xl text-center"
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.p
-          className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500"
+          className="hero-badge mb-4 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -297,7 +297,7 @@ export default function Hero() {
         </h1>
         <Typewriter />
         <motion.p
-          className="mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl"
+          className="hero-lead mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.5 }}

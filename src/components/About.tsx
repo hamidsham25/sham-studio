@@ -3,7 +3,6 @@
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 const aboutTypewriterWords = [
   "Webdesigner",
@@ -58,7 +57,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative z-10 flex min-h-[28rem] min-h-viewport flex-col"
+      className="relative z-10 flex min-h-[28rem] min-h-viewport flex-col pb-12 sm:pb-16 md:pb-20 lg:pb-24"
       aria-labelledby="about-heading"
     >
       <div
@@ -67,7 +66,7 @@ export default function About() {
       />
 
       <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-6 px-6 pb-8 pt-24 sm:gap-8 md:flex-row md:items-center md:gap-14 md:px-8 md:pb-0 md:pt-24 lg:gap-16">
-        {/* Links: Große Headlines + Button – hoher z-index und Abstand, damit „Projekt besprechen“ auf Mobile nie hinter dem Bild liegt */}
+        {/* Links: Headlines + Text */}
         <motion.div
           className="relative z-20 flex min-h-0 flex-1 flex-col justify-center pb-10 sm:pb-12 md:pb-0"
           initial={{ opacity: 0, x: -20 }}
@@ -92,22 +91,9 @@ export default function About() {
             klare Strukturen und durchdachte Nutzerführung begleite ich Sie von
             der ersten Idee bis zum Go-Live.
           </p>
-          <Link
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="relative z-10 mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
-          >
-            Projekt besprechen
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
         </motion.div>
 
-        {/* Rechts: Porträt – auf Mobile unter dem Text, z-[1] damit Text/Link (z-20) immer darüber liegen */}
+        {/* Rechts: Porträt – auf Mobile unter dem Text */}
         <motion.div
           className="relative z-[1] flex shrink-0 justify-center md:mt-0 md:justify-end"
           initial={{ opacity: 0, x: 20 }}
