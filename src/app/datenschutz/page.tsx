@@ -33,6 +33,12 @@ export default function DatenschutzPage() {
               Impressum
             </Link>
             <Link
+              href="/agb"
+              className="text-sm text-zinc-400 hover:text-white transition-colors"
+            >
+              AGB
+            </Link>
+            <Link
               href="/"
               className="text-sm text-zinc-400 hover:text-white transition-colors"
             >
