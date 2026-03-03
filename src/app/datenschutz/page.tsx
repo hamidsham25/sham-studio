@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import ObfuscatedMailLink from "@/components/ObfuscatedMailLink";
 
 const SITE_URL = "https://sham-studio.de";
 
@@ -73,12 +74,7 @@ export default function DatenschutzPage() {
               30855 Langenhagen
               <br />
               E-Mail:{" "}
-              <a
-                href="mailto:info@sham-studio.de"
-                className="text-cyan-400 hover:underline"
-              >
-                info@sham-studio.de
-              </a>
+              <ObfuscatedMailLink className="text-cyan-400 hover:underline" />
             </p>
           </section>
 
@@ -120,7 +116,9 @@ export default function DatenschutzPage() {
               Wenn Sie das Kontaktformular nutzen, werden Ihre Angaben (Name, E-Mail-Adresse, Betreff, Nachricht) zum Versand Ihrer Anfrage an uns genutzt. Der Versand erfolgt über den Dienst EmailJS (EmailJS.com, Betreiber: EmailJS, USA). Dabei werden die von Ihnen eingegebenen Daten an die Server von EmailJS übermittelt, um die E-Mail an uns zu übermitteln. EmailJS verarbeitet die Daten ausschließlich zum Zweck des E-Mail-Versands. Es können Standardvertragsklauseln zum Schutz bei Übermittlung in Drittländer zum Einsatz kommen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen). Die Daten werden bei uns gelöscht, sobald sie für die Erreichung des Zwecks nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
             </p>
             <p className="mt-3">
-              Eine Kontaktaufnahme per E-Mail (z. B. info@sham-studio.de) wird ebenfalls zur Bearbeitung Ihrer Anfrage verarbeitet und gespeichert.
+              Eine Kontaktaufnahme per E-Mail (z. B.{" "}
+              <ObfuscatedMailLink className="text-cyan-400 hover:underline" />
+              ) wird ebenfalls zur Bearbeitung Ihrer Anfrage verarbeitet und gespeichert.
             </p>
           </section>
 

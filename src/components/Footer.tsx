@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 
-const EMAIL = "info@sham-studio.de";
 const INSTAGRAM_URL = "https://www.instagram.com/shamstudiohq/";
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -68,12 +67,12 @@ export default function Footer() {
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
-            <a
-              href={`mailto:${EMAIL}`}
+            <Link
+              href="/#contact"
               className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
             >
-              {EMAIL}
-            </a>
+              Kontakt
+            </Link>
           </nav>
         </div>
       </div>

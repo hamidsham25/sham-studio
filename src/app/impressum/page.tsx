@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import ObfuscatedMailLink from "@/components/ObfuscatedMailLink";
 
 const SITE_URL = "https://sham-studio.de";
 
@@ -77,12 +78,7 @@ export default function ImpressumPage() {
             </h2>
             <p className="mt-2">
               E-Mail:{" "}
-              <a
-                href="mailto:info@sham-studio.de"
-                className="text-cyan-400 hover:underline"
-              >
-                info@sham-studio.de
-              </a>
+              <ObfuscatedMailLink className="text-cyan-400 hover:underline" />
             </p>
           </section>
 
