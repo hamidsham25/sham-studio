@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
+import { ContactModalProvider } from "@/components/ContactModalContext";
 
 const Portfolio = dynamic(() => import("@/components/Portfolio"), { ssr: true });
 const Services = dynamic(() => import("@/components/Services"), { ssr: true });
@@ -11,7 +12,7 @@ const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
 export default function Home() {
   return (
-    <>
+    <ContactModalProvider>
       {/* Hero & Inhalt zuerst im DOM → LCP kann früher gemessen werden */}
       <Header />
       <main>
@@ -27,6 +28,6 @@ export default function Home() {
       <Footer />
       {/* Nur optisches Overlay – liegt mit z-index darüber */}
       <LoadingScreen />
-    </>
+    </ContactModalProvider>
   );
 }

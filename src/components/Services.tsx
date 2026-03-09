@@ -1,6 +1,63 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useContactModal } from "@/components/ContactModalContext";
+
+const packages = [
+  {
+    badge: null,
+    title: "Digitaler Grundstein",
+    subtitle:
+      "Für Selbstständige & Einzelunternehmer, die endlich seriös online starten wollen.",
+    monthly: "49",
+    setup: "490",
+    features: [
+      "Landingpage oder Website mit 2–3 Seiten",
+      "Individuelles Design – kein Template",
+      "Responsive für alle Geräte",
+      "Grundlegendes SEO",
+      "Kontaktformular integriert",
+      "SSL, Hosting & zuverlässiger Betrieb",
+      "Monatliche Wartung & Updates",
+    ],
+    cta: "Smarter Start anfragen",
+  },
+  {
+    badge: "Beliebt",
+    title: "Business-Präsenz",
+    subtitle:
+      "Für Praxen, Berater & kleine Betriebe – gefunden werden und wachsen.",
+    monthly: "89",
+    setup: "1.290",
+    features: [
+      "Vollständige Website mit 5–8 Seiten",
+      "Optional: CMS für Aktuelles/News (selbst pflegen)",
+      "Erweiterte SEO & Google Maps",
+      "Kontaktformular & klare Call-to-Actions",
+      "Hosting, Wartung & quartalsweise Updates",
+      "Einweisung in die Verwaltung inklusive",
+    ],
+    cta: "Business-Präsenz anfragen",
+  },
+  {
+    badge: null,
+    title: "Maßgeschneidert",
+    subtitle:
+      "Komplexe Projekte, Branding, individuelle Anforderungen – alles aus einer Hand.",
+    monthly: null,
+    setup: null,
+    customPrice: "Auf Anfrage",
+    features: [
+      "Individuelle Konzeption & Strategie",
+      "Branding: Logo, Farben, Styleguide",
+      "Komplexe Webprojekte & Sonderfunktionen",
+      "CMS-Anbindung (Sanity o. Ä.)",
+      "Dedizierter Support & technische Beratung",
+      "Von der Idee bis zum Launch begleitet",
+    ],
+    cta: "Projekt besprechen",
+  },
+];
 
 const services = [
   {
@@ -46,6 +103,7 @@ const services = [
 ];
 
 export default function Services() {
+  const { openModal } = useContactModal();
   return (
     <section
       id="services"
@@ -64,7 +122,7 @@ export default function Services() {
         >
           <h2
             id="services-heading"
-            className="font-display text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl"
+            className="font-display text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl md:text-6xl"
           >
             Services
           </h2>
@@ -113,13 +171,138 @@ export default function Services() {
               >
                 {item.icon}
               </motion.span>
-              <h3 className="relative mt-5 font-display text-xl font-semibold text-zinc-900 sm:text-[1.25rem]">
+              <h3 className="relative mt-5 font-display text-[1.25rem] font-semibold text-zinc-900 sm:text-2xl">
                 {item.title}
               </h3>
               <p className="relative mt-2.5 flex-1 text-sm leading-relaxed text-zinc-600">
                 {item.description}
               </p>
               {/* Unterer Akzent-Linie bei Hover */}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-0.5 origin-left bg-gradient-to-r from-cyan-400 to-cyan-600"
+                initial={{ scaleX: 0 }}
+                variants={{ hover: { scaleX: 1 } }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                aria-hidden
+              />
+            </motion.li>
+          ))}
+        </ul>
+
+        {/* Starter-Pakete */}
+        <motion.header
+          className="mt-20 mb-10 md:mt-24 md:mb-12"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3 className="font-display text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+            Starter-Pakete
+          </h3>
+          <p className="mt-2 max-w-2xl text-zinc-600 md:text-base">
+            Konkrete Angebote – transparente Preise. So startest du online.
+          </p>
+        </motion.header>
+
+        <ul className="grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {packages.map((pkg, i) => (
+            <motion.li
+              key={pkg.title}
+              className="group relative flex flex-col rounded-2xl border border-zinc-300 bg-white p-6 shadow-lg shadow-zinc-300/50 sm:p-8 overflow-hidden"
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 28,
+                delay: i * 0.1,
+              }}
+              whileHover="hover"
+              variants={{
+                hover: {
+                  y: -6,
+                  boxShadow:
+                    "0 24px 48px -12px rgba(0,0,0,0.2), 0 0 0 1px rgba(34,211,238,0.4)",
+                  transition: { type: "spring", stiffness: 400, damping: 26 },
+                },
+              }}
+            >
+              {pkg.badge && (
+                <span className="absolute right-5 top-5 rounded-full bg-cyan-500 px-3 py-1 text-xs font-semibold text-white">
+                  {pkg.badge}
+                </span>
+              )}
+
+              <div className="relative flex flex-1 flex-col">
+                <h4
+                  className={`font-display text-[1.25rem] font-semibold text-zinc-900 sm:text-2xl whitespace-nowrap ${pkg.badge ? "pr-16" : ""}`}
+                >
+                  {pkg.title}
+                </h4>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                  {pkg.subtitle}
+                </p>
+
+                <div className="mt-6">
+                  {pkg.monthly ? (
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+                        Monatlich
+                      </span>
+                      <p className="text-3xl font-bold text-zinc-900 sm:text-4xl">
+                        ab {pkg.monthly} €
+                      </p>
+                      <div className="mt-2 flex items-baseline gap-2">
+                        <span className="text-sm text-zinc-500">
+                          Einmaliges Setup: ab {pkg.setup} €
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-2xl font-bold text-zinc-900">
+                      {pkg.customPrice}
+                    </p>
+                  )}
+                </div>
+
+                <ul className="mt-6 flex-1 space-y-3">
+                  {pkg.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex items-start gap-3 text-sm text-zinc-700"
+                    >
+                      <svg
+                        className="mt-0.5 h-5 w-5 shrink-0 text-cyan-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        aria-hidden
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => openModal(pkg.title)}
+                    className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+                  >
+                    {pkg.cta}
+                  </button>
+                </div>
+              </div>
+
               <motion.div
                 className="absolute bottom-0 left-0 right-0 h-0.5 origin-left bg-gradient-to-r from-cyan-400 to-cyan-600"
                 initial={{ scaleX: 0 }}

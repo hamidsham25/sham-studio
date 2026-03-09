@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const aboutTypewriterWords = [
+  "Hamid",
   "Webdesigner",
   "Entwickler",
-  "kreativ",
-  "Ideenfinder",
   "Ihr Partner",
+  "kreativ",
 ];
 
 function AboutTypewriter() {
@@ -52,8 +52,6 @@ function AboutTypewriter() {
 }
 
 export default function About() {
-  const name = "Sham";
-
   return (
     <section
       id="about"
@@ -81,16 +79,36 @@ export default function About() {
             Über mich.
           </h2>
           <p className="mt-4 font-display text-2xl font-semibold text-white sm:mt-6 sm:text-3xl md:text-4xl lg:text-[2.5rem] lg:leading-tight">
-            Hi, ich bin {name}.
+            Hi, ich bin <AboutTypewriter />
           </p>
-          <p className="mt-2 font-display text-2xl font-semibold text-white sm:text-3xl md:text-4xl lg:text-[2.5rem] lg:leading-tight">
-            Ich bin <AboutTypewriter />
+          <div className="mt-6 max-w-lg space-y-4 text-zinc-400 leading-relaxed md:text-lg lg:mt-8">
+          <p>
+            Ich bin Hamid Sham, Webdesigner, und helfe Unternehmen in
+            Deutschland dabei, online{" "}
+            <span className="font-semibold text-inherit">professionell wahrgenommen</span>{" "}
+            zu werden. Dabei unterstütze ich vor allem{" "}
+            <span className="font-semibold text-inherit">Selbstständige, kleine
+            Unternehmen und den Mittelstand</span>, die einen{" "}
+            <span className="font-semibold text-inherit">starken Online-Auftritt</span>{" "}
+            aufbauen möchten.
           </p>
-          <p className="mt-6 max-w-lg text-zinc-400 leading-relaxed md:text-lg lg:mt-8">
-            Websites, die wirken – von der Idee bis zum Launch. Mit Fokus auf
-            klare Strukturen und durchdachte Nutzerführung begleite ich Sie von
-            der ersten Idee bis zum Go-Live.
+          <p>
+            Ich entwickle{" "}
+            <span className="font-semibold text-inherit">moderne, schnelle und mobiloptimierte Websites</span>, die{" "}
+            <span className="font-semibold text-inherit">Vertrauen</span>{" "}
+            schaffen und Besucher zu{" "}
+            <span className="font-semibold text-inherit">echten Kunden</span>{" "}
+            machen. Es geht mir um mehr als eine
+            Website – um einen digitalen Auftritt, der zeigt, wofür Ihr
+            Unternehmen steht und der dafür sorgt, dass Besucher sich angesprochen
+            fühlen und <span className="font-semibold text-inherit">den ersten Kontakt aufnehmen</span>.
           </p>
+          <p>
+            Gemeinsam entwickeln wir eine Website, die{" "}
+            <span className="font-semibold text-inherit">modern, verständlich und
+            vertrauenswürdig</span> ist.
+          </p>
+          </div>
         </motion.div>
 
         {/* Rechts: Porträt – auf Mobile unter dem Text */}
@@ -104,7 +122,7 @@ export default function About() {
           <div className="relative h-[min(42vh,280px)] w-[min(34vh,224px)] shrink-0 overflow-hidden rounded-lg bg-white/5 shadow-2xl ring-1 ring-white/20 sm:h-[min(48vh,320px)] sm:w-[min(38vh,256px)] md:mb-0 md:h-[min(58vh,420px)] md:w-[min(46vh,336px)]">
             <Image
               src="/images/about-img.png"
-              alt="Porträt – Sham Studio"
+              alt="Porträt von Hamid Sham"
               fill
               sizes="(max-width: 768px) 40vh, 336px"
               className="object-cover object-top"
