@@ -84,7 +84,6 @@ const localBusinessJsonLd = {
   description:
     "Webdesign, UI/UX Design und Webentwicklung in Hannover. Individuelle Websites und digitale Produkte.",
   url: SITE_URL,
-  email: "info@sham-studio.de",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Hannover",
