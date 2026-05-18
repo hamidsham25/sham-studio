@@ -110,10 +110,10 @@ export default function DatenschutzPage() {
 
           <section>
             <h2 className="font-display text-lg font-semibold text-white">
-              4. Kontaktformular und E-Mail-Versand (EmailJS)
+              4. Kontaktformular und E-Mail-Versand (Resend)
             </h2>
             <p className="mt-2">
-              Wenn Sie das Kontaktformular nutzen, werden Ihre Angaben (Name, E-Mail-Adresse, Betreff, Nachricht) zum Versand Ihrer Anfrage an uns genutzt. Der Versand erfolgt über den Dienst EmailJS (EmailJS.com, Betreiber: EmailJS, USA). Dabei werden die von Ihnen eingegebenen Daten an die Server von EmailJS übermittelt, um die E-Mail an uns zu übermitteln. EmailJS verarbeitet die Daten ausschließlich zum Zweck des E-Mail-Versands. Es können Standardvertragsklauseln zum Schutz bei Übermittlung in Drittländer zum Einsatz kommen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen). Die Daten werden bei uns gelöscht, sobald sie für die Erreichung des Zwecks nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+              Wenn Sie das Kontaktformular nutzen, werden Ihre Angaben (Name, E-Mail-Adresse, Betreff, Nachricht, Herkunft des Formulars) zum Versand Ihrer Anfrage an uns genutzt. Der Versand erfolgt über unseren Server an den Dienst Resend (Resend, Inc., USA). Dabei werden die von Ihnen eingegebenen Daten an Resend übermittelt, um die E-Mail an uns zu übermitteln. Resend verarbeitet die Daten ausschließlich zum Zweck des E-Mail-Versands. Es können Standardvertragsklauseln zum Schutz bei Übermittlung in Drittländer zum Einsatz kommen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung von Anfragen). Die Daten werden bei uns gelöscht, sobald sie für die Erreichung des Zwecks nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
             </p>
             <p className="mt-3">
               Eine Kontaktaufnahme per E-Mail (z. B.{" "}
@@ -154,7 +154,7 @@ export default function DatenschutzPage() {
               8. Übermittlung in Drittländer
             </h2>
             <p className="mt-2">
-              Soweit wir Daten in Ländern außerhalb des Europäischen Wirtschaftsraums (EWR) verarbeiten oder verarbeiten lassen (derzeit USA: Vercel, EmailJS; bei künftigem Einsatz von Google Analytics auch Google), erfolgt dies nur auf Grundlage geeigneter Garantien (z. B. von der EU-Kommission beschlossene Standardvertragsklauseln, Angemessenheitsbeschluss oder Zertifizierungen) sowie ggf. ergänzender Maßnahmen. Auf Wunsch können wir Ihnen eine Kopie der Garantien zur Verfügung stellen.
+              Soweit wir Daten in Ländern außerhalb des Europäischen Wirtschaftsraums (EWR) verarbeiten oder verarbeiten lassen (derzeit USA: Vercel, Resend; bei künftigem Einsatz von Google Analytics auch Google), erfolgt dies nur auf Grundlage geeigneter Garantien (z. B. von der EU-Kommission beschlossene Standardvertragsklauseln, Angemessenheitsbeschluss oder Zertifizierungen) sowie ggf. ergänzender Maßnahmen. Auf Wunsch können wir Ihnen eine Kopie der Garantien zur Verfügung stellen.
             </p>
           </section>
 

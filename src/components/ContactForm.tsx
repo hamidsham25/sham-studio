@@ -1,16 +1,12 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
-
-const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
-const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
-const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+import { useRef, useState } from "react";
+import {
+  validateContactPayload,
+  type ContactFieldErrors,
+} from "@/lib/contact-validation";
 
 type Status = "idle" | "sending" | "success" | "error";
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const NAME_NO_NUMBERS_REGEX = /^[\p{L}\s\-']+$/u;
 
 const RATE_LIMIT_KEY = "contact_form_submissions";
 const RATE_LIMIT_MAX = 2;
@@ -41,31 +37,7 @@ function recordSubmission(): void {
   }
 }
 
-type FieldErrors = {
-  name?: string;
-  email?: string;
-  subject?: string;
-  message?: string;
-};
-
-function validateForm(form: HTMLFormElement): FieldErrors {
-  const errors: FieldErrors = {};
-  const name = (form.elements.namedItem("name") as HTMLInputElement)?.value?.trim() ?? "";
-  const email = (form.elements.namedItem("email") as HTMLInputElement)?.value?.trim() ?? "";
-  const subject = (form.elements.namedItem("subject") as HTMLInputElement)?.value?.trim() ?? "";
-  const message = (form.elements.namedItem("message") as HTMLTextAreaElement)?.value?.trim() ?? "";
-
-  if (!name) errors.name = "Bitte geben Sie Ihren Namen ein.";
-  else if (!NAME_NO_NUMBERS_REGEX.test(name)) errors.name = "Im Namen sind keine Ziffern erlaubt.";
-
-  if (!email) errors.email = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
-  else if (!EMAIL_REGEX.test(email)) errors.email = "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
-
-  if (!subject) errors.subject = "Bitte geben Sie einen Betreff ein.";
-  if (!message) errors.message = "Bitte geben Sie eine Nachricht ein.";
-
-  return errors;
-}
+type FieldErrors = Pick<ContactFieldErrors, "name" | "email" | "subject" | "message">;
 
 type ContactFormProps = {
   /** Herkunft der Anfrage – wird per E-Mail mitgesendet (z.B. "Kontaktformular", "Digitaler Grundstein") */
@@ -82,11 +54,7 @@ export default function ContactForm({ source, onSuccess, compact = false }: Cont
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
-  useEffect(() => {
-    if (PUBLIC_KEY) emailjs.init(PUBLIC_KEY);
-  }, []);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status === "sending" || !formRef.current) return;
 
@@ -100,24 +68,20 @@ export default function ContactForm({ source, onSuccess, compact = false }: Cont
       return;
     }
 
-    const missing: string[] = [];
-    if (!PUBLIC_KEY) missing.push("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
-    if (!SERVICE_ID) missing.push("NEXT_PUBLIC_EMAILJS_SERVICE_ID");
-    if (!TEMPLATE_ID) missing.push("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID");
-    if (missing.length > 0) {
-      setStatus("error");
-      setErrorMessage(
-        "E-Mail ist nicht konfiguriert." +
-          (process.env.NODE_ENV === "development"
-            ? ` Fehlende: ${missing.join(", ")}.`
-            : " Bitte die Umgebungsvariablen setzen.")
-      );
-      return;
-    }
+    const formData = new FormData(formRef.current);
+    const payload = {
+      name: (formData.get("name") as string) ?? "",
+      email: (formData.get("email") as string) ?? "",
+      subject: (formData.get("subject") as string) ?? "",
+      message: (formData.get("message") as string) ?? "",
+      source,
+      website: honeypot,
+    };
 
-    const errors = validateForm(formRef.current);
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors);
+    const errors = validateContactPayload(payload);
+    const { source: _sourceError, ...formFieldErrors } = errors;
+    if (Object.keys(formFieldErrors).length > 0) {
+      setFieldErrors(formFieldErrors);
       setStatus("error");
       setErrorMessage("Bitte füllen Sie alle Felder korrekt aus.");
       return;
@@ -137,36 +101,53 @@ export default function ContactForm({ source, onSuccess, compact = false }: Cont
 
     setStatus("sending");
 
-    // source explizit als templateParams mitgeben (EmailJS braucht es für {{source}})
-    const formData = new FormData(formRef.current);
-    const templateParams: Record<string, string> = {
-      name: (formData.get("name") as string) ?? "",
-      email: (formData.get("email") as string) ?? "",
-      subject: (formData.get("subject") as string) ?? "",
-      message: (formData.get("message") as string) ?? "",
-      source: source,
-    };
-
-    emailjs
-      .send(SERVICE_ID, TEMPLATE_ID, templateParams, { publicKey: PUBLIC_KEY })
-      .then(() => {
-        recordSubmission();
-        setStatus("success");
-        setFieldErrors({});
-        formRef.current?.reset();
-        // Erfolgsmeldung 2,5 Sekunden anzeigen, dann Modal schließen
-        if (onSuccess) {
-          setTimeout(() => onSuccess(), 2500);
-        }
-      })
-      .catch((err) => {
-        setStatus("error");
-        setErrorMessage(
-          typeof err?.text === "string"
-            ? err.text
-            : err?.message ?? "Nachricht konnte nicht gesendet werden. Bitte erneut versuchen."
-        );
+    let response: Response;
+    try {
+      response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          subject: payload.subject,
+          message: payload.message,
+          source: payload.source,
+          website: "",
+        }),
       });
+    } catch {
+      setStatus("error");
+      setErrorMessage("Nachricht konnte nicht gesendet werden. Bitte erneut versuchen.");
+      return;
+    }
+
+    let result: { error?: string; fieldErrors?: FieldErrors };
+    try {
+      result = await response.json();
+    } catch {
+      setStatus("error");
+      setErrorMessage("Nachricht konnte nicht gesendet werden. Bitte erneut versuchen.");
+      return;
+    }
+
+    if (!response.ok) {
+      setStatus("error");
+      if (result.fieldErrors && Object.keys(result.fieldErrors).length > 0) {
+        setFieldErrors(result.fieldErrors);
+      }
+      setErrorMessage(
+        result.error ?? "Nachricht konnte nicht gesendet werden. Bitte erneut versuchen."
+      );
+      return;
+    }
+
+    recordSubmission();
+    setStatus("success");
+    setFieldErrors({});
+    formRef.current.reset();
+    if (onSuccess) {
+      setTimeout(() => onSuccess(), 2500);
+    }
   }
 
   const inputBase =
