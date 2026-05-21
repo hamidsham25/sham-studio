@@ -13,20 +13,16 @@ const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 export default function Home() {
   return (
     <ContactModalProvider>
-      {/* Hero & Inhalt zuerst im DOM → LCP kann früher gemessen werden */}
       <Header />
       <main>
         <Hero />
         <Portfolio />
-        <div className="relative z-20 isolate" style={{ transform: "translateZ(0)" }}>
-          <Services />
-          <About />
-          <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
-          <Contact />
-        </div>
+        <Services />
+        <About />
+        <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
+        <Contact />
       </main>
       <Footer />
-      {/* Nur optisches Overlay – liegt mit z-index darüber */}
       <LoadingScreen />
     </ContactModalProvider>
   );

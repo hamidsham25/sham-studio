@@ -1,242 +1,497 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring } from "motion/react";
+import Link from "next/link";
+import ProjectLogo from "@/components/ProjectLogo";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const CARD_IMAGE_SIZES = "(max-width: 768px) 100vw, 672px";
+gsap.registerPlugin(ScrollTrigger);
 
-const MARQUEE_REPEAT = 12;
-
-function MarqueeStrip() {
-  return (
-    <div className="flex shrink-0 items-center gap-20 whitespace-nowrap">
-      {Array.from({ length: MARQUEE_REPEAT }).map((_, i) => (
-        <span
-          key={i}
-          className="font-display text-5xl font-bold tracking-tighter text-[#0a0a0a] sm:text-6xl md:text-7xl"
-        >
-          PORTFOLIO
-        </span>
-      ))}
-    </div>
-  );
-}
-
-function CardFace({
-  title,
-  tags,
-  image,
-  overlayImage,
-}: {
+type PortfolioProject = {
   title: string;
-  tags: string[];
+  category: string;
+  cover: string;
+  href: string;
+  layout?: "cover";
+  logo?: string;
+  /** Optional: wordmark already exported in white (transparent PNG) */
+  logoWhite?: string;
+  /** Optional: full wordmark white via CSS mask from `logo` */
+  logoMaskWhite?: boolean;
+  /** Optional: only colored logo parts on transparent – white on hover via CSS mask */
+  logoAccent?: string;
+  /** White lines under logo (Physiotherapie-style footer) */
+  coverTagline?: {
+    primary: string;
+    secondary?: string;
+    /** Black logo + text (bright cover, no gradient) */
+    dark?: boolean;
+    font?: "physio" | "tattoo";
+  };
+  /** White logo on black PNG (screen blend) */
+  logoBlendScreen?: boolean;
+  /** Taller wordmark (e.g. REIN with tagline in PNG) */
+  logoLarge?: boolean;
+  /** Subtle dark gradient at bottom for readable footer */
+  coverBottomGradient?: boolean;
+  /** Hero screenshot (16:9) shown on hover */
+  hoverPreview?: string;
+  /** Always-visible industry label in a corner */
+  industryTag?: {
+    label: string;
+    corner: "top-left" | "top-right";
+  };
   image?: string;
-  overlayImage?: string;
-}) {
-  return (
-    <article className="relative h-full w-full min-h-0 overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-xl flex flex-col">
-      <div className="flex-shrink-0 px-4 pt-4 pb-2 sm:px-5 sm:pt-5 sm:pb-3">
-        <motion.div
-          className="relative aspect-[3/2] w-full overflow-hidden rounded-lg border border-zinc-600/80 bg-zinc-800"
-          whileHover={{ scale: 0.98 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-        >
-          {image ? (
-            <Image
-              src={image}
-              alt=""
-              fill
-              sizes={CARD_IMAGE_SIZES}
-              className="object-cover"
-            />
-          ) : null}
-          {overlayImage ? (
-            <Image
-              src={overlayImage}
-              alt=""
-              fill
-              sizes={CARD_IMAGE_SIZES}
-              className="object-contain object-center scale-105 translate-y-1"
-            />
-          ) : null}
-        </motion.div>
-      </div>
-      <div className="flex-shrink-0 px-5 pb-5 pt-1 sm:px-6 sm:pb-6 sm:pt-2 min-h-[5rem] sm:min-h-[5.5rem]">
-        <h3 className="font-display text-lg font-semibold text-white sm:text-xl">
-          {title}
-        </h3>
-        <ul className="mt-3 flex flex-wrap gap-2 sm:gap-3 overflow-visible">
-          {tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-full bg-zinc-800 px-2.5 py-1.5 text-xs font-medium text-white sm:px-3 sm:text-sm"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </article>
-  );
-}
+};
 
-const CARDS = [
+const PROJECTS: PortfolioProject[] = [
   {
-    title: "Sham Automobile",
-    tags: ["CMS", "Individuelles Design", "Moderne Website"],
-    image: "/images/card-background-1.webp",
-    overlayImage: "/images/card-image-1.webp",
+    title: "EnerStrom",
+    category: "Web Design · Elektrotechnik",
+    cover: "/images/portfolio/enerstrom-cover.png",
+    logo: "/images/portfolio/enerstrom-logo.png",
+    logoMaskWhite: true,
+    hoverPreview: "/images/portfolio/enerstrom-hover.png",
+    industryTag: { label: "Elektrotechnik", corner: "top-left" },
+    layout: "cover",
+    href: "https://www.enerstrom-hannover.de",
   },
   {
-    title: "Handwerker-Website",
-    tags: ["Responsive", "Professionelles Design", "Übersichtliche Struktur"],
-    image: "/images/card-background-2.webp",
-    overlayImage: "/images/card-image-2.webp",
+    title: "Physio Saglam",
+    category: "Web Design · Physiotherapie",
+    cover: "/images/portfolio/physio-cover.png",
+    logo: "/images/portfolio/physio-logo.png",
+    coverTagline: {
+      primary: "Physiotherapie",
+      secondary: "Hülya Saglam",
+    },
+    coverBottomGradient: true,
+    logoMaskWhite: true,
+    hoverPreview: "/images/portfolio/physio-hover.png",
+    industryTag: { label: "Physiotherapie", corner: "top-right" },
+    layout: "cover",
+    href: "https://physio-saglam.vercel.app",
   },
   {
-    title: "Beauty-Page",
-    tags: ["Moderne Optik", "Responsive", "Klare Struktur"],
-    image: "/images/card-background-3.webp",
-    overlayImage: "/images/card-image-3.webp",
+    title: "REIN Gebäudereinigung",
+    category: "Web Design · Gebäudereinigung",
+    cover: "/images/portfolio/cleaning-cover.jpg",
+    logo: "/images/portfolio/cleaning-logo.png",
+    logoBlendScreen: true,
+    logoLarge: true,
+    coverBottomGradient: true,
+    hoverPreview: "/images/portfolio/cleaning-hover.png",
+    industryTag: { label: "Gebäudereinigung", corner: "top-left" },
+    layout: "cover",
+    href: "https://www.rein-gebaeudeservice.de",
+  },
+  {
+    title: "Noir Ink",
+    category: "Web Design · Tattoo Studio",
+    cover: "/images/portfolio/tattoo-cover.jpg",
+    coverTagline: {
+      primary: "Noir Ink",
+      font: "tattoo",
+    },
+    coverBottomGradient: true,
+    hoverPreview: "/images/portfolio/tattoo-hover.png",
+    industryTag: { label: "Tattoo Studio", corner: "top-right" },
+    layout: "cover",
+    href: "https://tattoo-website-woad.vercel.app",
   },
 ];
 
-export default function Portfolio() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const set = () => setIsMobile(mq.matches);
-    set();
-    mq.addEventListener("change", set);
-    return () => mq.removeEventListener("change", set);
-  }, []);
-
-  // Keyframes: Animation endet früher (weniger "leeres" Scrollen nach Card 3)
-  const scrollInput = isMobile
-    ? [0, 0.16, 0.28, 0.40, 0.50, 0.56, 0.58, 0.66, 0.74, 0.82, 1]
-    : [0, 0.14, 0.26, 0.38, 0.48, 0.52, 0.54, 0.62, 0.70, 0.78, 1];
-  const rotateOutput = [0, 0, -90, -180, -180, -180, -180, -270, -360, -360, -360];
-
-  // Eine Ebene, Drehung 0° → -360°. Scroll → geglätteter Winkel (Spring) → Anzeige + Content-Wechsel.
-  const rotateDeg = useTransform(scrollYProgress, scrollInput, rotateOutput);
-  const rotateSmooth = useSpring(rotateDeg, {
-    stiffness: 80,
-    damping: 25,
-    restDelta: 0.001,
-  });
-  const rotateX = useTransform(rotateSmooth, (v) => `${v}deg`);
-
-  // Wechsel von derselben geglätteten Position wie die Anzeige → nur bei echter Kantenstellung
-  const frontCard1 = useTransform(rotateSmooth, (angle) => (angle > -90 ? 1 : 0));
-  const frontCard2 = useTransform(rotateSmooth, (angle) => (angle <= -90 && angle > -270 ? 1 : 0));
-  const frontCard3 = useTransform(rotateSmooth, (angle) => (angle <= -270 ? 1 : 0));
-  const backCard2 = useTransform(rotateSmooth, (angle) => (angle > -270 ? 1 : 0));
-  const backCard3 = useTransform(rotateSmooth, (angle) => (angle <= -270 ? 1 : 0));
-
-  // Nur die sichtbare Karte soll Hover erhalten (sonst fängt immer Projekt 3 ab, da oben im Stack)
-  const pointerEvents1 = useTransform(frontCard1, (v) => (v > 0.5 ? "auto" : "none"));
-  const pointerEvents2 = useTransform(frontCard2, (v) => (v > 0.5 ? "auto" : "none"));
-  const pointerEvents3 = useTransform(frontCard3, (v) => (v > 0.5 ? "auto" : "none"));
-  const backPointer2 = useTransform(backCard2, (v) => (v > 0.5 ? "auto" : "none"));
-  const backPointer3 = useTransform(backCard3, (v) => (v > 0.5 ? "auto" : "none"));
-
+function GlobeIcon({ className }: { className?: string }) {
   return (
-    <div
-      ref={sectionRef}
-      className="relative z-0 h-[400vh] max-md:h-[280vh]"
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
       aria-hidden
     >
-      <section
-        id="portfolio"
-        className="sticky top-0 left-0 right-0 z-0 flex min-h-[24rem] min-h-viewport-large flex-col overflow-clip rounded-t-[2rem] bg-white px-6 pb-16 sm:rounded-t-[3rem] sm:px-8"
-        aria-label="Portfolio"
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 2.8 4 6 4 9s-1.5 6.2-4 9M12 3c-2.5 2.8-4 6-4 9s1.5 6.2 4 9" />
+    </svg>
+  );
+}
+
+const cornerPosition = (corner: "top-left" | "top-right") =>
+  corner === "top-left" ? "left-3 sm:left-3.5" : "right-3 sm:right-3.5";
+
+function CoverProjectCard({ project }: { project: PortfolioProject }) {
+  const isExternal = project.href.startsWith("http");
+
+  return (
+    <div className="project-card-entrance h-full">
+      <Link
+        href={project.href}
+        className="project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[0.98] will-change-transform"
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
-        {/* Karte exakt mittig; Mobile: Banner darüber, Tablet/Desktop: Banner in der Mitte */}
-        <div className="portfolio-section-inner absolute inset-0 flex items-center justify-center px-4 sm:px-8">
-          {/* PORTFOLIO-Banner Tablet/PC: mittig im Viewport (in der Mitte der Cards) */}
+        <div className="relative aspect-[6/5] overflow-hidden bg-zinc-100">
+        {/* Cover – blur on hover (Studio Namma style) */}
+        <div className="absolute inset-0 transition-[filter,transform] duration-500 ease-out group-hover:blur-md group-hover:scale-[1.02]">
+          <Image
+            src={project.cover}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, 50vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        {project.coverBottomGradient ? (
           <div
-            className="absolute left-0 right-0 top-1/2 z-0 hidden -translate-y-1/2 overflow-hidden py-2 md:-mx-4 md:block md:py-4"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[42%] bg-gradient-to-t from-black/60 via-black/25 to-transparent sm:h-[38%]"
             aria-hidden
+          />
+        ) : null}
+
+        {project.industryTag ? (
+          <span
+            className={`pointer-events-none absolute top-3 z-[25] flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 py-1 pl-2 pr-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white backdrop-blur-sm sm:top-3.5 sm:gap-2 sm:py-1.5 sm:pl-2.5 sm:pr-3 sm:text-[0.7rem] ${cornerPosition(
+              project.industryTag.corner
+            )}`}
           >
-            <div className="flex w-max animate-portfolio-marquee items-center gap-20">
-              <MarqueeStrip />
-              <MarqueeStrip />
-            </div>
-          </div>
-          <div className="portfolio-card-wrap relative w-full max-w-2xl">
-            {/* PORTFOLIO-Banner nur Mobile: knapp über der Karte */}
+            <GlobeIcon className="h-3 w-3 shrink-0 opacity-90 sm:h-3.5 sm:w-3.5" />
+            {project.industryTag.label}
+          </span>
+        ) : null}
+
+        {/* Screen preview (16:9) on hover */}
+        {project.hoverPreview ? (
+          <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center p-4 sm:p-6">
             <div
-              className="absolute left-0 right-0 bottom-full z-0 overflow-hidden py-2 sm:py-3 mb-4 sm:mb-5 md:hidden"
+              className="relative aspect-video w-[84%] max-h-[68%] overflow-hidden rounded-sm bg-zinc-950 shadow-2xl ring-1 ring-white/10
+                scale-[0.82] opacity-0
+                transition-all duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+                group-hover:scale-100 group-hover:opacity-100"
               aria-hidden
             >
-              <div className="flex w-max animate-portfolio-marquee items-center gap-20">
-                <MarqueeStrip />
-                <MarqueeStrip />
-              </div>
+              <Image
+                src={project.hoverPreview}
+                alt=""
+                fill
+                sizes="(max-width: 640px) 85vw, 42vw"
+                className="object-cover object-top"
+              />
             </div>
-            {/* Card-Bereich: definiert die Zentrierung (Karte mittig im Viewport) */}
-            <div
-              className="relative z-10 w-full"
-              style={{ perspective: "1600px" }}
-            >
-            <motion.div
-              className="absolute inset-0 w-full"
-              style={{
-                rotateX,
-                transformOrigin: "center center",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {/* Vorderseite: je nach Scroll Karte 1, 2 oder 3 (Wechsel bei -90° und -270°) */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  backfaceVisibility: "hidden",
-                  transform: "rotateX(0deg)",
-                }}
-              >
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard1, pointerEvents: pointerEvents1 }}>
-                  <CardFace title={CARDS[0].title} tags={CARDS[0].tags} image={CARDS[0].image} overlayImage={CARDS[0].overlayImage} />
-                </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard2, pointerEvents: pointerEvents2 }}>
-                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} image={CARDS[1].image} overlayImage={CARDS[1].overlayImage} />
-                </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: frontCard3, pointerEvents: pointerEvents3 }}>
-                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} image={CARDS[2].image} overlayImage={CARDS[2].overlayImage} />
-                </motion.div>
-              </div>
-              {/* Rückseite: Karte 2 bis -270°, danach Karte 3 (Wechsel bei -270°) */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  backfaceVisibility: "hidden",
-                  transform: "rotateX(180deg)",
-                }}
-              >
-                <motion.div className="absolute inset-0" style={{ opacity: backCard2, pointerEvents: backPointer2 }}>
-                  <CardFace title={CARDS[1].title} tags={CARDS[1].tags} image={CARDS[1].image} overlayImage={CARDS[1].overlayImage} />
-                </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: backCard3, pointerEvents: backPointer3 }}>
-                  <CardFace title={CARDS[2].title} tags={CARDS[2].tags} image={CARDS[2].image} overlayImage={CARDS[2].overlayImage} />
-                </motion.div>
-              </div>
-            </motion.div>
+          </div>
+        ) : null}
 
-            <div className="pointer-events-none invisible">
-              <CardFace title={CARDS[0].title} tags={CARDS[0].tags} image={CARDS[0].image} overlayImage={CARDS[0].overlayImage} />
+        {project.logo || project.coverTagline ? (
+          <div
+            className={`pointer-events-none absolute inset-x-0 z-30 px-4 ${
+              project.logoLarge ? "bottom-3 sm:bottom-4" : "bottom-4 sm:bottom-5"
+            } ${
+              project.coverTagline && project.logo
+                ? "flex flex-row items-center justify-center gap-3.5 sm:gap-4"
+                : "flex flex-col items-center justify-center gap-2 sm:gap-2.5"
+            }`}
+          >
+            {project.logo ? (
+              <ProjectLogo
+                title={project.title}
+                logo={project.logo}
+                logoMaskWhite={
+                  project.logoMaskWhite === true &&
+                  !project.coverTagline?.dark
+                }
+                logoMaskBlack={project.coverTagline?.dark === true}
+                logoBlendScreen={project.logoBlendScreen}
+                logoAccent={project.logoAccent}
+                logoWhite={project.logoWhite}
+                className={
+                  project.coverTagline && project.logo
+                    ? "relative h-[3.25rem] w-[3.25rem] shrink-0 scale-110 sm:h-14 sm:w-14 sm:scale-[1.12]"
+                    : project.logoLarge
+                      ? "relative h-[5.75rem] w-[14.5rem] sm:h-[7rem] sm:w-[17.5rem]"
+                      : "relative h-14 w-52 sm:h-16 sm:w-60"
+                }
+              />
+            ) : null}
+            {project.coverTagline ? (
+              <div
+                className={`flex flex-col gap-0 ${
+                  project.logo
+                    ? "items-start text-left"
+                    : "items-center text-center"
+                } ${
+                  project.coverTagline.font === "tattoo"
+                    ? "font-tattoo"
+                    : "font-physio"
+                } ${
+                  project.coverTagline.dark
+                    ? "text-zinc-950"
+                    : "text-white drop-shadow-[0_1px_10px_rgba(0,0,0,0.35)]"
+                }`}
+                aria-hidden
+              >
+                <p
+                  className={
+                    project.coverTagline.font === "tattoo"
+                      ? "text-[1.65rem] font-semibold leading-none tracking-[0.14em] sm:text-[2rem]"
+                      : "text-[1.2rem] font-bold leading-[1.12] tracking-[-0.01em] sm:text-[1.45rem]"
+                  }
+                >
+                  {project.coverTagline.primary}
+                </p>
+                {project.coverTagline.secondary ? (
+                  <p
+                    className={`text-[0.8rem] font-semibold leading-[1.12] tracking-[0.01em] sm:text-[0.9rem] ${
+                      project.coverTagline.dark ? "text-zinc-900" : "text-white/90"
+                    }`}
+                  >
+                    {project.coverTagline.secondary}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+function ClassicProjectCard({ project }: { project: PortfolioProject }) {
+  const isExternal = project.href.startsWith("http");
+
+  return (
+    <div className="project-card-entrance h-full">
+      <Link
+        href={project.href}
+        className="project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[0.98]"
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        <div className="relative aspect-[6/5] overflow-hidden bg-zinc-100">
+        <div className="absolute inset-0 transition-transform duration-[800ms] ease-out group-hover:scale-110">
+          <Image
+            src={project.cover}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </div>
+
+        {project.image ? (
+          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-105">
+            <div className="relative h-[70%] w-[60%]">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                sizes="(max-width: 640px) 60vw, 30vw"
+                className="object-contain drop-shadow-2xl"
+              />
             </div>
           </div>
-          </div>
+        ) : null}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 md:p-8 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <p className="text-xs font-medium uppercase tracking-widest text-white/60">
+            {project.category}
+          </p>
+          <h3 className="mt-1.5 font-display text-xl font-bold text-white sm:text-2xl md:text-3xl">
+            {project.title}
+          </h3>
         </div>
-      </section>
+
+        <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-zinc-900 opacity-0 scale-75 transition-all duration-400 group-hover:opacity-100 group-hover:scale-100 sm:right-5 sm:top-5 sm:h-12 sm:w-12">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        </div>
+      </Link>
     </div>
+  );
+}
+
+const MARQUEE_COUNT = 14;
+
+function ScrollMarquee() {
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const centerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    const inner = innerRef.current;
+    const centerWord = centerRef.current;
+    if (!marquee || !inner || !centerWord) return;
+
+    // Center the black word on screen
+    const wordRect = centerWord.getBoundingClientRect();
+    const innerRect = inner.getBoundingClientRect();
+    const wordCenterRelative = wordRect.left - innerRect.left + wordRect.width / 2;
+    const viewportCenter = window.innerWidth / 2;
+    const offset = -(wordCenterRelative - viewportCenter);
+    gsap.set(inner, { x: offset });
+
+    const ctx = gsap.context(() => {
+      gsap.to(inner, {
+        x: offset - 200,
+        ease: "none",
+        scrollTrigger: {
+          trigger: marquee,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 4,
+        },
+      });
+    }, marquee);
+
+    return () => ctx.revert();
+  }, []);
+
+  const centerIndex = 4;
+
+  return (
+    <div ref={marqueeRef} className="overflow-hidden py-4 md:py-6">
+      <div ref={innerRef} className="flex w-max items-center gap-4 sm:gap-6">
+        {Array.from({ length: MARQUEE_COUNT }).map((_, i) => {
+          const isBlack = i === centerIndex;
+          return (
+            <span key={i} className="flex items-center gap-4 sm:gap-6">
+              {i > 0 && (
+                <span className="text-zinc-300 text-xl sm:text-2xl md:text-3xl" aria-hidden>
+                  ✦
+                </span>
+              )}
+              <span
+                ref={isBlack ? centerRef : undefined}
+                className={`font-display text-[4rem] font-bold leading-none tracking-tighter sm:text-[5.5rem] md:text-[7rem] lg:text-[8.5rem] ${
+                  isBlack ? "text-zinc-900" : "text-zinc-300"
+                }`}
+              >
+                PORTFOLIO
+              </span>
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function Portfolio() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const grid = gridRef.current;
+    if (!section || !grid) return;
+
+    const cards = grid.querySelectorAll<HTMLElement>(".project-card-entrance");
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, i) => {
+        const isLeft = i % 2 === 0;
+        const row = Math.floor(i / 2);
+        const rowTrigger = cards[row * 2];
+
+        gsap.set(card, {
+          x: isLeft ? -120 : 120,
+          rotate: isLeft ? -6 : 6,
+          opacity: 0,
+        });
+
+        gsap.to(card, {
+          x: 0,
+          rotate: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: rowTrigger,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          delay: isLeft ? 0 : 0.08,
+        });
+      });
+
+      if (ctaRef.current) {
+        gsap.fromTo(
+          ctaRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ctaRef.current,
+              start: "top 92%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="portfolio"
+      className="relative z-0 overflow-hidden rounded-t-[2rem] bg-white pt-24 sm:rounded-t-[3rem] sm:pt-28 md:pt-32"
+      aria-label="Portfolio"
+    >
+      {/* Scroll-driven marquee */}
+      <ScrollMarquee />
+
+      {/* Project Grid */}
+      <div className="mx-auto px-3 pt-4 sm:px-4 md:px-5 md:pt-6">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5 [&>*]:overflow-visible"
+        >
+          {PROJECTS.map((project) =>
+            project.layout === "cover" ? (
+              <CoverProjectCard key={project.title} project={project} />
+            ) : (
+              <ClassicProjectCard key={project.title} project={project} />
+            )
+          )}
+        </div>
+      </div>
+
+      {/* View All CTA */}
+      <div ref={ctaRef} className="mx-auto max-w-6xl px-6 md:px-8">
+        <div className="mt-12 mb-20 flex justify-center md:mt-16 md:mb-24">
+          <Link
+            href="/projekte"
+            className="group/btn inline-flex items-center gap-3 rounded-full border border-zinc-900 bg-zinc-900 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-zinc-900"
+          >
+            Alle Projekte ansehen
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }

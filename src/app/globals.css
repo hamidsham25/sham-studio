@@ -7,7 +7,7 @@
   --accent: #22d3ee;
   --accent-hover: #06b6d4;
   --card: #111111;
-  --header-height: 4.5rem;
+  --header-height: 6.25rem;
 }
 
 @theme inline {
@@ -15,9 +15,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-display: var(--font-display), system-ui, sans-serif;
+  --font-physio: var(--font-physio), "Iowan Old Style", serif;
+  --font-tattoo: var(--font-tattoo), Georgia, serif;
 }
 
-/* Kein scroll-snap auf Mobile/Tablet – natives Scrollen für bessere UX */
 html {
   -webkit-overflow-scrolling: touch;
 }
@@ -31,6 +32,14 @@ body {
   font-family: var(--font-display), system-ui, sans-serif;
 }
 
+.font-physio {
+  font-family: var(--font-physio), "Iowan Old Style", Georgia, serif;
+}
+
+.font-tattoo {
+  font-family: var(--font-tattoo), Georgia, "Times New Roman", serif;
+}
+
 .section-padding {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -42,32 +51,15 @@ body {
   }
 }
 
-/* Professioneller Ansatz: Nur Mindesthöhe (min-height), kein max-height.
-   Sektionen füllen mindestens den Viewport, dürfen wachsen – kein Ruckeln, Zoom funktioniert natürlich.
-   small viewport height (100svh) = stabil wenn Browser-Leisten ein-/ausblenden. */
 .min-h-viewport {
   min-height: 100svh;
 }
 
-/* Nur Portfolio: large viewport (100lvh) – kein schwarzer Streifen wenn Browser-Leiste weggeht, Card bleibt mittig. */
 .min-h-viewport-large {
   min-height: 100lvh;
 }
 
-/* Portfolio: Karten im Landscape deutlich kleiner + Abstand nach oben, damit Navbar die Karte nicht überdeckt */
-@media (orientation: landscape) and (max-height: 500px) {
-  .portfolio-section-inner {
-    padding-top: var(--header-height);
-    align-items: center;
-  }
-  .portfolio-card-wrap {
-    max-width: 28rem;
-    transform: scale(0.72);
-    transform-origin: center;
-  }
-}
-
-/* Navbar: Mobile-Menü im Landscape kompakter, CTA bleibt sichtbar */
+/* Navbar: Mobile-Menü im Landscape kompakter */
 @media (orientation: landscape) and (max-height: 500px) {
   .header-mobile-menu ul {
     gap: 0;
@@ -85,30 +77,22 @@ body {
   }
 }
 
-/* Portfolio-Marquee – nahtlose Loop, Dauer hier in Sekunden */
-@keyframes portfolio-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.animate-portfolio-marquee {
-  animation: portfolio-marquee 70s linear infinite;
+/* Marquee text handled by GSAP ScrollTrigger */
+
+/* GSAP entrance wrapper – hover scale lives on .project-card inside */
+.project-card-entrance {
+  will-change: transform, opacity;
 }
 
-/* Hero: Schwarz als Basis, Bild kommt als eigene Schicht mit Opacity */
+/* Hero */
 .hero-bg {
   background-color: #0a0a0a;
 }
 
-/* Hero: Top-Padding in Navbar-Höhe, damit nichts von der fixen Navbar überdeckt wird */
 #hero {
   padding-top: var(--header-height);
 }
 
-/* Hero im Landscape: alle Inhalte kleiner, damit alles unter der Navbar sichtbar ist */
 @media (orientation: landscape) and (max-height: 500px) {
   #hero .hero-content {
     transform: scale(0.82);
@@ -148,7 +132,51 @@ body {
   background-repeat: no-repeat;
 }
 
-/* Focus visible for accessibility */
+/* GSAP text reveal helper */
+.split-line {
+  overflow: hidden;
+}
+.split-line > span {
+  display: inline-block;
+}
+
+/* Hidden until GSAP intro (no transform here – avoids flash / revert bugs) */
+.hero-content[data-intro="pending"] .hero-line-inner {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-typewriter-slot {
+  position: relative;
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 640px) {
+  .hero-typewriter-slot {
+    min-height: 3.25rem;
+  }
+}
+@media (min-width: 768px) {
+  .hero-typewriter-slot {
+    min-height: 4rem;
+  }
+}
+.hero-typewriter-sizer {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-typewriter-live {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--accent);

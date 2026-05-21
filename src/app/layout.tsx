@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Plus_Jakarta_Sans } from "next/font/google";
+import { Syne, Plus_Jakarta_Sans, Fraunces, Cinzel } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -7,12 +7,29 @@ import "./globals.css";
 const syne = Syne({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+/** Cover cards – e.g. Physio Saglam tagline */
+const fraunces = Fraunces({
+  variable: "--font-physio",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
+/** Cover cards – Noir Ink tattoo studio */
+const cinzel = Cinzel({
+  variable: "--font-tattoo",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -114,7 +131,7 @@ export default function RootLayout({
         <link rel="preload" href="/images/hero-image.webp" as="image" />
       </head>
       <body
-        className={`${syne.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
+        className={`${syne.variable} ${plusJakartaSans.variable} ${fraunces.variable} ${cinzel.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
       >
         <script
           type="application/ld+json"

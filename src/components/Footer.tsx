@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 const INSTAGRAM_URL = "https://www.instagram.com/shamstudiohq/";
+const EMAIL = "info@sham-studio.de";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -22,56 +23,97 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
+function EmailIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+      />
+    </svg>
+  );
+}
+
 export default function Footer() {
   return (
     <motion.footer
-      className="rounded-t-3xl bg-white py-8"
+      className="rounded-t-[2rem] sm:rounded-t-[3rem] bg-white pt-14 pb-8 md:pt-20 md:pb-10"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-1">
-          <p className="text-center text-sm text-zinc-600 order-2 sm:order-1 sm:mr-auto">
-            © {new Date().getFullYear()} Sham Studio. Alle Rechte vorbehalten.
+        {/* Top: CTA + Socials */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-14 md:mb-20">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-zinc-400 mb-3 font-sans">
+              Projekt im Kopf?
+            </p>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-900 leading-[1.1]">
+              Let&apos;s talk.
+            </h2>
+          </div>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-4">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-12 h-12 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
+              aria-label="Instagram"
+            >
+              <InstagramIcon className="h-5 w-5" />
+            </a>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="flex items-center justify-center w-12 h-12 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
+              aria-label="E-Mail"
+            >
+              <EmailIcon className="h-5 w-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px w-full bg-zinc-200 mb-8" aria-hidden />
+
+        {/* Bottom: Copyright left, Legal right */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <p className="text-sm text-zinc-400">
+            © {new Date().getFullYear()} Sham Studio
           </p>
+
           <nav
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 order-1 sm:order-2"
-            aria-label="Footer-Navigation"
+            className="flex flex-wrap items-center gap-x-5 gap-y-1"
+            aria-label="Rechtliches"
           >
             <Link
               href="/impressum"
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
+              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
             >
               Impressum
             </Link>
             <Link
               href="/agb"
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
+              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
             >
               AGB
             </Link>
             <Link
               href="/datenschutz"
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
+              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
             >
               Datenschutz
-            </Link>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
-              aria-label="Sham Studio auf Instagram"
-            >
-              <InstagramIcon className="h-5 w-5" />
-            </a>
-            <Link
-              href="/#contact"
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 rounded"
-            >
-              Kontakt
             </Link>
           </nav>
         </div>

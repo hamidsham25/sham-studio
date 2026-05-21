@@ -2,37 +2,33 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
+import {
+  LOADING_SCREEN_STORAGE_KEY,
+  notifyLoadingComplete,
+  shouldSkipLoadingScreen,
+} from "@/lib/loading-screen";
 
 /** Nur optisches Overlay – Hero & Rest sind bereits im DOM und geladen. */
 const text = "Sham Studio.";
-const STORAGE_KEY = "loadingScreenShown";
-// Nach dieser Zeit (ms) wird der Loading Screen beim Reload wieder angezeigt
-const SHOW_AGAIN_AFTER_MS = 60 * 1000; // 1 Minute
-
-function shouldSkipLoadingScreen(): boolean {
-  if (typeof window === "undefined") return false;
-  const raw = sessionStorage.getItem(STORAGE_KEY);
-  if (!raw) return false;
-  const timestamp = parseInt(raw, 10);
-  if (Number.isNaN(timestamp)) return true; // alter Wert "1" → skip
-  return Date.now() - timestamp < SHOW_AGAIN_AFTER_MS;
-}
 
 export default function LoadingScreen() {
   const [displayText, setDisplayText] = useState("");
   const [done, setDone] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [skip, setSkip] = useState(false);
 
-  // Skip nur wenn kürzlich schon gezeigt (innerhalb SHOW_AGAIN_AFTER_MS)
   useEffect(() => {
-    if (shouldSkipLoadingScreen()) {
-      setSkip(true);
+    const shouldSkip = shouldSkipLoadingScreen();
+    setSkip(shouldSkip);
+    setChecked(true);
+    if (shouldSkip) {
+      notifyLoadingComplete();
     }
   }, []);
 
   useEffect(() => {
-    if (skip) return;
+    if (!checked || skip) return;
     let i = 0;
     const interval = setInterval(() => {
       i++;
@@ -44,16 +40,17 @@ export default function LoadingScreen() {
     }, 90);
 
     return () => clearInterval(interval);
-  }, [skip]);
+  }, [checked, skip]);
 
   const handleExitComplete = () => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem(STORAGE_KEY, String(Date.now()));
+      localStorage.setItem(LOADING_SCREEN_STORAGE_KEY, String(Date.now()));
+      notifyLoadingComplete();
     }
     setVisible(false);
   };
 
-  if (skip || !visible) return null;
+  if (!checked || skip || !visible) return null;
 
   return (
     <AnimatePresence onExitComplete={handleExitComplete}>

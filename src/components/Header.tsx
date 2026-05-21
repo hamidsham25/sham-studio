@@ -1,8 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useLayoutEffect } from "react";
+import Logo from "@/components/Logo";
+import { shouldSkipLoadingScreen } from "@/lib/loading-screen";
 
 const navLinks = [
   { href: "#portfolio", id: "portfolio", label: "Portfolio" },
@@ -11,27 +14,44 @@ const navLinks = [
   { href: "#contact", id: "contact", label: "Kontakt" },
 ];
 
-function useActiveSection() {
-  const [activeId, setActiveId] = useState<string>("hero");
-  const [navOverSection, setNavOverSection] = useState<string>("hero");
+const NAV_BOTTOM_OFFSET = 100;
+
+const HOME_SECTIONS = ["hero", "services", "portfolio", "about", "contact"] as const;
+const PROJEKTE_SECTIONS = ["projekte-hero", "projekte-list"] as const;
+
+function useActiveSection(pathname: string) {
+  const isHome = pathname === "/";
+  const isProjekte = pathname === "/projekte";
+  const defaultSection = isProjekte ? "projekte-hero" : "hero";
+
+  const [activeId, setActiveId] = useState<string>(defaultSection);
+  const [navOverSection, setNavOverSection] = useState<string>(defaultSection);
 
   useEffect(() => {
-    const sections = ["hero", "services", "portfolio", "about", "contact"];
+    setActiveId(defaultSection);
+    setNavOverSection(defaultSection);
+  }, [defaultSection]);
 
-    // Active nav highlight + navbar color: section that *contains* the point just under the navbar
+  useEffect(() => {
+    const sections = isProjekte
+      ? [...PROJEKTE_SECTIONS]
+      : isHome
+        ? [...HOME_SECTIONS]
+        : [];
+
     const handleScroll = () => {
-      const navBottom = 64; // approx navbar height in px
+      if (sections.length === 0) return;
+
       if (window.scrollY < 50) {
-        setActiveId("hero");
-        setNavOverSection("hero");
+        setActiveId(sections[0]);
+        setNavOverSection(sections[0]);
         return;
       }
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          // Section contains the line y=navBottom (top under navbar)
-          if (rect.top <= navBottom && rect.bottom > navBottom) {
+          if (rect.top <= NAV_BOTTOM_OFFSET && rect.bottom > NAV_BOTTOM_OFFSET) {
             setActiveId(id);
             setNavOverSection(id);
             return;
@@ -45,7 +65,7 @@ function useActiveSection() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isHome, isProjekte]);
 
   return { activeId, setActiveId, navOverSection };
 }
@@ -54,36 +74,17 @@ function NavLink({
   href,
   label,
   isActive,
-  isLight,
+  onDarkPill,
+  isHome,
 }: {
   href: string;
   label: string;
   isActive: boolean;
-  isLight: boolean;
+  onDarkPill: boolean;
+  isHome: boolean;
 }) {
-  const [hovered, setHovered] = useState(false);
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 150, damping: 25 });
-  const springY = useSpring(y, { stiffness: 150, damping: 25 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.15);
-    y.set((e.clientY - centerY) * 0.4);
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-    x.set(0);
-    y.set(0);
-  };
-
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHome) return;
     e.preventDefault();
     const id = href.replace("#", "");
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -91,65 +92,53 @@ function NavLink({
 
   return (
     <Link
-      ref={ref}
-      href={href}
+      href={isHome ? href : `/${href}`}
       onClick={handleClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`relative py-1.5 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
+      className={`whitespace-nowrap rounded-full px-1 py-1 text-base font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
         isActive
-          ? isLight ? "text-zinc-900" : "text-white"
-          : isLight ? "text-zinc-500" : "text-zinc-400"
+          ? onDarkPill
+            ? "text-cyan-400"
+            : "text-cyan-600"
+          : onDarkPill
+            ? "text-zinc-400 hover:text-white"
+            : "text-zinc-600 hover:text-zinc-900"
       }`}
     >
-      <motion.span
-        className="relative inline-flex"
-        style={{ x: springX, y: springY }}
-      >
-        {label.split("").map((char, i) => (
-          <motion.span
-            key={i}
-            className="inline-block"
-            animate={
-              hovered
-                ? {
-                    y: [0, -3, 0],
-                    color: "#22d3ee",
-                    transition: {
-                      y: { delay: i * 0.03, duration: 0.3, ease: "easeOut" },
-                      color: { delay: i * 0.03, duration: 0.2 },
-                    },
-                  }
-                : {
-                    y: 0,
-                    color: isActive
-                      ? isLight ? "#18181b" : "#ffffff"
-                      : isLight ? "#71717a" : "#a1a1aa",
-                    transition: { duration: 0.25 },
-                  }
-            }
-          >
-            {char === " " ? "\u00A0" : char}
-          </motion.span>
-        ))}
-      </motion.span>
-      {isActive && (
-        <motion.span
-          className={`absolute bottom-0 left-0 h-px w-full ${isLight ? "bg-zinc-900/50" : "bg-cyan-400/70"}`}
-          layoutId="nav-underline"
-          transition={{ type: "spring", stiffness: 380, damping: 30 }}
-        />
-      )}
+      {label}
     </Link>
   );
 }
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isProjekte = pathname === "/projekte";
   const [open, setOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [navExpanded, setNavExpanded] = useState(!isHome);
   const [isLandscape, setIsLandscape] = useState(false);
-  const { activeId: activeSection, setActiveId, navOverSection } = useActiveSection();
+  const { activeId: activeSection, setActiveId, navOverSection } = useActiveSection(pathname);
+
+  useLayoutEffect(() => {
+    if (!isHome) {
+      setNavExpanded(true);
+      return;
+    }
+    if (shouldSkipLoadingScreen()) {
+      setNavExpanded(true);
+      return;
+    }
+
+    setNavExpanded(false);
+    let expandTimer: ReturnType<typeof setTimeout>;
+    const handleLoadingComplete = () => {
+      expandTimer = setTimeout(() => setNavExpanded(true), 80);
+    };
+    window.addEventListener("loadingComplete", handleLoadingComplete);
+    return () => {
+      window.removeEventListener("loadingComplete", handleLoadingComplete);
+      clearTimeout(expandTimer);
+    };
+  }, [isHome]);
 
   useEffect(() => {
     const checkLandscape = () => {
@@ -164,202 +153,234 @@ export default function Header() {
     return () => mq.removeEventListener("change", checkLandscape);
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [open]);
+
   const scrollToHero = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHome) return;
     e.preventDefault();
     setActiveId("hero");
+    setOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
     history.replaceState(null, "", window.location.pathname);
   };
 
-  const lightSections = ["portfolio", "services"];
-  const isLight = lightSections.includes(navOverSection);
+  const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHome) return;
+    e.preventDefault();
+    setOpen(false);
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const lightSections = ["portfolio", "services", "projekte-list"];
+  const onDarkPill = isProjekte ? false : lightSections.includes(navOverSection);
+
+  const pillClass = onDarkPill
+    ? "border border-zinc-800/60 bg-zinc-900/90 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] max-md:border-zinc-200/80 max-md:bg-zinc-50/95 max-md:text-zinc-900 max-md:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+    : "border border-zinc-200/80 bg-zinc-50/95 text-zinc-900 shadow-[0_8px_32px_rgba(0,0,0,0.12)]";
+
+  const ctaClass = onDarkPill
+    ? "bg-cyan-400 text-zinc-900 hover:bg-cyan-300"
+    : "bg-zinc-900 text-white hover:bg-zinc-800";
+
+  const mobileMenuBtnClass = "bg-zinc-900 text-white hover:bg-zinc-800";
+
+  const expandTransition = {
+    layout: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    maxWidth: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    opacity: { duration: 0.3, ease: "easeOut" as const },
+  };
 
   return (
-    <header
-      className={`fixed left-0 right-0 top-0 z-[9999] isolate backdrop-blur-md transition-colors duration-300 ${
-        isLight ? "bg-white/80" : "bg-[#0a0a0a]/80"
-      }`}
-    >
-      <nav
-        className="relative flex w-full items-center justify-between px-6 py-4 md:px-8"
-        aria-label="Hauptnavigation"
-      >
-        <Link
-          href="#hero"
-          onClick={scrollToHero}
-          className={`flex-shrink-0 font-display text-xl font-bold transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
-            isLight ? "text-zinc-900" : "text-white"
+    <header className="pointer-events-none fixed left-0 right-0 top-0 z-[9999] isolate px-4 pt-4 md:px-6 md:pt-6">
+      <div className="pointer-events-auto flex w-full flex-col items-center px-0 md:w-auto">
+        <motion.nav
+          layout
+          transition={expandTransition}
+          className={`flex w-full max-w-[calc(100vw-2rem)] items-center justify-between rounded-full px-5 py-3.5 backdrop-blur-md transition-[background-color,border-color,box-shadow,color] duration-300 md:inline-flex md:w-auto md:max-w-[calc(100vw-2rem)] md:px-6 md:py-3.5 ${pillClass} ${
+            navExpanded ? "md:gap-8" : "md:gap-4"
           }`}
+          aria-label="Hauptnavigation"
         >
-          Sham Studio
-        </Link>
-        <ul className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-10 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <NavLink
-                href={link.href}
-                label={link.label}
-                isActive={activeSection === link.id}
-                isLight={isLight}
-              />
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-shrink-0 items-center gap-3">
-          {/* Dark/Light Toggle – auskommentiert für später
-          <button
-            type="button"
-            onClick={() => setIsDark((prev) => !prev)}
-            className="relative flex h-9 w-[72px] flex-shrink-0 rounded-full bg-zinc-800 p-1 transition-colors hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
-            aria-label={isDark ? "Zu hellem Modus wechseln" : "Zu dunklem Modus wechseln"}
-            aria-pressed={!isDark}
-          >
-            <motion.span
-              className="absolute left-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-cyan-400 text-black"
-              animate={{ x: isDark ? 0 : 36 }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            >
-              {isDark ? (
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                </svg>
-              ) : (
-                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.59-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
-                </svg>
-              )}
-            </motion.span>
-          </button>
-          */}
           <Link
-            href="#contact"
-            className={`hidden items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex ${
-              isLight
-                ? "bg-zinc-900 text-white hover:bg-zinc-800"
-                : "bg-cyan-400 text-black hover:bg-cyan-300"
-            }`}
+            href={isHome ? "#hero" : "/"}
+            onClick={scrollToHero}
+            className="flex-shrink-0 rounded-full transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+          >
+            <Logo onDarkBackground={onDarkPill} />
+          </Link>
+
+          <motion.div
+            className="hidden min-w-0 overflow-hidden md:block"
+            initial={false}
+            animate={{
+              maxWidth: navExpanded ? 520 : 0,
+              opacity: navExpanded ? 1 : 0,
+            }}
+            transition={expandTransition}
+          >
+            <ul className="flex items-center gap-5 whitespace-nowrap px-1 lg:gap-7">
+              {navLinks.map((link, i) => (
+                <motion.li
+                  key={link.href}
+                  initial={false}
+                  animate={{
+                    opacity: navExpanded ? 1 : 0,
+                    x: navExpanded ? 0 : -6,
+                  }}
+                  transition={{
+                    opacity: {
+                      duration: 0.25,
+                      delay: navExpanded ? 0.12 + i * 0.05 : 0,
+                    },
+                    x: {
+                      duration: 0.35,
+                      delay: navExpanded ? 0.1 + i * 0.05 : 0,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    },
+                  }}
+                >
+                  <NavLink
+                    href={link.href}
+                    label={link.label}
+                    isActive={activeSection === link.id}
+                    onDarkPill={onDarkPill}
+                    isHome={isHome}
+                  />
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <Link
+            href={isHome ? "#contact" : "/#contact"}
+            onClick={scrollToContact}
+            className={`hidden shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-base font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex md:px-6 md:py-3 ${ctaClass}`}
           >
             Projekt starten
           </Link>
+
           <motion.button
             type="button"
-            className={`relative flex h-10 w-10 flex-col justify-center rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 md:hidden ${
-              isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
-            }`}
+            className={`relative flex h-11 min-w-[3.75rem] shrink-0 items-center justify-center rounded-full px-5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:hidden ${mobileMenuBtnClass}`}
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label="Menü öffnen oder schließen"
           >
-            <span className="absolute inset-0 flex flex-col justify-center items-center gap-1.5" aria-hidden>
+            <span className="flex w-5 flex-col items-center justify-center gap-[5px]" aria-hidden>
               <motion.span
-                className="h-0.5 w-6 shrink-0 origin-center bg-current"
-                animate={{
-                  rotate: open ? 45 : 0,
-                  y: open ? 6 : 0,
-                }}
+                className="h-[2px] w-full shrink-0 origin-center rounded-full bg-current"
+                animate={{ rotate: open ? 45 : 0, y: open ? 7 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
               <motion.span
-                className="h-0.5 w-6 shrink-0 origin-center bg-current"
-                animate={{ opacity: open ? 0 : 1 }}
+                className="h-[2px] w-full shrink-0 origin-center rounded-full bg-current"
+                animate={{ opacity: open ? 0 : 1, scaleX: open ? 0 : 1 }}
                 transition={{ duration: 0.12 }}
               />
               <motion.span
-                className="h-0.5 w-6 shrink-0 origin-center bg-current"
-                animate={{
-                  rotate: open ? -45 : 0,
-                  y: open ? -6 : 0,
-                }}
+                className="h-[2px] w-full shrink-0 origin-center rounded-full bg-current"
+                animate={{ rotate: open ? -45 : 0, y: open ? -7 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             </span>
           </motion.button>
-        </div>
-      </nav>
-      <AnimatePresence mode="wait">
-        {open && (
-          <motion.div
-            key="mobile-menu"
-            className={`header-mobile-menu overflow-y-auto overflow-x-hidden px-6 pb-6 pt-2 md:hidden ${isLight ? "bg-white" : "bg-[#0a0a0a]"}`}
-            style={isLandscape ? { maxHeight: "75vh" } : undefined}
-            initial={{ opacity: 0, maxHeight: 0 }}
-            animate={{
-              opacity: 1,
-              maxHeight: isLandscape ? "75vh" : 400,
-              transition: {
-                maxHeight: { duration: 0.36, ease: [0.25, 0.46, 0.45, 0.94] },
-                opacity: { duration: 0.2 },
-              },
-            }}
-            exit={{
-              opacity: 0,
-              maxHeight: 0,
-              transition: {
-                maxHeight: { duration: 0.28, ease: [0.32, 0.72, 0, 1] },
-                opacity: { duration: 0.16 },
-              },
-            }}
-          >
-            <ul className="flex flex-col gap-1">
-              {navLinks.map((link, i) => {
-                const isActive = activeSection === link.id;
-                return (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      transition: { delay: 0.03 + i * 0.025, duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] },
-                    }}
-                    exit={{ opacity: 0, x: -8, transition: { duration: 0.2 } }}
-                  >
-                    <Link
-                      href={link.href}
-                      className={`block rounded-lg py-3 text-base font-medium transition-colors ${
-                        isActive
-                          ? isLight ? "text-zinc-900" : "text-white"
-                          : isLight ? "text-zinc-500 hover:text-zinc-900" : "text-zinc-400 hover:text-white"
-                      }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setOpen(false);
-                        document.getElementById(link.id)?.scrollIntoView({ behavior: "smooth" });
+        </motion.nav>
+
+        <AnimatePresence mode="wait">
+          {open && (
+            <motion.div
+              key="mobile-menu"
+              layout
+              className={`header-mobile-menu w-full max-w-[calc(100vw-2rem)] overflow-y-auto overflow-x-hidden rounded-3xl border px-5 py-4 md:hidden ${
+                onDarkPill
+                  ? "border-zinc-800/60 bg-zinc-900/95 text-white"
+                  : "border-zinc-200/80 bg-zinc-50/95 text-zinc-900"
+              }`}
+              style={isLandscape ? { maxHeight: "75vh" } : undefined}
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] },
+              }}
+              exit={{
+                opacity: 0,
+                y: -6,
+                scale: 0.98,
+                transition: { duration: 0.16 },
+              }}
+            >
+              <ul className="flex flex-col gap-0.5">
+                {navLinks.map((link, i) => {
+                  const isActive = activeSection === link.id;
+                  return (
+                    <motion.li
+                      key={link.href}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        transition: { delay: 0.02 + i * 0.02, duration: 0.22 },
                       }}
+                      exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
                     >
-                      {link.label}
-                    </Link>
-                  </motion.li>
-                );
-              })}
-              <motion.li
-                initial={{ opacity: 0, x: -12 }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                  transition: { delay: 0.03 + navLinks.length * 0.025, duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] },
-                }}
-                exit={{ opacity: 0, x: -8, transition: { duration: 0.2 } }}
-                className="mt-3"
-              >
-                <Link
-                  href="#contact"
-                  className={`inline-flex rounded-full px-5 py-2.5 text-sm font-semibold ${
-                    isLight ? "bg-zinc-900 text-white" : "bg-cyan-400 text-black"
-                  }`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setOpen(false);
-                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                      <Link
+                        href={isHome ? link.href : `/${link.href}`}
+                        className={`block rounded-xl px-3 py-3 text-base font-medium transition-colors ${
+                          isActive
+                            ? onDarkPill
+                              ? "text-cyan-400"
+                              : "text-cyan-600"
+                            : onDarkPill
+                              ? "text-zinc-400 hover:text-white"
+                              : "text-zinc-600 hover:text-zinc-900"
+                        }`}
+                        onClick={(e) => {
+                          if (!isHome) {
+                            setOpen(false);
+                            return;
+                          }
+                          e.preventDefault();
+                          setOpen(false);
+                          document.getElementById(link.id)?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+                <motion.li
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.02 + navLinks.length * 0.02, duration: 0.22 },
                   }}
+                  exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
+                  className="mt-2 px-3 pb-1"
                 >
-                  Projekt starten
-                </Link>
-              </motion.li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <Link
+                    href={isHome ? "#contact" : "/#contact"}
+                    className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-base font-semibold ${ctaClass}`}
+                    onClick={scrollToContact}
+                  >
+                    Projekt starten
+                  </Link>
+                </motion.li>
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </header>
   );
 }
