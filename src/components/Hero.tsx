@@ -1,13 +1,10 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import { useRef, useEffect, useLayoutEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  subscribeLoadingComplete,
-  shouldSkipLoadingScreen,
-} from "@/lib/loading-screen";
+import { subscribeLoadingComplete } from "@/lib/loading-screen";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -229,7 +226,7 @@ function Typewriter({ active }: { active: boolean }) {
   }, [text, isDeleting, wordIndex, active]);
 
   return (
-    <div className="hero-typewriter-slot mt-4" aria-live="polite">
+    <div className="hero-typewriter-slot split-line mt-4" aria-live="polite">
       <span
         className="hero-typewriter-sizer text-2xl font-medium sm:text-3xl md:text-4xl"
         aria-hidden
@@ -238,9 +235,7 @@ function Typewriter({ active }: { active: boolean }) {
         <span className="inline-block w-[3px] ml-0.5" style={{ height: "1em" }} />
       </span>
       <h2
-        className={`hero-typewriter-live text-2xl font-medium text-cyan-400 transition-opacity duration-300 sm:text-3xl md:text-4xl ${
-          active ? "opacity-100" : "opacity-0"
-        }`}
+        className="hero-typewriter-live hero-line-inner text-2xl font-medium text-cyan-400 sm:text-3xl md:text-4xl"
       >
         {active ? (
           <>
@@ -251,7 +246,9 @@ function Typewriter({ active }: { active: boolean }) {
               aria-hidden
             />
           </>
-        ) : null}
+        ) : (
+          <span className="inline-block w-[3px] animate-pulse bg-cyan-400 ml-0.5" style={{ height: "1em" }} aria-hidden />
+        )}
       </h2>
     </div>
   );
@@ -288,21 +285,59 @@ export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const bgImageRef = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
   const [typewriterOn, setTypewriterOn] = useState(false);
   const [showScroll, setShowScroll] = useState(false);
-  const skippedLoadingRef = useRef(
-    typeof window !== "undefined" && shouldSkipLoadingScreen()
-  );
+  const introTlRef = useRef<gsap.core.Timeline | null>(null);
+  const bgTweenRef = useRef<gsap.core.Tween | null>(null);
 
-  useLayoutEffect(() => {
-    if (skippedLoadingRef.current) {
-      setReady(true);
-      return;
+  // 1) On mount: create tweens PAUSED — fromTo immediately hides text (no flash)
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const lines = contentRef.current.querySelectorAll<HTMLElement>(
+      ".hero-line-inner"
+    );
+
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo(
+      lines,
+      { yPercent: 115 },
+      {
+        yPercent: 0,
+        duration: 1.15,
+        ease: "power4.out",
+        stagger: 0.14,
+        onComplete: () => {
+          setTypewriterOn(true);
+          setShowScroll(true);
+        },
+      }
+    );
+    introTlRef.current = tl;
+
+    if (bgImageRef.current) {
+      bgTweenRef.current = gsap.fromTo(
+        bgImageRef.current,
+        { scale: 1.2 },
+        { scale: 1, duration: 2, ease: "power2.out", paused: true }
+      );
     }
 
-    const unsubscribe = subscribeLoadingComplete(() => setReady(true));
-    const fallback = window.setTimeout(() => setReady(true), 8000);
+    return () => {
+      tl.kill();
+      bgTweenRef.current?.kill();
+    };
+  }, []);
+
+  // 2) Play when loading screen done (or immediately if skipped)
+  useEffect(() => {
+    const play = () => {
+      introTlRef.current?.play();
+      bgTweenRef.current?.play();
+    };
+
+    const unsubscribe = subscribeLoadingComplete(play);
+    const fallback = window.setTimeout(play, 8000);
 
     return () => {
       unsubscribe();
@@ -310,46 +345,9 @@ export default function Hero() {
     };
   }, []);
 
+  // 3) Scroll parallax
   useEffect(() => {
-    if (!ready || !contentRef.current) return;
-
-    const introDelay = skippedLoadingRef.current ? 0.02 : 0.2;
-    const lines = contentRef.current.querySelectorAll<HTMLElement>(
-      ".hero-line-inner"
-    );
-
-    if (bgImageRef.current) {
-      gsap.fromTo(
-        bgImageRef.current,
-        { scale: 1.2 },
-        {
-          scale: 1,
-          duration: skippedLoadingRef.current ? 1.4 : 2,
-          ease: "power2.out",
-          delay: introDelay,
-        }
-      );
-    }
-
-    contentRef.current?.removeAttribute("data-intro");
-
-    gsap.fromTo(
-      lines,
-      { yPercent: 115, autoAlpha: 0 },
-      {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: 1.15,
-        ease: "power4.out",
-        stagger: 0.14,
-        delay: introDelay,
-        immediateRender: true,
-        onComplete: () => {
-          setTypewriterOn(true);
-          setShowScroll(true);
-        },
-      }
-    );
+    if (!heroRef.current) return;
 
     const parallaxCtx = gsap.context(() => {
       const headline = heroRef.current?.querySelector(".hero-headline");
@@ -381,7 +379,7 @@ export default function Hero() {
     }, heroRef);
 
     return () => parallaxCtx.revert();
-  }, [ready]);
+  }, []);
 
   return (
     <section
@@ -401,7 +399,6 @@ export default function Hero() {
 
       <div
         ref={contentRef}
-        data-intro="pending"
         className="hero-content relative z-10 mx-auto -mt-24 max-w-4xl text-center"
       >
         <p className="hero-badge split-line mb-4 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">

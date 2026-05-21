@@ -140,12 +140,6 @@ body {
   display: inline-block;
 }
 
-/* Hidden until GSAP intro (no transform here – avoids flash / revert bugs) */
-.hero-content[data-intro="pending"] .hero-line-inner {
-  opacity: 0;
-  visibility: hidden;
-}
-
 .hero-typewriter-slot {
   position: relative;
   display: flex;
