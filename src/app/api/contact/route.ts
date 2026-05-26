@@ -14,6 +14,18 @@ function getMissingEnv(): string[] {
   return missing;
 }
 
+/** Resend tags: only ASCII letters, numbers, underscore, dash (max 256). */
+function toResendTagValue(value: string): string | undefined {
+  const sanitized = value
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/[^a-zA-Z0-9_-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 256);
+  return sanitized || undefined;
+}
+
 export async function POST(request: Request) {
   const missing = getMissingEnv();
   if (missing.length > 0) {
@@ -65,6 +77,7 @@ export async function POST(request: Request) {
 
   const idempotencyKey = `contact/${Date.now()}-${crypto.randomUUID()}`;
   const resend = new Resend(process.env.RESEND_API_KEY);
+  const sourceTag = toResendTagValue(source);
 
   const { data, error } = await resend.emails.send(
     {
@@ -81,7 +94,7 @@ export async function POST(request: Request) {
       <p><strong>Nachricht:</strong></p>
       <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
     `.trim(),
-      tags: [{ name: "source", value: source.slice(0, 256) }],
+      ...(sourceTag ? { tags: [{ name: "source", value: sourceTag }] } : {}),
     },
     { idempotencyKey }
   );
