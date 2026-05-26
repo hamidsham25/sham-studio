@@ -40,15 +40,22 @@ function recordSubmission(): void {
 type FieldErrors = Pick<ContactFieldErrors, "name" | "email" | "subject" | "message">;
 
 type ContactFormProps = {
-  /** Herkunft der Anfrage – wird per E-Mail mitgesendet (z.B. "Kontaktformular", "Digitaler Grundstein") */
+  /** Herkunft der Anfrage – wird per E-Mail mitgesendet (z.B. "Kontaktformular", "Starter-Paket: Digitaler Grundstein") */
   source: string;
   /** Optional: Callback nach erfolgreichem Absenden (z.B. Modal schließen) */
   onSuccess?: () => void;
   /** Kompaktere Variante für Modal */
   compact?: boolean;
+  /** Vorausgefüllter Betreff (z. B. im Service-Popup) */
+  defaultSubject?: string;
 };
 
-export default function ContactForm({ source, onSuccess, compact = false }: ContactFormProps) {
+export default function ContactForm({
+  source,
+  onSuccess,
+  compact = false,
+  defaultSubject,
+}: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -236,6 +243,7 @@ export default function ContactForm({ source, onSuccess, compact = false }: Cont
           name="subject"
           required
           autoComplete="off"
+          defaultValue={defaultSubject}
           className={inputBase + (fieldErrors.subject ? inputError : inputOk)}
           placeholder="Worum geht es?"
           aria-required

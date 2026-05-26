@@ -320,7 +320,7 @@ export default function Services() {
                 <div className="mt-8 flex justify-center">
                   <button
                     type="button"
-                    onClick={() => openModal(pkg.title)}
+                    onClick={() => openModal(`Starter-Paket: ${pkg.title}`)}
                     className="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
                   >
                     {pkg.cta}

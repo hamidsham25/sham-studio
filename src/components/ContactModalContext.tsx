@@ -107,7 +107,13 @@ export function ContactModalProvider({ children }: { children: React.ReactNode }
                   </svg>
                 </button>
               </div>
-              <ContactForm source={source} onSuccess={handleSuccess} compact />
+              <ContactForm
+                key={source}
+                source={source}
+                defaultSubject={source || undefined}
+                onSuccess={handleSuccess}
+                compact
+              />
             </motion.div>
           </div>
         )}
