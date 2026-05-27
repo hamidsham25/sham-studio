@@ -10,6 +10,15 @@ type FaqSectionProps = {
   variant?: "dark" | "light";
 };
 
+const PANEL_TRANSITION =
+  "transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none";
+
+const ANSWER_TRANSITION =
+  "transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none";
+
+const CHEVRON_TRANSITION =
+  "transition-[transform,color,background-color,border-color] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none";
+
 function FaqAccordionItem({
   item,
   variant,
@@ -29,7 +38,7 @@ function FaqAccordionItem({
       }`}
     >
       <summary
-        className={`flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-[0.9375rem] font-medium leading-snug transition-colors [&::-webkit-details-marker]:hidden ${
+        className={`flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-[0.9375rem] font-medium leading-snug transition-colors duration-200 [&::-webkit-details-marker]:hidden ${
           isDark
             ? "text-zinc-200 hover:text-white"
             : "text-zinc-800 hover:text-zinc-900"
@@ -37,10 +46,10 @@ function FaqAccordionItem({
       >
         <span className="min-w-0 flex-1">{item.question}</span>
         <span
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-transform duration-200 group-open:rotate-90 ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${CHEVRON_TRANSITION} group-open:rotate-90 ${
             isDark
-              ? "border-zinc-700 bg-zinc-900 text-zinc-400 group-open:text-cyan-400"
-              : "border-zinc-200 bg-white text-zinc-500 group-open:text-cyan-700"
+              ? "border-zinc-700 bg-zinc-900 text-zinc-400 group-open:border-cyan-500/30 group-open:text-cyan-400"
+              : "border-zinc-200 bg-white text-zinc-500 group-open:border-cyan-200 group-open:text-cyan-700"
           }`}
           aria-hidden
         >
@@ -59,13 +68,20 @@ function FaqAccordionItem({
           </svg>
         </span>
       </summary>
-      <p
-        className={`pb-4 pr-11 text-sm leading-relaxed ${
-          isDark ? "text-zinc-400" : "text-zinc-600"
-        }`}
+
+      <div
+        className={`grid grid-rows-[0fr] ${PANEL_TRANSITION} group-open:grid-rows-[1fr]`}
       >
-        {item.answer}
-      </p>
+        <div className="min-h-0 overflow-hidden">
+          <p
+            className={`pb-4 pr-11 text-sm leading-relaxed ${ANSWER_TRANSITION} translate-y-1 opacity-0 group-open:translate-y-0 group-open:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 ${
+              isDark ? "text-zinc-400" : "text-zinc-600"
+            }`}
+          >
+            {item.answer}
+          </p>
+        </div>
+      </div>
     </details>
   );
 }
