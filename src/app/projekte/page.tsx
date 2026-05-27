@@ -7,6 +7,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FaqSection from "@/components/FaqSection";
+import { PROJEKTE_FAQ } from "@/lib/faq-content";
 import { ContactModalProvider } from "@/components/ContactModalContext";
 import { markLoadingScreenSeen } from "@/lib/loading-screen";
 import {
@@ -184,9 +186,10 @@ export default function ProjektePage() {
 
           <section id="projekte-list" className="relative z-0 bg-white">
             <div className="mx-auto max-w-6xl px-6 py-20 md:px-8 md:py-28">
-              <p className="mb-14 max-w-xl text-lg text-zinc-500">
-                Jedes Projekt ist einzigartig. Hier ein vollständiger Überblick über
-                unsere Arbeit.
+              <p className="mb-14 max-w-xl text-lg text-zinc-600">
+                Sham Studio hat Websites für Elektrotechnik, Physiotherapie,
+                Reinigung, Tattoo, Autohandel und weitere Branchen umgesetzt – hier
+                finden Sie alle Referenzen mit Live-Links.
               </p>
 
               <div className="space-y-20 md:space-y-28">
@@ -227,6 +230,7 @@ export default function ProjektePage() {
             </div>
           </section>
         </main>
+        <FaqSection items={PROJEKTE_FAQ} variant="light" />
         <Footer />
       </div>
     </ContactModalProvider>

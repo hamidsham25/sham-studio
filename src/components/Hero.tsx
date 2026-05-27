@@ -365,8 +365,9 @@ export default function Hero() {
         <Typewriter active={typewriterOn} />
 
         <p className="hero-lead mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl">
-          Websites, die wirken. Von der Idee bis zum Launch – klar, schnell
-          und auf den Punkt.
+          Sham Studio entwickelt individuelle Websites für Unternehmen in Hannover
+          und Umgebung – von der Idee bis zum Launch, schnell, modern und
+          conversion-orientiert.
         </p>
       </div>
 

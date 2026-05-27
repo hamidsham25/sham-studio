@@ -1,12 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-
-const SITE_URL = "https://sham-studio.de";
+import FaqSection from "@/components/FaqSection";
+import StructuredData from "@/components/StructuredData";
+import { AGB_FAQ } from "@/lib/faq-content";
+import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "AGB",
+  title: "AGB für Webdesign & Entwicklung bei Sham Studio",
   description:
-    "Allgemeine Geschäftsbedingungen, Sham Studio, Webdesign & Entwicklung in Hannover.",
+    "Die AGB von Sham Studio regeln Webdesign-, UI/UX- und Entwicklungsprojekte: Vertragsschluss, Leistungen, Zahlung und Nutzungsrechte – transparent erklärt.",
   openGraph: {
     url: `${SITE_URL}/agb`,
     title: "AGB | Sham Studio",
@@ -18,6 +21,15 @@ export const metadata: Metadata = {
 export default function AgbPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <StructuredData
+        data={[
+          breadcrumbJsonLd([
+            { name: "Startseite", url: SITE_URL },
+            { name: "AGB", url: `${SITE_URL}/agb` },
+          ]),
+          faqPageJsonLd(AGB_FAQ),
+        ]}
+      />
       <header className="border-b border-zinc-800">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-6 md:px-8">
           <Link
@@ -270,6 +282,7 @@ export default function AgbPage() {
           </section>
         </div>
       </main>
+      <FaqSection items={AGB_FAQ} />
     </div>
   );
 }

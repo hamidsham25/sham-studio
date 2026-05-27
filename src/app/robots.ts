@@ -1,14 +1,34 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
 
-const SITE_URL = "https://sham-studio.de";
+/** KI-Crawler explizit erlauben (zusätzlich zur Standard-Regel für *). */
+const AI_CRAWLERS = [
+  "GPTBot",
+  "ChatGPT-User",
+  "OAI-SearchBot",
+  "ClaudeBot",
+  "anthropic-ai",
+  "Anthropic-AI",
+  "PerplexityBot",
+  "Google-Extended",
+] as const;
 
 export default function robots(): MetadataRoute.Robots {
+  const aiRules = AI_CRAWLERS.map((userAgent) => ({
+    userAgent,
+    allow: "/" as const,
+    disallow: [] as string[],
+  }));
+
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: [],
-    },
+    rules: [
+      ...aiRules,
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [],
+      },
+    ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
   };

@@ -14,7 +14,7 @@ const stats = [
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
   const accentRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -38,9 +38,11 @@ export default function About() {
         { scaleX: 1, duration: 0.6, ease: "power3.inOut" }
       )
         .fromTo(
-          headingRef.current,
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          headingRef.current?.children
+            ? Array.from(headingRef.current.children)
+            : [],
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.1 },
           "-=0.3"
         )
         .fromTo(
@@ -79,31 +81,41 @@ export default function About() {
           aria-hidden
         />
 
-        <h2
-          ref={headingRef}
-          id="about-heading"
-          className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
-        >
-          Wer steckt
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
-            dahinter?
-          </span>
-        </h2>
+        <div ref={headingRef}>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-500">
+            Über uns
+          </p>
+          <h2
+            id="about-heading"
+            className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+          >
+            Sham Studio
+          </h2>
+          <p className="mt-5 text-xl text-zinc-300 md:text-2xl md:leading-snug">
+            Wir gestalten und entwickeln Websites, die zu Ihrem Unternehmen
+            passen. Klar, modern und ohne Baukastenlösungen.
+          </p>
+        </div>
 
-        <div ref={textRef} className="mt-8 space-y-5 text-zinc-400 leading-relaxed md:text-lg lg:mt-10">
-          <p className="text-xl font-medium text-zinc-200 md:text-2xl">
-                Hamid Sham, Kreativkopf, Entwickler &amp; Ihr Ansprechpartner für alles Digitale.
+        <div
+          ref={textRef}
+          className="mt-8 space-y-5 text-zinc-400 leading-relaxed md:text-lg lg:mt-10"
+        >
+          <p>
+            Sham Studio ist aus Langenhagen bei Hannover für Unternehmen in der
+            Region und deutschlandweit im Einsatz. Wir begleiten Sie vom Konzept
+            über Design und Entwicklung bis zum Launch, durchgängig und aus
+            einer Hand.
           </p>
           <p>
-            Ich verbinde strategisches Denken mit kreativem Handwerk. Jedes Projekt beginnt mit einer
-            Frage: <span className="text-zinc-200 font-medium">Was braucht Ihr Business wirklich, um online zu wachsen?</span>{" "}
-            Die Antwort wird dann zu einer Website, einer Marke oder einer ganzen digitalen Strategie.
+            Im Mittelpunkt steht die Frage, was Ihre Website leisten soll:
+            Kunden gewinnen, Vertrauen schaffen oder Ihren Alltag entlasten.
+            Darauf bauen wir Design, Inhalte und Technik auf.
           </p>
           <p>
-                Keine Templates, keine Kompromisse. Ich arbeite eng mit Ihnen zusammen, von der ersten Idee
-            bis zum finalen Launch und darüber hinaus. Transparent, persönlich und immer mit dem Ziel,
-            messbare Ergebnisse zu liefern.
+            Sham Studio setzt auf übersichtliche Seiten, schnelle Ladezeiten und
+            eine Kommunikation auf Augenhöhe. Transparent, verständlich und mit
+            Blick auf messbare Ergebnisse.
           </p>
         </div>
 

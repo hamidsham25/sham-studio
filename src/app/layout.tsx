@@ -33,16 +33,18 @@ const cinzel = Cinzel({
   display: "swap",
 });
 
-const SITE_URL = "https://sham-studio.de";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import { localBusinessJsonLd, webSiteJsonLd } from "@/lib/schema";
+import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sham Studio | Webdesign & Entwicklung in Hannover",
+    default: "Individuelle Websites in Hannover | Sham Studio",
     template: "%s | Sham Studio",
   },
   description:
-    "Sham Studio, Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen. Von Konzept bis Launch aus einer Hand.",
+    "Sham Studio erstellt maßgeschneiderte Websites in Hannover – Webdesign, Entwicklung, SEO und AEO aus einer Hand. Jetzt unverbindlich anfragen.",
   keywords: [
     "Webdesign Hannover",
     "Webentwicklung Hannover",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     "Webdesign Agentur",
     "individuelle Website",
   ],
-  authors: [{ name: "Sham Studio", url: SITE_URL }],
+  authors: [{ name: "Hamid Sham", url: SITE_URL }],
   creator: "Sham Studio",
   publisher: "Sham Studio",
   formatDetection: {
@@ -65,16 +67,14 @@ export const metadata: Metadata = {
     locale: "de_DE",
     url: SITE_URL,
     siteName: "Sham Studio",
-    title: "Sham Studio | Webdesign & Entwicklung in Hannover",
-    description:
-      "Professionelles Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen. Von Konzept bis Launch.",
+    title: "Individuelle Websites in Hannover | Sham Studio",
+    description: SITE_DESCRIPTION,
     // Bild wird von app/opengraph-image.tsx generiert
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sham Studio | Webdesign & Entwicklung in Hannover",
-    description:
-      "Professionelles Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites aus einer Hand.",
+    title: "Individuelle Websites in Hannover | Sham Studio",
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -94,32 +94,6 @@ export const viewport = {
   width: "device-width",
 };
 
-const localBusinessJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "Sham Studio",
-  description:
-    "Webdesign, UI/UX Design und Webentwicklung in Hannover. Individuelle Websites und digitale Produkte.",
-  url: SITE_URL,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Hannover",
-    addressRegion: "Niedersachsen",
-    addressCountry: "DE",
-  },
-  areaServed: {
-    "@type": "GeoCircle",
-    geoMidpoint: {
-      "@type": "GeoCoordinates",
-      latitude: 52.3759,
-      longitude: 9.732,
-    },
-    geoRadius: "50000",
-  },
-  serviceType: ["Webdesign", "UI/UX Design", "Webentwicklung"],
-  priceRange: "€€",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -129,13 +103,18 @@ export default function RootLayout({
     <html lang="de">
       <head>
         <link rel="preload" href="/images/hero-image.webp" as="image" />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="LLMs.txt"
+        />
       </head>
       <body
         className={`${syne.variable} ${plusJakartaSans.variable} ${fraunces.variable} ${cinzel.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        <StructuredData
+          data={[localBusinessJsonLd(), webSiteJsonLd()]}
         />
         {children}
         <Analytics />

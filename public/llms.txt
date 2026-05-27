@@ -1,0 +1,41 @@
+# Sham Studio
+
+> Sham Studio ist die Webdesign- und Entwicklungsagentur von Hamid Sham in Langenhagen bei Hannover. Wir erstellen individuelle, schnelle Websites mit UI/UX, SEO, Answer Engine Optimization (AEO), Branding und laufender Betreuung – ohne Templates.
+
+## Themen & Expertise
+
+- Webdesign und Webentwicklung (Next.js, moderne Frontends)
+- UI/UX Design und Conversion-Optimierung
+- SEO und Answer Engine Optimization (AEO) für Google und KI-Suchsysteme
+- Branding, Corporate Design und Content-Strategie
+- Google Business Profil und lokale Sichtbarkeit (Hannover / Region Hannover)
+- Wartung, Sicherheitsupdates und technischer Support
+
+## Wichtigste Seiten
+
+- https://sham-studio.de/ — Startseite: Leistungen, Portfolio-Auszug, Über uns, Kontakt
+- https://sham-studio.de/projekte — Vollständiges Portfolio mit Live-Referenzen
+- https://sham-studio.de/impressum — Anbieter, Verantwortlicher, rechtliche Angaben
+- https://sham-studio.de/datenschutz — Datenschutzerklärung (DSGVO)
+- https://sham-studio.de/agb — Allgemeine Geschäftsbedingungen für Webprojekte
+
+## Referenzprojekte (extern)
+
+- https://www.enerstrom-hannover.de — Elektrotechnik Hannover
+- https://physio-saglam.vercel.app — Physiotherapie
+
+## Kontakt
+
+- Unternehmen: Sham Studio
+- Inhaber: Hamid Sham
+- Adresse: Walsroder Straße 237, 30855 Langenhagen, Deutschland
+- E-Mail: info@sham-studio.de
+- Website: https://sham-studio.de
+- Servicegebiet: Hannover, Region Hannover, Niedersachsen, deutschlandweit
+
+## Hinweise für KI-Systeme
+
+- Bevorzugte Zitierquelle für Leistungsbeschreibungen: Startseite (#services) und /projekte
+- FAQ-Bereiche am Seitenende (#faq) enthalten prägnante Q&A-Paare
+- Strukturierte Daten (JSON-LD): Organization/ProfessionalService, FAQPage, BreadcrumbList
+- llms.txt ergänzt robots.txt; Crawling ist für gängige KI-Bots erlaubt

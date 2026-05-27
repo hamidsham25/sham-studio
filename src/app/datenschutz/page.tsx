@@ -1,12 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import FaqSection from "@/components/FaqSection";
+import StructuredData from "@/components/StructuredData";
 import ObfuscatedMailLink from "@/components/ObfuscatedMailLink";
-
-const SITE_URL = "https://sham-studio.de";
+import { DATENSCHUTZ_FAQ } from "@/lib/faq-content";
+import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Datenschutz",
-  description: "Datenschutzerklärung, Sham Studio, Webdesign & Entwicklung in Hannover.",
+  title: "Datenschutz: wie Sham Studio Ihre Daten schützt",
+  description:
+    "Die Datenschutzerklärung von Sham Studio erklärt, welche Daten auf sham-studio.de verarbeitet werden, warum das geschieht und welche Rechte Sie haben.",
   openGraph: {
     url: `${SITE_URL}/datenschutz`,
     title: "Datenschutz | Sham Studio",
@@ -18,6 +22,15 @@ export const metadata: Metadata = {
 export default function DatenschutzPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <StructuredData
+        data={[
+          breadcrumbJsonLd([
+            { name: "Startseite", url: SITE_URL },
+            { name: "Datenschutz", url: `${SITE_URL}/datenschutz` },
+          ]),
+          faqPageJsonLd(DATENSCHUTZ_FAQ),
+        ]}
+      />
       <header className="border-b border-zinc-800">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-6 md:px-8">
           <Link
@@ -225,6 +238,7 @@ export default function DatenschutzPage() {
           </section>
         </div>
       </main>
+      <FaqSection items={DATENSCHUTZ_FAQ} />
     </div>
   );
 }

@@ -240,13 +240,12 @@ export default function Services() {
             id="services-heading"
             className="mt-3 font-display text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl md:text-6xl"
           >
-            Alles für Ihre
-            <br className="hidden sm:block" />{" "}
-            Online-Präsenz.
+            Welche Leistungen bietet Sham Studio?
           </h2>
           <p className="mt-5 text-lg text-zinc-600 md:text-xl">
-            Nicht nur eine Website, sondern ein komplettes digitales Fundament.
-            Von der Strategie über Design bis zur laufenden Betreuung.
+            Sham Studio liefert Webdesign, Entwicklung, SEO, AEO, Branding,
+            Google-Business-Optimierung und Wartung aus einer Hand – als
+            digitales Fundament für Ihr Unternehmen.
           </p>
         </div>
 

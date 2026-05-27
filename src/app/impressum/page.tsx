@@ -1,12 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import FaqSection from "@/components/FaqSection";
+import StructuredData from "@/components/StructuredData";
 import ObfuscatedMailLink from "@/components/ObfuscatedMailLink";
-
-const SITE_URL = "https://sham-studio.de";
+import { IMPRESSUM_FAQ } from "@/lib/faq-content";
+import { breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Impressum",
-  description: "Impressum und rechtliche Angaben, Sham Studio, Webdesign & Entwicklung in Hannover.",
+  title: "Impressum: Anbieter & Kontakt Sham Studio",
+  description:
+    "Wer hinter sham-studio.de steht: Hamid Sham, Sham Studio in Langenhagen – Adresse, Verantwortlicher und Kontakt per E-Mail.",
   openGraph: {
     url: `${SITE_URL}/impressum`,
     title: "Impressum | Sham Studio",
@@ -18,6 +22,15 @@ export const metadata: Metadata = {
 export default function ImpressumPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <StructuredData
+        data={[
+          breadcrumbJsonLd([
+            { name: "Startseite", url: SITE_URL },
+            { name: "Impressum", url: `${SITE_URL}/impressum` },
+          ]),
+          faqPageJsonLd(IMPRESSUM_FAQ),
+        ]}
+      />
       <header className="border-b border-zinc-800">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-6 md:px-8">
           <Link
@@ -52,8 +65,9 @@ export default function ImpressumPage() {
         <h1 className="font-display text-3xl font-bold text-white sm:text-4xl">
           Impressum
         </h1>
-        <p className="mt-4 text-zinc-500 text-sm">
-          Angaben gemäß § 5 TMG (Telemediengesetz).
+        <p className="mt-4 text-zinc-400 text-base leading-relaxed">
+          Verantwortlich für sham-studio.de ist Hamid Sham (Sham Studio) in
+          Langenhagen – hier finden Sie alle Pflichtangaben gemäß § 5 TMG.
         </p>
 
         <div className="mt-10 space-y-10 text-zinc-400 leading-relaxed">
@@ -188,6 +202,7 @@ export default function ImpressumPage() {
           </section>
         </div>
       </main>
+      <FaqSection items={IMPRESSUM_FAQ} />
     </div>
   );
 }
