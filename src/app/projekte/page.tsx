@@ -79,9 +79,16 @@ function ProjectRow({
           </div>
 
           <div className="flex flex-col justify-center lg:w-2/5">
-            <span className="text-xs font-medium uppercase tracking-widest text-zinc-400">
-              {project.category}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium uppercase tracking-widest text-zinc-400">
+                {project.category}
+              </span>
+              {project.isMockup ? (
+                <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-500">
+                  Mockup
+                </span>
+              ) : null}
+            </div>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-zinc-900 transition-colors group-hover:text-cyan-700 sm:text-4xl">
               {project.title}
             </h2>

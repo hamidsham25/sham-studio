@@ -35,7 +35,7 @@ export function breadcrumbJsonLd(
 export function localBusinessJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": ["LocalBusiness", "ProfessionalService"],
     "@id": `${SITE_URL}/#organization`,
     name: SITE_NAME,
     description:

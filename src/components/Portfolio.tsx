@@ -15,6 +15,8 @@ type PortfolioProject = {
   cover: string;
   href: string;
   layout?: "cover";
+  /** Subtle label: concept / mockup project */
+  isMockup?: boolean;
   logo?: string;
   /** Optional: wordmark already exported in white (transparent PNG) */
   logoWhite?: string;
@@ -100,6 +102,7 @@ const PROJECTS: PortfolioProject[] = [
     industryTag: { label: "Tattoo Studio", corner: "top-right" },
     layout: "cover",
     href: "https://tattoo-website-woad.vercel.app",
+    isMockup: true,
   },
 ];
 
@@ -225,6 +228,16 @@ function CoverProjectCard({
           >
             <GlobeIcon className="h-3 w-3 shrink-0 opacity-90 sm:h-3.5 sm:w-3.5" />
             {project.industryTag.label}
+          </span>
+        ) : null}
+
+        {project.isMockup ? (
+          <span
+            className={`pointer-events-none absolute top-10 z-[25] rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-white/80 backdrop-blur-sm sm:top-11 sm:text-[0.66rem] ${cornerPosition(
+              project.industryTag?.corner ?? "top-left"
+            )}`}
+          >
+            Mockup
           </span>
         ) : null}
 

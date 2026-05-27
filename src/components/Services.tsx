@@ -226,7 +226,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative z-10 bg-white pt-0 pb-20 rounded-b-[2rem] sm:rounded-b-[3rem] md:pb-28"
+      className="relative z-10 bg-white pt-0 pb-10 md:pb-14"
       aria-labelledby="services-heading"
     >
       <div className="h-px w-full shrink-0 bg-zinc-200" aria-hidden />

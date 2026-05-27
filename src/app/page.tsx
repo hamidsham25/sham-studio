@@ -13,6 +13,7 @@ import { SITE_URL } from "@/lib/site";
 
 const Portfolio = dynamic(() => import("@/components/Portfolio"), { ssr: true });
 const Services = dynamic(() => import("@/components/Services"), { ssr: true });
+const PricingSection = dynamic(() => import("@/components/PricingSection"), { ssr: true });
 const About = dynamic(() => import("@/components/About"), { ssr: true });
 const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
@@ -29,6 +30,7 @@ export default function Home() {
         <Hero />
         <Portfolio />
         <Services />
+        <PricingSection />
         <About />
         <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
         <Contact />

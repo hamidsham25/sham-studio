@@ -22,6 +22,21 @@ export const HOME_FAQ: FaqItem[] = [
       "Ja. Neben technischem SEO und Content-Optimierung gehört Answer Engine Optimization (AEO) dazu. So bleiben Ihre Inhalte auch in KI-Antworten, zum Beispiel bei ChatGPT, Perplexity oder Google AI Overviews, auffindbar und zitierfähig.",
   },
   {
+    question: "Was kostet eine Website bei Sham Studio?",
+    answer:
+      "Die Kosten hängen vom Umfang ab. Eine kompakte Unternehmenswebsite startet oft im unteren vierstelligen Bereich. Für genaue Preise erstellt Sham Studio nach einem kurzen Gespräch ein transparentes Angebot mit allen Leistungen.",
+  },
+  {
+    question: "Wie läuft ein Projekt bei Sham Studio ab?",
+    answer:
+      "Zuerst klären wir Ziele, Zielgruppe und Inhalte. Danach folgen Struktur und Design, anschließend Entwicklung, Tests und der Launch. Sie bekommen regelmäßig Zwischenstände und können Feedback geben, bevor es live geht.",
+  },
+  {
+    question: "Wie lange dauert es bis zum Launch?",
+    answer:
+      "Eine Landingpage kann oft schon in wenigen Tagen live gehen. Eine kompakte Unternehmenswebsite dauert in der Regel 1 bis 3 Wochen. Bei vielen Unterseiten, individuellen Funktionen oder unklaren Inhalten kann es länger dauern. Den Zeitplan legt Sham Studio vor dem Start gemeinsam mit Ihnen fest.",
+  },
+  {
     question: "Wie starte ich ein Projekt mit Sham Studio?",
     answer:
       "Schreiben Sie eine E-Mail an info@sham-studio.de oder nutzen Sie das Kontaktformular auf der Website. Im Erstgespräch klären wir Ziele, Umfang, Zeitplan und Budget. Unverbindlich.",
@@ -47,7 +62,7 @@ export const PROJEKTE_FAQ: FaqItem[] = [
   {
     question: "Wie lange dauert ein typisches Webprojekt?",
     answer:
-      "Eine kompakte Unternehmenswebsite dauert je nach Umfang oft 4 bis 8 Wochen vom Kickoff bis zum Launch. Größere Projekte mit vielen Unterseiten oder Sonderfunktionen planen wir individuell.",
+      "Eine Landingpage geht oft schon in wenigen Tagen live. Eine kompakte Unternehmenswebsite dauert je nach Umfang meist 1 bis 3 Wochen vom Kickoff bis zum Launch. Größere Projekte mit vielen Unterseiten oder Sonderfunktionen planen wir individuell.",
   },
 ];
 

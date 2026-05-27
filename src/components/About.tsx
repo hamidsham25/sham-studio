@@ -66,7 +66,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-10 overflow-hidden py-24 md:py-32 lg:py-40"
+      className="relative z-10 overflow-hidden rounded-t-[2rem] bg-[#0a0a0a] py-24 sm:rounded-t-[3rem] md:py-32 lg:py-40"
       aria-labelledby="about-heading"
     >
       <div className="absolute inset-0 pointer-events-none" aria-hidden>

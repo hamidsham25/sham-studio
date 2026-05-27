@@ -9,6 +9,8 @@ export type ProjectListItem = {
   preview: string;
   href: string;
   tags: string[];
+  /** Mark as concept / mockup project (subtle label in UI). */
+  isMockup?: boolean;
 };
 
 export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
@@ -51,6 +53,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     preview: "/images/portfolio/tattoo-hover.png",
     href: "https://tattoo-website-woad.vercel.app",
     tags: ["Tattoo Studio", "Galerie", "Terminbuchung"],
+    isMockup: true,
   },
   {
     id: "sham-automobile",
@@ -81,6 +84,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     preview: "/images/portfolio/handwerker-hover.png",
     href: "https://handwerker-website.vercel.app",
     tags: ["Handwerk", "Leistungen", "Projekte"],
+    isMockup: true,
   },
 ];
 
