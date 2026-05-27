@@ -6,11 +6,11 @@ const SITE_URL = "https://sham-studio.de";
 export const metadata: Metadata = {
   title: "AGB",
   description:
-    "Allgemeine Geschäftsbedingungen – Sham Studio, Webdesign & Entwicklung in Hannover.",
+    "Allgemeine Geschäftsbedingungen, Sham Studio, Webdesign & Entwicklung in Hannover.",
   openGraph: {
     url: `${SITE_URL}/agb`,
     title: "AGB | Sham Studio",
-    description: "Allgemeine Geschäftsbedingungen – Sham Studio Webdesign",
+    description: "Allgemeine Geschäftsbedingungen, Sham Studio Webdesign",
   },
   alternates: { canonical: `${SITE_URL}/agb` },
 };
@@ -53,7 +53,7 @@ export default function AgbPage() {
           Allgemeine Geschäftsbedingungen (AGB)
         </h1>
         <p className="mt-4 text-zinc-500 text-sm">
-          Gültig für Webdesign, UI/UX, Branding und Webentwicklung – Sham Studio.
+          Gültig für Webdesign, UI/UX, Branding und Webentwicklung von Sham Studio.
         </p>
 
         <div className="mt-10 space-y-10 text-zinc-400 leading-relaxed">
@@ -63,8 +63,8 @@ export default function AgbPage() {
             </h2>
             <p className="mt-2">
               Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle
-              Verträge zwischen Sham Studio („Auftragnehmer“) – vertreten durch
-              Hamid Sham, Walsroder Straße 237, 30855 Langenhagen – und dem
+              Verträge zwischen Sham Studio („Auftragnehmer“), vertreten durch
+              Hamid Sham, Walsroder Straße 237, 30855 Langenhagen, und dem
               Auftraggeber („Kunde“) über die Erbringung von Dienstleistungen
               im Bereich Webdesign, UI/UX-Design, Branding, Webentwicklung und
               damit verbundener Tätigkeiten. Abweichende Bedingungen des Kunden
@@ -126,8 +126,8 @@ export default function AgbPage() {
             <p className="mt-2">
               Alle vom Auftragnehmer erstellten Werke (Designs, Grafiken,
               Programmcode, Konzepte u. Ä.) unterliegen dem Urheberrecht. Die
-              Einräumung von Nutzungsrechten erfolgt – sofern nichts anderes
-              vereinbart – erst nach vollständiger Bezahlung aller vereinbarten
+              Einräumung von Nutzungsrechten erfolgt, sofern nichts anderes
+              vereinbart ist, erst nach vollständiger Bezahlung aller vereinbarten
               Vergütungen. Ohne vollständige Bezahlung darf der Kunde die
               erstellten Leistungen nicht nutzen, verwerten oder veröffentlichen.
               Die Übertragung der vereinbarten Nutzungsrechte erfolgt
@@ -250,9 +250,9 @@ export default function AgbPage() {
             <p className="mt-2">
               Es gilt das Recht der Bundesrepublik Deutschland unter
               Ausschluss des UN-Kaufrechts. Gerichtsstand für alle Streitigkeiten
-              aus dem Vertragsverhältnis ist – sofern der Kunde Kaufmann,
+              aus dem Vertragsverhältnis ist, sofern der Kunde Kaufmann,
               juristische Person des öffentlichen Rechts oder öffentlich-rechtliches
-              Sondervermögen ist – Langenhagen. Der Auftragnehmer ist ebenfalls
+              Sondervermögen ist, Langenhagen. Der Auftragnehmer ist ebenfalls
               berechtigt, den Kunden an dessen Sitz zu verklagen.
             </p>
           </section>

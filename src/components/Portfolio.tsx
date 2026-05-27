@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ProjectLogo from "@/components/ProjectLogo";
@@ -122,19 +122,84 @@ function GlobeIcon({ className }: { className?: string }) {
 const cornerPosition = (corner: "top-left" | "top-right") =>
   corner === "top-left" ? "left-3 sm:left-3.5" : "right-3 sm:right-3.5";
 
-function CoverProjectCard({ project }: { project: PortfolioProject }) {
+/** Touch devices: highlight the card closest to viewport center while scrolling */
+function useScrollCenteredCardIndex(cardCount: number) {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const setCardRef = useCallback((index: number, el: HTMLDivElement | null) => {
+    cardRefs.current[index] = el;
+  }, []);
+
+  useEffect(() => {
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (canHover) return;
+
+    let raf = 0;
+
+    const update = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let bestIndex = -1;
+      let bestDistance = Infinity;
+
+      for (let i = 0; i < cardCount; i++) {
+        const el = cardRefs.current[i];
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) continue;
+        const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestIndex = i;
+        }
+      }
+
+      setActiveIndex(bestIndex >= 0 ? bestIndex : null);
+    };
+
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [cardCount]);
+
+  return { activeIndex, setCardRef };
+}
+
+const cardHover =
+  "hover:scale-[0.98] group-[.is-scroll-active]:scale-[0.98]" as const;
+
+function CoverProjectCard({
+  project,
+  isScrollActive,
+}: {
+  project: PortfolioProject;
+  isScrollActive?: boolean;
+}) {
   const isExternal = project.href.startsWith("http");
 
   return (
     <div className="project-card-entrance h-full">
       <Link
         href={project.href}
-        className="project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[0.98] will-change-transform"
+        className={`project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${cardHover} ${
+          isScrollActive ? "is-scroll-active" : ""
+        }`}
         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         <div className="relative aspect-[6/5] overflow-hidden bg-zinc-100">
         {/* Cover – blur on hover (Studio Namma style) */}
-        <div className="absolute inset-0 transition-[filter,transform] duration-500 ease-out group-hover:blur-md group-hover:scale-[1.02]">
+        <div className="absolute inset-0 transition-[filter,transform] duration-500 ease-out group-hover:blur-md group-hover:scale-[1.02] group-[.is-scroll-active]:blur-md group-[.is-scroll-active]:scale-[1.02]">
           <Image
             src={project.cover}
             alt=""
@@ -170,7 +235,8 @@ function CoverProjectCard({ project }: { project: PortfolioProject }) {
               className="relative aspect-video w-[84%] max-h-[68%] overflow-hidden rounded-sm bg-zinc-950 shadow-2xl ring-1 ring-white/10
                 scale-[0.82] opacity-0
                 transition-all duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-                group-hover:scale-100 group-hover:opacity-100"
+                group-hover:scale-100 group-hover:opacity-100
+                group-[.is-scroll-active]:scale-100 group-[.is-scroll-active]:opacity-100"
               aria-hidden
             >
               <Image
@@ -260,18 +326,26 @@ function CoverProjectCard({ project }: { project: PortfolioProject }) {
   );
 }
 
-function ClassicProjectCard({ project }: { project: PortfolioProject }) {
+function ClassicProjectCard({
+  project,
+  isScrollActive,
+}: {
+  project: PortfolioProject;
+  isScrollActive?: boolean;
+}) {
   const isExternal = project.href.startsWith("http");
 
   return (
     <div className="project-card-entrance h-full">
       <Link
         href={project.href}
-        className="project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[0.98]"
+        className={`project-card group relative block h-full overflow-hidden rounded-md transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${cardHover} ${
+          isScrollActive ? "is-scroll-active" : ""
+        }`}
         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         <div className="relative aspect-[6/5] overflow-hidden bg-zinc-100">
-        <div className="absolute inset-0 transition-transform duration-[800ms] ease-out group-hover:scale-110">
+        <div className="absolute inset-0 transition-transform duration-[800ms] ease-out group-hover:scale-110 group-[.is-scroll-active]:scale-110">
           <Image
             src={project.cover}
             alt=""
@@ -282,7 +356,7 @@ function ClassicProjectCard({ project }: { project: PortfolioProject }) {
         </div>
 
         {project.image ? (
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-105">
+          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-out group-hover:scale-105 group-[.is-scroll-active]:scale-105">
             <div className="relative h-[70%] w-[60%]">
               <Image
                 src={project.image}
@@ -295,9 +369,9 @@ function ClassicProjectCard({ project }: { project: PortfolioProject }) {
           </div>
         ) : null}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-[.is-scroll-active]:opacity-100" />
 
-        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 md:p-8 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 md:p-8 translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-[.is-scroll-active]:translate-y-0 group-[.is-scroll-active]:opacity-100">
           <p className="text-xs font-medium uppercase tracking-widest text-white/60">
             {project.category}
           </p>
@@ -306,7 +380,7 @@ function ClassicProjectCard({ project }: { project: PortfolioProject }) {
           </h3>
         </div>
 
-        <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-zinc-900 opacity-0 scale-75 transition-all duration-400 group-hover:opacity-100 group-hover:scale-100 sm:right-5 sm:top-5 sm:h-12 sm:w-12">
+        <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-zinc-900 opacity-0 scale-75 transition-all duration-400 group-hover:opacity-100 group-hover:scale-100 group-[.is-scroll-active]:opacity-100 group-[.is-scroll-active]:scale-100 sm:right-5 sm:top-5 sm:h-12 sm:w-12">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -370,7 +444,7 @@ function ScrollMarquee() {
               )}
               <span
                 ref={isBlack ? centerRef : undefined}
-                className={`font-display text-[4rem] font-bold leading-none tracking-tighter sm:text-[5.5rem] md:text-[7rem] lg:text-[8.5rem] ${
+                className={`font-display text-[clamp(2.5rem,11vw,8.5rem)] font-bold leading-none tracking-[-0.02em] sm:text-[clamp(3.25rem,9vw,7rem)] md:text-[clamp(4.5rem,8vw,8.5rem)] ${
                   isBlack ? "text-zinc-900" : "text-zinc-300"
                 }`}
               >
@@ -388,6 +462,7 @@ export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const { activeIndex, setCardRef } = useScrollCenteredCardIndex(PROJECTS.length);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -461,13 +536,25 @@ export default function Portfolio() {
           ref={gridRef}
           className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5 [&>*]:overflow-visible"
         >
-          {PROJECTS.map((project) =>
-            project.layout === "cover" ? (
-              <CoverProjectCard key={project.title} project={project} />
-            ) : (
-              <ClassicProjectCard key={project.title} project={project} />
-            )
-          )}
+          {PROJECTS.map((project, i) => (
+            <div
+              key={project.title}
+              ref={(el) => setCardRef(i, el)}
+              className="h-full"
+            >
+              {project.layout === "cover" ? (
+                <CoverProjectCard
+                  project={project}
+                  isScrollActive={activeIndex === i}
+                />
+              ) : (
+                <ClassicProjectCard
+                  project={project}
+                  isScrollActive={activeIndex === i}
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
 

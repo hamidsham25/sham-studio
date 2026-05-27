@@ -69,7 +69,7 @@ export default function Contact() {
           Kontakt
         </h2>
         <p className="mt-4 text-zinc-400 md:text-lg">
-          Bereit für Ihr Projekt? Schreiben Sie mir – ich melde mich zeitnah.
+          Bereit für Ihr Projekt? Schreiben Sie mir, ich melde mich zeitnah.
         </p>
         <div
           ref={formRef}

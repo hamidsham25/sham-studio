@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: "%s | Sham Studio",
   },
   description:
-    "Sham Studio – Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen. Von Konzept bis Launch aus einer Hand.",
+    "Sham Studio, Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen. Von Konzept bis Launch aus einer Hand.",
   keywords: [
     "Webdesign Hannover",
     "Webentwicklung Hannover",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     siteName: "Sham Studio",
     title: "Sham Studio | Webdesign & Entwicklung in Hannover",
     description:
-      "Professionelles Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen – von Konzept bis Launch.",
+      "Professionelles Webdesign, UI/UX und Entwicklung in Hannover. Individuelle Websites, die überzeugen. Von Konzept bis Launch.",
     // Bild wird von app/opengraph-image.tsx generiert
   },
   twitter: {

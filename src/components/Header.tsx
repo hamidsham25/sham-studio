@@ -115,27 +115,52 @@ export default function Header() {
   const isProjekte = pathname === "/projekte";
   const [open, setOpen] = useState(false);
   const [navExpanded, setNavExpanded] = useState(!isHome);
+  const [animateNav, setAnimateNav] = useState(isHome);
   const [isLandscape, setIsLandscape] = useState(false);
   const { activeId: activeSection, setActiveId, navOverSection } = useActiveSection(pathname);
 
   useLayoutEffect(() => {
     if (!isHome) {
       setNavExpanded(true);
-      return;
-    }
-    if (shouldSkipLoadingScreen()) {
-      setNavExpanded(true);
+      setAnimateNav(false);
       return;
     }
 
     setNavExpanded(false);
+    setAnimateNav(true);
+
     let expandTimer: ReturnType<typeof setTimeout>;
-    const handleLoadingComplete = () => {
-      expandTimer = setTimeout(() => setNavExpanded(true), 80);
+    let raf1 = 0;
+    let raf2 = 0;
+
+    const scheduleExpand = (delayMs: number) => {
+      raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => {
+          expandTimer = setTimeout(() => setNavExpanded(true), delayMs);
+        });
+      });
     };
+
+    const skipLoading = shouldSkipLoadingScreen();
+
+    if (skipLoading) {
+      scheduleExpand(400);
+      return () => {
+        cancelAnimationFrame(raf1);
+        cancelAnimationFrame(raf2);
+        clearTimeout(expandTimer);
+      };
+    }
+
+    const handleLoadingComplete = () => {
+      scheduleExpand(750);
+    };
+
     window.addEventListener("loadingComplete", handleLoadingComplete);
     return () => {
       window.removeEventListener("loadingComplete", handleLoadingComplete);
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
       clearTimeout(expandTimer);
     };
   }, [isHome]);
@@ -191,11 +216,17 @@ export default function Header() {
 
   const mobileMenuBtnClass = "bg-zinc-900 text-white hover:bg-zinc-800";
 
-  const expandTransition = {
-    layout: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
-    maxWidth: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
-    opacity: { duration: 0.3, ease: "easeOut" as const },
-  };
+  const expandTransition = animateNav
+    ? {
+        layout: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
+        maxWidth: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as const },
+        opacity: { duration: 0.3, ease: "easeOut" as const },
+      }
+    : {
+        layout: { duration: 0 },
+        maxWidth: { duration: 0 },
+        opacity: { duration: 0 },
+      };
 
   return (
     <header className="pointer-events-none fixed left-0 right-0 top-0 z-[9999] isolate px-4 pt-4 md:px-6 md:pt-6">
@@ -234,17 +265,21 @@ export default function Header() {
                     opacity: navExpanded ? 1 : 0,
                     x: navExpanded ? 0 : -6,
                   }}
-                  transition={{
-                    opacity: {
-                      duration: 0.25,
-                      delay: navExpanded ? 0.12 + i * 0.05 : 0,
-                    },
-                    x: {
-                      duration: 0.35,
-                      delay: navExpanded ? 0.1 + i * 0.05 : 0,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    },
-                  }}
+                  transition={
+                    animateNav
+                      ? {
+                          opacity: {
+                            duration: 0.25,
+                            delay: navExpanded ? 0.12 + i * 0.05 : 0,
+                          },
+                          x: {
+                            duration: 0.35,
+                            delay: navExpanded ? 0.1 + i * 0.05 : 0,
+                            ease: [0.25, 0.46, 0.45, 0.94],
+                          },
+                        }
+                      : { duration: 0 }
+                  }
                 >
                   <NavLink
                     href={link.href}

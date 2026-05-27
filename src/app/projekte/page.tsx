@@ -69,7 +69,7 @@ function ProjectRow({
           <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-zinc-100 ring-1 ring-zinc-200/80 transition-transform duration-500 ease-out group-hover:scale-[0.99] lg:w-3/5">
             <Image
               src={project.preview}
-              alt={`${project.title} – Website-Vorschau`}
+              alt={`${project.title}, Website-Vorschau`}
               fill
               sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover object-top"
@@ -160,14 +160,14 @@ export default function ProjektePage() {
           <section
             ref={heroRef}
             id="projekte-hero"
-            className="relative flex min-h-viewport items-center justify-center overflow-hidden bg-white px-4 sm:px-6"
+            className="relative flex min-h-viewport items-center justify-center overflow-x-clip bg-white px-5 sm:px-8"
             aria-label="Alle Projekte"
           >
             <h1
               ref={titleRef}
-              className="w-full text-center font-display font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-zinc-900"
+              className="w-full max-w-[100vw] box-border text-center font-display font-extrabold uppercase leading-[0.88] tracking-[-0.03em] text-zinc-900"
             >
-              <span className="split-line block text-[clamp(2.75rem,14vw,9rem)]">
+              <span className="split-line block text-[clamp(2.25rem,10.5vw,9rem)]">
                 <span className="projekte-line-inner inline-block">
                   Alle
                   <span
@@ -176,7 +176,7 @@ export default function ProjektePage() {
                   />
                 </span>
               </span>
-              <span className="split-line block text-[clamp(2.75rem,14vw,9rem)]">
+              <span className="split-line block text-[clamp(2.25rem,10.5vw,9rem)]">
                 <span className="projekte-line-inner inline-block">Projekte</span>
               </span>
             </h1>
@@ -185,7 +185,7 @@ export default function ProjektePage() {
           <section id="projekte-list" className="relative z-0 bg-white">
             <div className="mx-auto max-w-6xl px-6 py-20 md:px-8 md:py-28">
               <p className="mb-14 max-w-xl text-lg text-zinc-500">
-                Jedes Projekt ist einzigartig — hier ein vollständiger Überblick über
+                Jedes Projekt ist einzigartig. Hier ein vollständiger Überblick über
                 unsere Arbeit.
               </p>
 

@@ -3,10 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef, useEffect, useState, useCallback } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { subscribeLoadingComplete } from "@/lib/loading-screen";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const dustParticles = [
   { w: 380, h: 180, offsetX: 0, offsetY: 0, stiffness: 180, damping: 24, mass: 0.4, blur: 65, color: "rgba(34,211,238,0.22)", radius: "15% 85% 70% 30% / 80% 20% 60% 40%", gradientPos: "28% 35%", opacity: 1 },
@@ -37,16 +34,14 @@ function DustParticle({
   containerSize: { width: number; height: number };
 }) {
   const margin = 40;
-  const minX = margin;
   const maxX = containerSize.width - margin;
-  const minY = margin;
   const maxY = containerSize.height - margin;
 
   const clampedX = useTransform(mouseX, (v) =>
-    Math.max(minX, Math.min(maxX, v + particle.offsetX))
+    Math.max(margin, Math.min(maxX, v + particle.offsetX))
   );
   const clampedY = useTransform(mouseY, (v) =>
-    Math.max(minY, Math.min(maxY, v + particle.offsetY))
+    Math.max(margin, Math.min(maxY, v + particle.offsetY))
   );
 
   const x = useSpring(clampedX, {
@@ -91,23 +86,16 @@ function PaintCloud() {
 
   const startIdleTimer = useCallback(() => {
     if (idleTimer.current) clearTimeout(idleTimer.current);
-    idleTimer.current = setTimeout(() => {
-      setIsActive(false);
-    }, 2000);
+    idleTimer.current = setTimeout(() => setIsActive(false), 2000);
   }, []);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const updateSize = () => {
-      setContainerSize({
-        width: container.clientWidth,
-        height: container.clientHeight,
-      });
+      setContainerSize({ width: container.clientWidth, height: container.clientHeight });
     };
     updateSize();
-
     const ro = new ResizeObserver(updateSize);
     ro.observe(container);
     return () => ro.disconnect();
@@ -124,12 +112,10 @@ function PaintCloud() {
       setIsActive(true);
       startIdleTimer();
     };
-
     const handleLeave = () => {
       setIsActive(false);
       if (idleTimer.current) clearTimeout(idleTimer.current);
     };
-
     const handleTouchStart = (e: TouchEvent) => {
       if (!e.touches[0]) return;
       const rect = container.getBoundingClientRect();
@@ -138,7 +124,6 @@ function PaintCloud() {
       setIsActive(true);
       startIdleTimer();
     };
-
     const handleTouchMove = (e: TouchEvent) => {
       if (!e.touches[0]) return;
       const rect = container.getBoundingClientRect();
@@ -147,7 +132,6 @@ function PaintCloud() {
       setIsActive(true);
       startIdleTimer();
     };
-
     const handleTouchEnd = () => {
       setIsActive(false);
       if (idleTimer.current) clearTimeout(idleTimer.current);
@@ -192,7 +176,6 @@ function PaintCloud() {
 }
 
 const typewriterWords = ["innovativ", "modern", "einzigartig", "schnell", "kreativ"];
-
 const TYPEWRITER_SIZER = "einzigartig";
 
 function Typewriter({ active }: { active: boolean }) {
@@ -202,7 +185,6 @@ function Typewriter({ active }: { active: boolean }) {
 
   useEffect(() => {
     if (!active) return;
-
     const currentWord = typewriterWords[wordIndex];
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -221,22 +203,16 @@ function Typewriter({ active }: { active: boolean }) {
         );
       }, speed);
     }
-
     return () => clearTimeout(timeout);
   }, [text, isDeleting, wordIndex, active]);
 
   return (
-    <div className="hero-typewriter-slot split-line mt-4" aria-live="polite">
-      <span
-        className="hero-typewriter-sizer text-2xl font-medium sm:text-3xl md:text-4xl"
-        aria-hidden
-      >
+    <div className="hero-typewriter-slot mt-4" aria-live="polite">
+      <span className="hero-typewriter-sizer text-2xl font-medium sm:text-3xl md:text-4xl" aria-hidden>
         {TYPEWRITER_SIZER}
         <span className="inline-block w-[3px] ml-0.5" style={{ height: "1em" }} />
       </span>
-      <h2
-        className="hero-typewriter-live hero-line-inner text-2xl font-medium text-cyan-400 sm:text-3xl md:text-4xl"
-      >
+      <h2 className="hero-typewriter-live text-2xl font-medium text-cyan-400 sm:text-3xl md:text-4xl">
         {active ? (
           <>
             {text}
@@ -256,7 +232,6 @@ function Typewriter({ active }: { active: boolean }) {
 
 function ScrollIndicator({ show }: { show: boolean }) {
   if (!show) return null;
-
   return (
     <motion.div
       className="hero-scroll-indicator absolute bottom-10 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 pointer-events-none"
@@ -287,98 +262,77 @@ export default function Hero() {
   const bgImageRef = useRef<HTMLDivElement>(null);
   const [typewriterOn, setTypewriterOn] = useState(false);
   const [showScroll, setShowScroll] = useState(false);
-  const introTlRef = useRef<gsap.core.Timeline | null>(null);
-  const bgTweenRef = useRef<gsap.core.Tween | null>(null);
+  const hasPlayed = useRef(false);
 
-  // 1) On mount: create tweens PAUSED — fromTo immediately hides text (no flash)
   useEffect(() => {
-    if (!contentRef.current) return;
+    const content = contentRef.current;
+    if (!content) return;
 
-    const lines = contentRef.current.querySelectorAll<HTMLElement>(
-      ".hero-line-inner"
-    );
+    const badge = content.querySelector<HTMLElement>(".hero-badge");
+    const headline = content.querySelector<HTMLElement>(".hero-headline");
+    const typewriterSlot = content.querySelector<HTMLElement>(".hero-typewriter-slot");
+    const lead = content.querySelector<HTMLElement>(".hero-lead");
 
-    const tl = gsap.timeline({ paused: true });
-    tl.fromTo(
-      lines,
-      { yPercent: 115 },
-      {
-        yPercent: 0,
-        duration: 1.15,
-        ease: "power4.out",
-        stagger: 0.14,
-        onComplete: () => {
-          setTypewriterOn(true);
-          setShowScroll(true);
-        },
-      }
-    );
-    introTlRef.current = tl;
-
-    if (bgImageRef.current) {
-      bgTweenRef.current = gsap.fromTo(
-        bgImageRef.current,
-        { scale: 1.2 },
-        { scale: 1, duration: 2, ease: "power2.out", paused: true }
-      );
-    }
-
-    return () => {
-      tl.kill();
-      bgTweenRef.current?.kill();
-    };
-  }, []);
-
-  // 2) Play when loading screen done (or immediately if skipped)
-  useEffect(() => {
     const play = () => {
-      introTlRef.current?.play();
-      bgTweenRef.current?.play();
+      if (hasPlayed.current) return;
+      hasPlayed.current = true;
+
+      content.classList.add("is-visible");
+
+      const tl = gsap.timeline();
+
+      tl.to(content, { opacity: 1, duration: 0.3, ease: "power2.out" })
+        .fromTo(
+          badge,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+          "-=0.1"
+        )
+        .fromTo(
+          headline,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power4.out" },
+          "-=0.35"
+        )
+        .fromTo(
+          typewriterSlot,
+          { y: 20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: "power3.out",
+            onComplete: () => setTypewriterOn(true),
+          },
+          "-=0.3"
+        )
+        .fromTo(
+          lead,
+          { y: 20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: "power3.out",
+            onComplete: () => setShowScroll(true),
+          },
+          "-=0.2"
+        );
+
+      if (bgImageRef.current) {
+        gsap.fromTo(
+          bgImageRef.current,
+          { scale: 1.1, opacity: 0 },
+          { scale: 1, opacity: 0.15, duration: 1.6, ease: "power2.out" }
+        );
+      }
     };
 
     const unsubscribe = subscribeLoadingComplete(play);
-    const fallback = window.setTimeout(play, 8000);
 
     return () => {
       unsubscribe();
-      window.clearTimeout(fallback);
     };
-  }, []);
-
-  // 3) Scroll parallax
-  useEffect(() => {
-    if (!heroRef.current) return;
-
-    const parallaxCtx = gsap.context(() => {
-      const headline = heroRef.current?.querySelector(".hero-headline");
-      const leadBlock = heroRef.current?.querySelector(".hero-lead");
-
-      if (headline) {
-        gsap.to(headline, {
-          y: -60,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-
-      if (leadBlock) {
-        gsap.to(leadBlock, {
-          y: -24,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "30% top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-    }, heroRef);
-
-    return () => parallaxCtx.revert();
   }, []);
 
   return (
@@ -388,11 +342,10 @@ export default function Hero() {
       className="hero-bg relative flex min-h-[24rem] min-h-viewport flex-col items-center justify-center overflow-hidden px-6"
       aria-label="Willkommen"
     >
-      {/* Background image - starts zoomed, zooms out */}
       <div
         ref={bgImageRef}
-        className="hero-bg-image absolute inset-0 z-0 opacity-15 will-change-transform"
-        style={{ transform: "scale(1.2)" }}
+        className="hero-bg-image absolute inset-0 z-0 will-change-transform"
+        style={{ opacity: 0 }}
         aria-hidden
       />
       <PaintCloud />
@@ -401,21 +354,19 @@ export default function Hero() {
         ref={contentRef}
         className="hero-content relative z-10 mx-auto -mt-24 max-w-4xl text-center"
       >
-        <p className="hero-badge split-line mb-4 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
-          <span className="hero-line-inner">Webdesign & Entwicklung</span>
+        <p className="hero-badge mb-4 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
+          Webdesign & Entwicklung
         </p>
 
-        <h1 className="hero-headline split-line font-display text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
-          <span className="hero-line-inner">Sham Studio</span>
+        <h1 className="hero-headline font-display text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
+          Sham Studio
         </h1>
 
         <Typewriter active={typewriterOn} />
 
-        <p className="hero-lead split-line mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl">
-          <span className="hero-line-inner">
-            Websites, die wirken. Von der Idee bis zum Launch – klar, schnell
-            und auf den Punkt.
-          </span>
+        <p className="hero-lead mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl">
+          Websites, die wirken. Von der Idee bis zum Launch – klar, schnell
+          und auf den Punkt.
         </p>
       </div>
 

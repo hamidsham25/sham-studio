@@ -1,77 +1,84 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   LOADING_SCREEN_STORAGE_KEY,
   notifyLoadingComplete,
   shouldSkipLoadingScreen,
 } from "@/lib/loading-screen";
 
-/** Nur optisches Overlay – Hero & Rest sind bereits im DOM und geladen. */
 const text = "Sham Studio.";
 
 export default function LoadingScreen() {
   const [displayText, setDisplayText] = useState("");
-  const [done, setDone] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [checked, setChecked] = useState(false);
-  const [skip, setSkip] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "typing" | "hold" | "exit" | "gone">("idle");
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const shouldSkip = shouldSkipLoadingScreen();
-    setSkip(shouldSkip);
-    setChecked(true);
-    if (shouldSkip) {
+    if (shouldSkipLoadingScreen()) {
       notifyLoadingComplete();
+      setPhase("gone");
+      return;
     }
+    setPhase("typing");
   }, []);
 
   useEffect(() => {
-    if (!checked || skip) return;
+    if (phase !== "typing") return;
     let i = 0;
     const interval = setInterval(() => {
       i++;
       setDisplayText(text.substring(0, i));
       if (i === text.length) {
         clearInterval(interval);
-        setTimeout(() => setDone(true), 600);
+        setPhase("hold");
+        setTimeout(() => setPhase("exit"), 500);
       }
-    }, 90);
-
+    }, 80);
     return () => clearInterval(interval);
-  }, [checked, skip]);
+  }, [phase]);
 
-  const handleExitComplete = () => {
-    if (typeof window !== "undefined") {
+  useEffect(() => {
+    if (phase !== "exit") return;
+    const el = overlayRef.current;
+    if (!el) return;
+
+    requestAnimationFrame(() => {
+      el.style.transform = "translateY(-100%)";
+    });
+
+    const handleEnd = () => {
       localStorage.setItem(LOADING_SCREEN_STORAGE_KEY, String(Date.now()));
       notifyLoadingComplete();
-    }
-    setVisible(false);
-  };
+      setPhase("gone");
+    };
 
-  if (!checked || skip || !visible) return null;
+    el.addEventListener("transitionend", handleEnd, { once: true });
+    const fallback = setTimeout(handleEnd, 800);
+    return () => {
+      el.removeEventListener("transitionend", handleEnd);
+      clearTimeout(fallback);
+    };
+  }, [phase]);
+
+  if (phase === "gone") return null;
 
   return (
-    <AnimatePresence onExitComplete={handleExitComplete}>
-      {!done && (
-        <motion.div
-          className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0e0e0e] pointer-events-auto"
-          aria-hidden="true"
-          exit={{ y: "-100%" }}
-          transition={{
-            y: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
-          }}
-        >
-          <h1 className="font-display text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
-            {displayText}
-            <span
-              className="inline-block w-[3px] translate-y-[2px] animate-pulse bg-white ml-0.5"
-              style={{ height: "0.85em" }}
-            />
-          </h1>
-        </motion.div>
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0a0a0a]"
+      style={{ transition: "transform 0.65s cubic-bezier(0.76, 0, 0.24, 1)" }}
+      aria-hidden="true"
+    >
+      {phase !== "idle" && (
+        <h1 className="font-display text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          {displayText}
+          <span
+            className="inline-block w-[3px] translate-y-[2px] animate-pulse bg-white ml-0.5"
+            style={{ height: "0.85em" }}
+          />
+        </h1>
       )}
-    </AnimatePresence>
+    </div>
   );
 }

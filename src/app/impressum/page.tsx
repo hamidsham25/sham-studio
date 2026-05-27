@@ -6,11 +6,11 @@ const SITE_URL = "https://sham-studio.de";
 
 export const metadata: Metadata = {
   title: "Impressum",
-  description: "Impressum und rechtliche Angaben – Sham Studio, Webdesign & Entwicklung in Hannover.",
+  description: "Impressum und rechtliche Angaben, Sham Studio, Webdesign & Entwicklung in Hannover.",
   openGraph: {
     url: `${SITE_URL}/impressum`,
     title: "Impressum | Sham Studio",
-    description: "Impressum und rechtliche Angaben – Sham Studio",
+    description: "Impressum und rechtliche Angaben, Sham Studio",
   },
   alternates: { canonical: `${SITE_URL}/impressum` },
 };

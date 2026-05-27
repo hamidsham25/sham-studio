@@ -17,7 +17,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "EnerStrom",
     category: "Web Design · Elektrotechnik",
     description:
-      "Website für einen Elektromeisterbetrieb in Hannover – Photovoltaik, Elektroinstallation und Gebäudetechnik klar strukturiert und conversion-orientiert.",
+      "Website für einen Elektromeisterbetrieb in Hannover. Photovoltaik, Elektroinstallation und Gebäudetechnik klar strukturiert und conversion-orientiert.",
     preview: "/images/portfolio/enerstrom-hover.png",
     href: "https://www.enerstrom-hannover.de",
     tags: ["Elektrotechnik", "Meisterbetrieb", "Photovoltaik"],
@@ -27,7 +27,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "Physio Saglam",
     category: "Web Design · Physiotherapie",
     description:
-      "Praxiswebsite in Langenhagen – freundlich, übersichtlich und mit Fokus auf Therapien, Team und Terminanfrage.",
+      "Praxiswebsite in Langenhagen. Freundlich, übersichtlich und mit Fokus auf Therapien, Team und Terminanfrage.",
     preview: "/images/portfolio/physio-hover.png",
     href: "https://physio-saglam.vercel.app",
     tags: ["Physiotherapie", "Praxis", "Langenhagen"],
@@ -37,7 +37,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "REIN Gebäudereinigung",
     category: "Web Design · Gebäudereinigung",
     description:
-      "Gebäudereinigung Hannover – Leistungen, Karriere und Angebotsanfrage in 24h klar kommuniziert.",
+      "Gebäudereinigung in Hannover. Leistungen, Karriere und Angebotsanfrage in 24h klar kommuniziert.",
     preview: "/images/portfolio/cleaning-hover.png",
     href: "https://www.rein-gebaeudeservice.de",
     tags: ["Gebäudereinigung", "B2B", "Hannover"],
@@ -47,7 +47,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "Noir Ink",
     category: "Web Design · Tattoo Studio",
     description:
-      "Tattoo-Studio Hannover – dunkle, bildstarke Präsentation mit Galerie, Team und Terminbuchung.",
+      "Tattoo-Studio in Hannover. Dunkle, bildstarke Präsentation mit Galerie, Team und Terminbuchung.",
     preview: "/images/portfolio/tattoo-hover.png",
     href: "https://tattoo-website-woad.vercel.app",
     tags: ["Tattoo Studio", "Galerie", "Terminbuchung"],
@@ -57,14 +57,14 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "Sham Automobile",
     category: "Web Design · Autohandel",
     description:
-      "Gebrauchtwagenhändler in Langenhagen – Fahrzeugbestand, An- und Verkauf sowie vertrauensvolle Kundenstimmen.",
+      "Gebrauchtwagenhändler in Langenhagen. Fahrzeugbestand, An- und Verkauf sowie vertrauensvolle Kundenstimmen.",
     preview: "/images/portfolio/cardealer-hover.png",
     href: "https://www.sham-automobile.de",
     tags: ["Autohandel", "CMS", "Langenhagen"],
   },
   {
     id: "lena-art",
-    title: "Künstlerin — Portfolio",
+    title: "Künstlerin Portfolio",
     category: "Web Design · Kunst",
     description:
       "Künstlerportfolio mit ausgewählten Arbeiten, Atelier-Story und Kontakt für Kooperationen und Aufträge.",
@@ -77,7 +77,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     title: "Handwerker Website",
     category: "Web Design · Handwerk",
     description:
-      "Handwerksbetrieb – Leistungen von Renovierung bis Hausbau, Projekte und Anfrage klar aufbereitet.",
+      "Handwerksbetrieb. Leistungen von Renovierung bis Hausbau, Projekte und Anfrage klar aufbereitet.",
     preview: "/images/portfolio/handwerker-hover.png",
     href: "https://handwerker-website.vercel.app",
     tags: ["Handwerk", "Leistungen", "Projekte"],
