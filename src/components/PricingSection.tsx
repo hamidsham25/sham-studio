@@ -87,7 +87,7 @@ const MAINTENANCE_PLANS: MaintenancePlan[] = [
   },
   {
     name: "Komfort",
-    price: "59 €/Monat",
+    price: "49 €/Monat",
     subline: "monatlich, netto",
     items: [
       "Alles aus Basic",
