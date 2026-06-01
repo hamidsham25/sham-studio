@@ -58,7 +58,7 @@ function useActiveSection(pathname: string) {
   }, [defaultSection]);
 
   useEffect(() => {
-    const sections = isProjekte
+    const sections: string[] = isProjekte
       ? [...PROJEKTE_SECTIONS]
       : isServicesPage
         ? [...SERVICES_PAGE_SECTIONS]
