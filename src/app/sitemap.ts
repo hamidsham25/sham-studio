@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
+import { getAllPosts } from "@/lib/posts";
 import { CONTENT_LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 const lastModified = new Date(CONTENT_LAST_UPDATED);
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = getAllPosts();
+
   return [
     {
       url: SITE_URL,
@@ -16,6 +19,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "weekly" as const,
       priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/services`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/kontakt`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/anfragen`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/ueber-uns`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/blog`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
     },
     {
       url: `${SITE_URL}/impressum`,
@@ -35,5 +68,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.3,
     },
+    ...posts.map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }

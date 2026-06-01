@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
+import { handleNavLinkClick } from "@/lib/nav-scroll";
 
 const INSTAGRAM_URL = "https://www.instagram.com/shamstudiohq/";
 const EMAIL = "info@sham-studio.de";
@@ -42,41 +44,130 @@ function EmailIcon({ className }: { className?: string }) {
   );
 }
 
+function ArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      aria-hidden
+    >
+      <path
+        d="M2 12h40M34 5l8 7-8 7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+const FOOTER_HEADLINE_CLASS =
+  "font-normal leading-[1.02] tracking-[-0.03em] text-[clamp(1.35rem,5.2vw,4.75rem)]";
+
+const footerNavLinks = [
+  { href: "/projekte", label: "Projekte" },
+  { href: "/services", label: "Services" },
+  { href: "/ueber-uns", label: "Über uns" },
+  { href: "/kontakt", label: "Kontakt" },
+  { href: "/blog", label: "Blog" },
+] as const;
+
+function isFooterNavActive(pathname: string, href: string) {
+  if (href === "/blog") return pathname === "/blog" || pathname.startsWith("/blog/");
+  return pathname === href;
+}
+
+function FooterNavItem({ href, label }: { href: string; label: string }) {
+  const pathname = usePathname();
+  const active = isFooterNavActive(pathname, href);
+
+  return (
+    <li>
+      <Link
+        href={href}
+        onClick={(e) => handleNavLinkClick(e, pathname, href, false)}
+        className={`group relative block w-fit py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-4 ${
+          active ? "text-zinc-900" : "text-zinc-400 hover:text-zinc-900"
+        }`}
+      >
+        <span className="inline-flex items-center gap-2 font-display text-xl font-medium tracking-[-0.02em] md:text-2xl">
+          <span
+            className={`inline-block overflow-hidden transition-all duration-300 ease-out ${
+              active
+                ? "w-6 opacity-100"
+                : "w-0 opacity-0 group-hover:w-6 group-hover:opacity-100"
+            }`}
+            aria-hidden
+          >
+            →
+          </span>
+          {label}
+        </span>
+        <span
+          className={`mt-1 block h-px bg-zinc-900 transition-all duration-300 ease-out ${
+            active ? "w-full" : "w-0 group-hover:w-full"
+          }`}
+          aria-hidden
+        />
+      </Link>
+    </li>
+  );
+}
+
 export default function Footer() {
+  const pathname = usePathname();
+
   return (
     <motion.footer
-      className="rounded-t-[2rem] sm:rounded-t-[3rem] bg-white pt-14 pb-8 md:pt-20 md:pb-10"
+      className="rounded-t-[2rem] bg-white pb-8 pt-14 sm:rounded-t-[3rem] md:pb-10 md:pt-20"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        {/* Top: CTA + Socials */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-14 md:mb-20">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-zinc-400 mb-3 font-sans">
-              Projekt im Kopf?
+        <div className="mb-14 flex flex-col gap-10 md:mb-20 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <p className="mb-4 text-sm text-zinc-500 md:mb-6">
+              Bereit für das nächste Projekt?
             </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-900 leading-[1.1]">
-              Let&apos;s talk.
-            </h2>
+            <Link
+              href="/kontakt"
+              onClick={(e) => handleNavLinkClick(e, pathname, "/kontakt", false)}
+              className="group inline-block max-w-full text-zinc-900 transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-4"
+            >
+              <h2
+                className={`font-display ${FOOTER_HEADLINE_CLASS} flex max-w-full items-center gap-3 whitespace-nowrap md:gap-4`}
+              >
+                Lass uns zusammenarbeiten
+                <ArrowIcon className="h-[0.38em] w-[0.95em] shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1.5" />
+              </h2>
+            </Link>
+
+            <nav className="mt-10 md:mt-12" aria-label="Seitennavigation">
+              <ul className="flex flex-col gap-0.5">
+                {footerNavLinks.map((link) => (
+                  <FooterNavItem key={link.href} href={link.href} label={link.label} />
+                ))}
+              </ul>
+            </nav>
           </div>
 
-          {/* Social Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-4 lg:self-end">
             <a
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 text-zinc-700 transition-all hover:border-zinc-900 hover:bg-zinc-900 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
               aria-label="Instagram"
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
             <a
               href={`mailto:${EMAIL}`}
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-zinc-200 text-zinc-700 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 text-zinc-700 transition-all hover:border-zinc-900 hover:bg-zinc-900 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2"
               aria-label="E-Mail"
             >
               <EmailIcon className="h-5 w-5" />
@@ -84,11 +175,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="h-px w-full bg-zinc-200 mb-8" aria-hidden />
+        <div className="mb-8 h-px w-full bg-zinc-200" aria-hidden />
 
-        {/* Bottom: Copyright left, Legal right */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-zinc-400">
             © {new Date().getFullYear()} Sham Studio
           </p>
@@ -99,19 +188,19 @@ export default function Footer() {
           >
             <Link
               href="/impressum"
-              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
+              className="text-sm text-zinc-400 transition-colors hover:text-zinc-900"
             >
               Impressum
             </Link>
             <Link
               href="/agb"
-              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
+              className="text-sm text-zinc-400 transition-colors hover:text-zinc-900"
             >
               AGB
             </Link>
             <Link
               href="/datenschutz"
-              className="text-sm text-zinc-400 hover:text-zinc-900 transition-colors"
+              className="text-sm text-zinc-400 transition-colors hover:text-zinc-900"
             >
               Datenschutz
             </Link>

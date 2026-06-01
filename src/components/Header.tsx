@@ -5,24 +5,49 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useLayoutEffect } from "react";
 import Logo from "@/components/Logo";
+import { handleNavLinkClick, scrollToPageTop } from "@/lib/nav-scroll";
 import { shouldSkipLoadingScreen } from "@/lib/loading-screen";
 
 const navLinks = [
-  { href: "#portfolio", id: "portfolio", label: "Portfolio" },
-  { href: "#services", id: "services", label: "Services" },
-  { href: "#about", id: "about", label: "Über mich" },
-  { href: "#contact", id: "contact", label: "Kontakt" },
+  { href: "/projekte", id: "projekte", label: "Projekte" },
+  { href: "/services", id: "services", label: "Services" },
+  { href: "/ueber-uns", id: "ueber-uns", label: "Über uns" },
+  { href: "/kontakt", id: "kontakt", label: "Kontakt" },
 ];
+
+function navHref(link: { href: string }, isHome: boolean) {
+  if (link.href.startsWith("/")) return link.href;
+  return isHome ? link.href : `/${link.href}`;
+}
 
 const NAV_BOTTOM_OFFSET = 100;
 
-const HOME_SECTIONS = ["hero", "services", "portfolio", "about", "contact"] as const;
+const HOME_SECTIONS = [
+  "hero",
+  "portfolio",
+  "services",
+  "pricing",
+  "about",
+  "contact",
+] as const;
 const PROJEKTE_SECTIONS = ["projekte-hero", "projekte-list"] as const;
+const SERVICES_PAGE_SECTIONS = ["services-hero", "services-list"] as const;
+
+const NAV_PILL_CLASS =
+  "rounded-full border border-zinc-800/70 bg-zinc-900/95 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md";
+
+const NAV_ITEM_SIZE_CLASS =
+  "inline-flex items-center px-5 py-2.5 text-sm font-semibold md:px-6 md:py-3";
 
 function useActiveSection(pathname: string) {
   const isHome = pathname === "/";
   const isProjekte = pathname === "/projekte";
-  const defaultSection = isProjekte ? "projekte-hero" : "hero";
+  const isServicesPage = pathname === "/services";
+  const defaultSection = isProjekte
+    ? "projekte-hero"
+    : isServicesPage
+      ? "services-hero"
+      : "hero";
 
   const [activeId, setActiveId] = useState<string>(defaultSection);
   const [navOverSection, setNavOverSection] = useState<string>(defaultSection);
@@ -35,9 +60,36 @@ function useActiveSection(pathname: string) {
   useEffect(() => {
     const sections = isProjekte
       ? [...PROJEKTE_SECTIONS]
-      : isHome
-        ? [...HOME_SECTIONS]
-        : [];
+      : isServicesPage
+        ? [...SERVICES_PAGE_SECTIONS]
+        : isHome
+          ? [...HOME_SECTIONS]
+          : [];
+
+    const resolveSectionAtNav = (): string | null => {
+      const x = window.innerWidth / 2;
+      const y = NAV_BOTTOM_OFFSET;
+      const stack = document.elementsFromPoint(x, y);
+
+      for (const el of stack) {
+        if (!(el instanceof Element)) continue;
+        if (el.closest("header")) continue;
+        const sectionEl = el.closest("section[id]");
+        const id = sectionEl?.id;
+        if (id && sections.includes(id)) return id;
+      }
+
+      let lastMatch: string | null = null;
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= NAV_BOTTOM_OFFSET && rect.bottom > NAV_BOTTOM_OFFSET) {
+          lastMatch = id;
+        }
+      }
+      return lastMatch;
+    };
 
     const handleScroll = () => {
       if (sections.length === 0) return;
@@ -47,16 +99,11 @@ function useActiveSection(pathname: string) {
         setNavOverSection(sections[0]);
         return;
       }
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= NAV_BOTTOM_OFFSET && rect.bottom > NAV_BOTTOM_OFFSET) {
-            setActiveId(id);
-            setNavOverSection(id);
-            return;
-          }
-        }
+
+      const sectionId = resolveSectionAtNav();
+      if (sectionId) {
+        setActiveId(sectionId);
+        setNavOverSection(sectionId);
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -65,7 +112,7 @@ function useActiveSection(pathname: string) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isHome, isProjekte]);
+  }, [isHome, isProjekte, isServicesPage]);
 
   return { activeId, setActiveId, navOverSection };
 }
@@ -74,34 +121,23 @@ function NavLink({
   href,
   label,
   isActive,
-  onDarkPill,
   isHome,
+  pathname,
 }: {
   href: string;
   label: string;
   isActive: boolean;
-  onDarkPill: boolean;
   isHome: boolean;
+  pathname: string;
 }) {
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isHome) return;
-    e.preventDefault();
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <Link
-      href={isHome ? href : `/${href}`}
-      onClick={handleClick}
-      className={`whitespace-nowrap rounded-full px-1 py-1 text-base font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
+      href={navHref({ href }, isHome)}
+      onClick={(e) => handleNavLinkClick(e, pathname, href, isHome)}
+      className={`${NAV_ITEM_SIZE_CLASS} whitespace-nowrap rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
         isActive
-          ? onDarkPill
-            ? "text-cyan-400"
-            : "text-cyan-600"
-          : onDarkPill
-            ? "text-zinc-400 hover:text-white"
-            : "text-zinc-600 hover:text-zinc-900"
+          ? "bg-white text-zinc-900"
+          : "text-zinc-300 hover:text-white"
       }`}
     >
       {label}
@@ -109,10 +145,23 @@ function NavLink({
   );
 }
 
+function StatusDot() {
+  return (
+    <span
+      className="nav-status-dot"
+      aria-hidden
+    />
+  );
+}
+
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isProjekte = pathname === "/projekte";
+  const isServicesPage = pathname === "/services";
+  const isKontakt = pathname === "/kontakt";
+  const isAnfragen = pathname === "/anfragen";
+  const isUeberUns = pathname === "/ueber-uns";
   const [open, setOpen] = useState(false);
   const [navExpanded, setNavExpanded] = useState(!isHome);
   const [animateNav, setAnimateNav] = useState(isHome);
@@ -196,25 +245,9 @@ export default function Header() {
     history.replaceState(null, "", window.location.pathname);
   };
 
-  const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isHome) return;
-    e.preventDefault();
-    setOpen(false);
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
 
-  const lightSections = ["portfolio", "services", "projekte-list"];
-  const onDarkPill = isProjekte ? false : lightSections.includes(navOverSection);
-
-  const pillClass = onDarkPill
-    ? "border border-zinc-800/60 bg-zinc-900/90 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] max-md:border-zinc-200/80 max-md:bg-zinc-50/95 max-md:text-zinc-900 max-md:shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
-    : "border border-zinc-200/80 bg-zinc-50/95 text-zinc-900 shadow-[0_8px_32px_rgba(0,0,0,0.12)]";
-
-  const ctaClass = onDarkPill
-    ? "bg-cyan-400 text-zinc-900 hover:bg-cyan-300"
-    : "bg-zinc-900 text-white hover:bg-zinc-800";
-
-  const mobileMenuBtnClass = "bg-zinc-900 text-white hover:bg-zinc-800";
+  const lightSections = ["portfolio", "services", "pricing", "projekte-list"];
+  const logoOnDarkBg = isHome && !lightSections.includes(navOverSection);
 
   const expandTransition = animateNav
     ? {
@@ -229,34 +262,37 @@ export default function Header() {
       };
 
   return (
-    <header className="pointer-events-none fixed left-0 right-0 top-0 z-[9999] isolate px-4 pt-4 md:px-6 md:pt-6">
-      <div className="pointer-events-auto flex w-full flex-col items-center px-0 md:w-auto">
-        <motion.nav
-          layout
-          transition={expandTransition}
-          className={`flex w-full max-w-[calc(100vw-2rem)] items-center justify-between rounded-full px-5 py-3.5 backdrop-blur-md transition-[background-color,border-color,box-shadow,color] duration-300 md:inline-flex md:w-auto md:max-w-[calc(100vw-2rem)] md:px-6 md:py-3.5 ${pillClass} ${
-            navExpanded ? "md:gap-8" : "md:gap-4"
-          }`}
-          aria-label="Hauptnavigation"
-        >
+    <header className="pointer-events-none fixed left-0 right-0 top-0 z-[9999] isolate px-4 pt-4 md:pl-6 md:pr-10 md:pt-6 lg:pl-8 lg:pr-14">
+      <div className="pointer-events-auto relative mx-auto w-full max-w-[1600px]">
+        <div className="flex items-center justify-between gap-4">
           <Link
             href={isHome ? "#hero" : "/"}
             onClick={scrollToHero}
-            className="flex-shrink-0 rounded-full transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+            className="relative z-10 flex-shrink-0 rounded-full transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
           >
-            <Logo onDarkBackground={onDarkPill} />
+            <Logo onDarkBackground={logoOnDarkBg} />
           </Link>
 
-          <motion.div
-            className="hidden min-w-0 overflow-hidden md:block"
+          <motion.nav
+            layout
+            transition={expandTransition}
+            className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex md:items-center ${NAV_PILL_CLASS}`}
+            aria-label="Hauptnavigation"
             initial={false}
             animate={{
-              maxWidth: navExpanded ? 520 : 0,
               opacity: navExpanded ? 1 : 0,
+              scale: navExpanded ? 1 : 0.92,
             }}
-            transition={expandTransition}
+            style={{ pointerEvents: navExpanded ? "auto" : "none" }}
           >
-            <ul className="flex items-center gap-5 whitespace-nowrap px-1 lg:gap-7">
+            <motion.ul
+              className="flex items-center gap-0.5 overflow-hidden px-1 py-1"
+              initial={false}
+              animate={{
+                maxWidth: navExpanded ? 520 : 0,
+              }}
+              transition={expandTransition}
+            >
               {navLinks.map((link, i) => (
                 <motion.li
                   key={link.href}
@@ -284,26 +320,43 @@ export default function Header() {
                   <NavLink
                     href={link.href}
                     label={link.label}
-                    isActive={activeSection === link.id}
-                    onDarkPill={onDarkPill}
+                    isActive={
+                      link.id === "projekte"
+                        ? isProjekte
+                        : link.id === "services"
+                          ? isServicesPage
+                          : link.id === "kontakt"
+                            ? isKontakt
+                            : link.id === "ueber-uns"
+                              ? isUeberUns
+                              : activeSection === link.id
+                    }
                     isHome={isHome}
+                    pathname={pathname}
                   />
                 </motion.li>
               ))}
-            </ul>
-          </motion.div>
+            </motion.ul>
+          </motion.nav>
 
           <Link
-            href={isHome ? "#contact" : "/#contact"}
-            onClick={scrollToContact}
-            className={`hidden shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-base font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex md:px-6 md:py-3 ${ctaClass}`}
+            href="/anfragen"
+            onClick={(e) => {
+              if (pathname !== "/anfragen") return;
+              e.preventDefault();
+              scrollToPageTop();
+            }}
+            className={`relative z-10 hidden shrink-0 items-center gap-3 rounded-full text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:inline-flex ${NAV_PILL_CLASS} ${NAV_ITEM_SIZE_CLASS} ${
+              isAnfragen ? "ring-2 ring-white/30" : ""
+            }`}
           >
-            Projekt starten
+            <StatusDot />
+            Anfragen
           </Link>
 
           <motion.button
             type="button"
-            className={`relative flex h-11 min-w-[3.75rem] shrink-0 items-center justify-center rounded-full px-5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:hidden ${mobileMenuBtnClass}`}
+            className={`relative z-10 flex h-11 min-w-[3.75rem] shrink-0 items-center justify-center rounded-full px-5 text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 md:hidden ${NAV_PILL_CLASS}`}
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label="Menü öffnen oder schließen"
@@ -326,18 +379,14 @@ export default function Header() {
               />
             </span>
           </motion.button>
-        </motion.nav>
+        </div>
 
         <AnimatePresence mode="wait">
           {open && (
             <motion.div
               key="mobile-menu"
               layout
-              className={`header-mobile-menu w-full max-w-[calc(100vw-2rem)] overflow-y-auto overflow-x-hidden rounded-3xl border px-5 py-4 md:hidden ${
-                onDarkPill
-                  ? "border-zinc-800/60 bg-zinc-900/95 text-white"
-                  : "border-zinc-200/80 bg-zinc-50/95 text-zinc-900"
-              }`}
+              className="header-mobile-menu absolute left-0 right-0 top-full z-20 mt-3 w-full overflow-y-auto overflow-x-hidden rounded-3xl border border-zinc-800/70 bg-zinc-900/95 px-5 py-4 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md md:hidden"
               style={isLandscape ? { maxHeight: "75vh" } : undefined}
               initial={{ opacity: 0, y: -8, scale: 0.98 }}
               animate={{
@@ -355,7 +404,16 @@ export default function Header() {
             >
               <ul className="flex flex-col gap-0.5">
                 {navLinks.map((link, i) => {
-                  const isActive = activeSection === link.id;
+                  const isActive =
+                    link.id === "projekte"
+                      ? isProjekte
+                      : link.id === "services"
+                        ? isServicesPage
+                        : link.id === "kontakt"
+                          ? isKontakt
+                          : link.id === "ueber-uns"
+                            ? isUeberUns
+                            : activeSection === link.id;
                   return (
                     <motion.li
                       key={link.href}
@@ -368,24 +426,15 @@ export default function Header() {
                       exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
                     >
                       <Link
-                        href={isHome ? link.href : `/${link.href}`}
+                        href={navHref(link, isHome)}
                         className={`block rounded-xl px-3 py-3 text-base font-medium transition-colors ${
                           isActive
-                            ? onDarkPill
-                              ? "text-cyan-400"
-                              : "text-cyan-600"
-                            : onDarkPill
-                              ? "text-zinc-400 hover:text-white"
-                              : "text-zinc-600 hover:text-zinc-900"
+                            ? "bg-white text-zinc-900"
+                            : "text-zinc-300 hover:text-white"
                         }`}
                         onClick={(e) => {
-                          if (!isHome) {
-                            setOpen(false);
-                            return;
-                          }
-                          e.preventDefault();
+                          handleNavLinkClick(e, pathname, link.href, isHome);
                           setOpen(false);
-                          document.getElementById(link.id)?.scrollIntoView({ behavior: "smooth" });
                         }}
                       >
                         {link.label}
@@ -404,11 +453,18 @@ export default function Header() {
                   className="mt-2 px-3 pb-1"
                 >
                   <Link
-                    href={isHome ? "#contact" : "/#contact"}
-                    className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-base font-semibold ${ctaClass}`}
-                    onClick={scrollToContact}
+                    href="/anfragen"
+                    className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-zinc-700/80 bg-zinc-800 px-5 py-3 text-base font-semibold text-white"
+                    onClick={(e) => {
+                      if (pathname === "/anfragen") {
+                        e.preventDefault();
+                        scrollToPageTop();
+                      }
+                      setOpen(false);
+                    }}
                   >
-                    Projekt starten
+                    <StatusDot />
+                    Anfragen
                   </Link>
                 </motion.li>
               </ul>

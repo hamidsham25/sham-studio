@@ -14,7 +14,7 @@ export default function Logo({ onDarkBackground = false, className = "" }: LogoP
 
   return (
     <span
-      className={`inline-flex items-baseline font-display text-lg leading-none tracking-[-0.03em] md:text-xl ${className}`}
+      className={`inline-flex items-baseline font-display text-xl leading-none tracking-[-0.03em] md:text-2xl ${className}`}
       aria-label="Sham Studio"
     >
       <span className={`font-bold ${shamClass}`}>Sham</span>

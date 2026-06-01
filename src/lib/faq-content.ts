@@ -70,7 +70,7 @@ export const IMPRESSUM_FAQ: FaqItem[] = [
   {
     question: "Wer betreibt sham-studio.de?",
     answer:
-      "Verantwortlich ist Hamid Sham, Sham Studio, Walsroder Straße 237, 30855 Langenhagen. Angaben gemäß § 5 TMG.",
+      "Verantwortlich ist Hamid, Sham Studio, Walsroder Straße 237, 30855 Langenhagen. Angaben gemäß § 5 TMG.",
   },
   {
     question: "Wie erreiche ich Sham Studio?",
@@ -83,7 +83,7 @@ export const DATENSCHUTZ_FAQ: FaqItem[] = [
   {
     question: "Wer ist für den Datenschutz auf sham-studio.de verantwortlich?",
     answer:
-      "Verantwortlicher ist Hamid Sham, Sham Studio, Walsroder Straße 237, 30855 Langenhagen. Details stehen in Abschnitt 1 der Datenschutzerklärung.",
+      "Verantwortlicher ist Hamid, Sham Studio, Walsroder Straße 237, 30855 Langenhagen. Details stehen in Abschnitt 1 der Datenschutzerklärung.",
   },
   {
     question: "Werden Kontaktanfragen gespeichert?",

@@ -10,7 +10,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Impressum: Anbieter & Kontakt Sham Studio",
   description:
-    "Wer hinter sham-studio.de steht: Hamid Sham, Sham Studio in Langenhagen – Adresse, Verantwortlicher und Kontakt per E-Mail.",
+    "Wer hinter sham-studio.de steht: Hamid, Sham Studio in Langenhagen – Adresse, Verantwortlicher und Kontakt per E-Mail.",
   openGraph: {
     url: `${SITE_URL}/impressum`,
     title: "Impressum | Sham Studio",
@@ -66,7 +66,7 @@ export default function ImpressumPage() {
           Impressum
         </h1>
         <p className="mt-4 text-zinc-400 text-base leading-relaxed">
-          Verantwortlich für sham-studio.de ist Hamid Sham (Sham Studio) in
+          Verantwortlich für sham-studio.de ist Hamid (Sham Studio) in
           Langenhagen – hier finden Sie alle Pflichtangaben gemäß § 5 TMG.
         </p>
 
@@ -76,7 +76,7 @@ export default function ImpressumPage() {
               Anbieter
             </h2>
             <p className="mt-2">
-              Hamid Sham
+              Hamid
               <br />
               Sham Studio
               <br />
@@ -101,7 +101,7 @@ export default function ImpressumPage() {
               Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
             </h2>
             <p className="mt-2">
-              Hamid Sham
+              Hamid
               <br />
               Walsroder Straße 237
               <br />

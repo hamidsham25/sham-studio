@@ -76,7 +76,7 @@ export default function AgbPage() {
             <p className="mt-2">
               Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle
               Verträge zwischen Sham Studio („Auftragnehmer“), vertreten durch
-              Hamid Sham, Walsroder Straße 237, 30855 Langenhagen, und dem
+              Hamid, Walsroder Straße 237, 30855 Langenhagen, und dem
               Auftraggeber („Kunde“) über die Erbringung von Dienstleistungen
               im Bereich Webdesign, UI/UX-Design, Branding, Webentwicklung und
               damit verbundener Tätigkeiten. Abweichende Bedingungen des Kunden

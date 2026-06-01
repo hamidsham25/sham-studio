@@ -1,6 +1,6 @@
 # Sham Studio
 
-> Sham Studio ist die Webdesign- und Entwicklungsagentur von Hamid Sham in Langenhagen bei Hannover. Wir erstellen individuelle, schnelle Websites mit UI/UX, SEO, Answer Engine Optimization (AEO), Branding und laufender Betreuung – ohne Templates.
+> Sham Studio ist die Webdesign- und Entwicklungsagentur von Hamid in Langenhagen bei Hannover. Wir erstellen individuelle, schnelle Websites mit UI/UX, SEO, Answer Engine Optimization (AEO), Branding und laufender Betreuung – ohne Templates.
 
 ## Themen & Expertise
 
@@ -27,7 +27,7 @@
 ## Kontakt
 
 - Unternehmen: Sham Studio
-- Inhaber: Hamid Sham
+- Inhaber: Hamid
 - Adresse: Walsroder Straße 237, 30855 Langenhagen, Deutschland
 - E-Mail: info@sham-studio.de
 - Website: https://sham-studio.de

@@ -573,7 +573,7 @@ export default function Portfolio() {
 
       {/* View All CTA */}
       <div ref={ctaRef} className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mt-12 mb-20 flex justify-center md:mt-16 md:mb-24">
+        <div className="mt-12 mb-20 flex flex-wrap items-center justify-center gap-3 md:mt-16 md:mb-24">
           <Link
             href="/projekte"
             className="group/btn inline-flex items-center gap-3 rounded-full border border-zinc-900 bg-zinc-900 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white hover:text-zinc-900"
@@ -581,6 +581,22 @@ export default function Portfolio() {
             Alle Projekte ansehen
             <svg
               className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+          <Link
+            href="/blog"
+            className="group/blog-btn inline-flex items-center gap-3 rounded-full border border-zinc-900 bg-transparent px-7 py-3.5 text-sm font-semibold text-zinc-900 transition-all duration-300 hover:bg-zinc-900 hover:text-white"
+          >
+            Blog & Insights
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover/blog-btn:translate-x-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

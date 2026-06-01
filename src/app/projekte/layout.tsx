@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
-import { PROJEKTE_FAQ } from "@/lib/faq-content";
 import { PORTFOLIO_PROJECTS } from "@/lib/portfolio-projects";
-import {
-  breadcrumbJsonLd,
-  faqPageJsonLd,
-  itemListJsonLd,
-} from "@/lib/schema";
+import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Portfolio: Webdesign-Referenzen aus Hannover",
+  title: "Projekte: Webdesign-Referenzen aus Hannover",
   description:
     "Sham Studio zeigt Live-Referenzen aus Elektrotechnik, Physio, Reinigung und mehr – individuelles Webdesign aus Hannover, zum Ansehen und Vergleichen.",
   alternates: { canonical: `${SITE_URL}/projekte` },
   openGraph: {
     url: `${SITE_URL}/projekte`,
-    title: "Portfolio | Sham Studio",
+    title: "Projekte | Sham Studio",
     description:
       "Alle Webdesign-Projekte von Sham Studio mit Live-Links und Branchen-Tags.",
   },
@@ -43,7 +38,7 @@ export default function ProjekteLayout({
   return (
     <>
       <StructuredData
-        data={[breadcrumbs, faqPageJsonLd(PROJEKTE_FAQ), portfolioList]}
+        data={[breadcrumbs, portfolioList]}
       />
       {children}
     </>

@@ -364,10 +364,11 @@ export default function Hero() {
 
         <Typewriter active={typewriterOn} />
 
-        <p className="hero-lead mx-auto mt-6 max-w-xl text-lg text-zinc-400 md:text-xl">
-          Sham Studio entwickelt individuelle Websites für Unternehmen in Hannover
-          und Umgebung – von der Idee bis zum Launch, schnell, modern und
-          conversion-orientiert.
+        <p className="hero-lead mx-auto mt-6 max-w-2xl text-lg text-zinc-400 md:text-xl">
+          Wir sind Ihr Partner für Webdesign und Entwicklung in Hannover und
+          deutschlandweit –
+          persönlich betreut, ohne Templates, mit Websites, die Vertrauen schaffen und
+          aus Besuchern echte Anfragen machen.
         </p>
       </div>
 

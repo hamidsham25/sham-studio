@@ -57,10 +57,10 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative z-10 flex min-h-[28rem] min-h-viewport flex-col section-padding rounded-b-3xl"
+      className="relative z-10 flex min-h-[28rem] min-h-viewport flex-col rounded-b-3xl pb-16 pt-16 md:pb-24 md:pt-20"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto flex max-w-2xl flex-1 flex-col justify-center px-6 md:px-8">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-6 md:px-8">
         <h2
           ref={headingRef}
           id="contact-heading"

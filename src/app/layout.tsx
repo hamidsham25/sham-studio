@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     "Webdesign Agentur",
     "individuelle Website",
   ],
-  authors: [{ name: "Hamid Sham", url: SITE_URL }],
+  authors: [{ name: "Hamid", url: SITE_URL }],
   creator: "Sham Studio",
   publisher: "Sham Studio",
   formatDetection: {

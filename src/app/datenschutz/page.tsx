@@ -78,7 +78,7 @@ export default function DatenschutzPage() {
               Verantwortlich für die Datenverarbeitung auf dieser Website ist:
             </p>
             <p className="mt-2">
-              Hamid Sham
+              Hamid
               <br />
               Sham Studio
               <br />

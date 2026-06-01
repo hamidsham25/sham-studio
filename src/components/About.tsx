@@ -132,6 +132,10 @@ export default function About() {
           ))}
         </div>
       </div>
+
+      <div className="relative mx-auto mt-16 max-w-6xl px-6 md:mt-20 md:px-8 lg:px-10">
+        <div className="border-t border-zinc-800" aria-hidden />
+      </div>
     </section>
   );
 }

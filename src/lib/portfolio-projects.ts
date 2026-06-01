@@ -22,7 +22,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Website für einen Elektromeisterbetrieb in Hannover. Photovoltaik, Elektroinstallation und Gebäudetechnik klar strukturiert und conversion-orientiert.",
     preview: "/images/portfolio/enerstrom-hover.png",
     href: "https://www.enerstrom-hannover.de",
-    tags: ["Elektrotechnik", "Meisterbetrieb", "Photovoltaik"],
+    tags: ["Webdesign", "SEO", "Google Business"],
   },
   {
     id: "physio-saglam",
@@ -32,7 +32,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Praxiswebsite in Langenhagen. Freundlich, übersichtlich und mit Fokus auf Therapien, Team und Terminanfrage.",
     preview: "/images/portfolio/physio-hover.png",
     href: "https://physio-saglam.vercel.app",
-    tags: ["Physiotherapie", "Praxis", "Langenhagen"],
+    tags: ["Webdesign", "Branding"],
   },
   {
     id: "rein-gebaeudeservice",
@@ -42,7 +42,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Gebäudereinigung in Hannover. Leistungen, Karriere und Angebotsanfrage in 24h klar kommuniziert.",
     preview: "/images/portfolio/cleaning-hover.png",
     href: "https://www.rein-gebaeudeservice.de",
-    tags: ["Gebäudereinigung", "B2B", "Hannover"],
+    tags: ["Webdesign", "Branding", "SEO", "Digital Marketing"],
   },
   {
     id: "noir-ink",
@@ -52,7 +52,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Tattoo-Studio in Hannover. Dunkle, bildstarke Präsentation mit Galerie, Team und Terminbuchung.",
     preview: "/images/portfolio/tattoo-hover.png",
     href: "https://tattoo-website-woad.vercel.app",
-    tags: ["Tattoo Studio", "Galerie", "Terminbuchung"],
+    tags: ["Webdesign", "Branding"],
     isMockup: true,
   },
   {
@@ -63,7 +63,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Gebrauchtwagenhändler in Langenhagen. Fahrzeugbestand, An- und Verkauf sowie vertrauensvolle Kundenstimmen.",
     preview: "/images/portfolio/cardealer-hover.png",
     href: "https://www.sham-automobile.de",
-    tags: ["Autohandel", "CMS", "Langenhagen"],
+    tags: ["Webdesign", "Branding", "SEO", "Digital Marketing"],
   },
   {
     id: "lena-art",
@@ -73,7 +73,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Künstlerportfolio mit ausgewählten Arbeiten, Atelier-Story und Kontakt für Kooperationen und Aufträge.",
     preview: "/images/portfolio/artgallery-hover.png",
     href: "https://lena-art-portfolio.vercel.app",
-    tags: ["Portfolio", "Kunst", "Galerie"],
+    tags: ["Webdesign", "Branding"],
   },
   {
     id: "handwerker",
@@ -83,7 +83,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
       "Handwerksbetrieb. Leistungen von Renovierung bis Hausbau, Projekte und Anfrage klar aufbereitet.",
     preview: "/images/portfolio/handwerker-hover.png",
     href: "https://handwerker-website.vercel.app",
-    tags: ["Handwerk", "Leistungen", "Projekte"],
+    tags: ["Webdesign", "Branding", "SEO"],
     isMockup: true,
   },
 ];

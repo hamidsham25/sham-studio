@@ -48,6 +48,8 @@ type ContactFormProps = {
   compact?: boolean;
   /** Vorausgefüllter Betreff (z. B. im Service-Popup) */
   defaultSubject?: string;
+  /** Hell für Kontakt-/Anfragen-Seiten, dunkel für Startseite und Modal */
+  variant?: "dark" | "light";
 };
 
 export default function ContactForm({
@@ -55,6 +57,7 @@ export default function ContactForm({
   onSuccess,
   compact = false,
   defaultSubject,
+  variant = "dark",
 }: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<Status>("idle");
@@ -157,10 +160,29 @@ export default function ContactForm({
     }
   }
 
-  const inputBase =
-    "rounded-xl border bg-[#111] px-4 py-3 text-white placeholder-zinc-500 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/20 ";
-  const inputError = "border-red-500/60 focus:border-red-500 focus:ring-red-500/20";
-  const inputOk = "border-zinc-700 focus:border-cyan-500";
+  const isLight = variant === "light";
+  const inputBase = isLight
+    ? "rounded-xl border bg-white px-4 py-3 text-zinc-900 placeholder-zinc-400 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/25 "
+    : "rounded-xl border bg-[#111] px-4 py-3 text-white placeholder-zinc-500 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/20 ";
+  const inputError = isLight
+    ? "border-red-400 focus:border-red-500 focus:ring-red-500/20"
+    : "border-red-500/60 focus:border-red-500 focus:ring-red-500/20";
+  const inputOk = isLight
+    ? "border-zinc-200 focus:border-cyan-600"
+    : "border-zinc-700 focus:border-cyan-500";
+  const labelClass = isLight
+    ? "text-sm font-medium text-zinc-700"
+    : "text-sm font-medium text-zinc-300";
+  const fieldErrorClass = isLight ? "text-sm text-red-600" : "text-sm text-red-400";
+  const successBoxClass = isLight
+    ? "flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-800"
+    : "flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/20 px-4 py-4 text-emerald-400";
+  const errorBoxClass = isLight
+    ? "rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700"
+    : "rounded-xl bg-red-500/15 px-4 py-3 text-sm text-red-400";
+  const submitClass = isLight
+    ? "inline-flex items-center justify-center rounded-full bg-zinc-900 px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+    : "inline-flex items-center justify-center rounded-full bg-cyan-400 px-8 py-4 text-base font-semibold text-black transition-colors hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed";
 
   return (
     <form
@@ -178,12 +200,9 @@ export default function ContactForm({
       <input type="hidden" name="source" value={source} />
 
       {status === "success" ? (
-        <div
-          className="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/20 px-4 py-4 text-emerald-400"
-          role="status"
-        >
+        <div className={successBoxClass} role="status">
           <svg
-            className="h-6 w-6 shrink-0 text-emerald-400"
+            className={`h-6 w-6 shrink-0 ${isLight ? "text-emerald-600" : "text-emerald-400"}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -199,7 +218,7 @@ export default function ContactForm({
         <>
       <div className="grid gap-6 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-zinc-300">Name</span>
+          <span className={labelClass}>Name</span>
           <input
             type="text"
             name="name"
@@ -211,13 +230,13 @@ export default function ContactForm({
             aria-invalid={!!fieldErrors.name}
           />
           {fieldErrors.name && (
-            <span className="text-sm text-red-400" role="alert">
+            <span className={fieldErrorClass} role="alert">
               {fieldErrors.name}
             </span>
           )}
         </label>
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-zinc-300">E-Mail</span>
+          <span className={labelClass}>E-Mail</span>
           <input
             type="email"
             name="email"
@@ -229,7 +248,7 @@ export default function ContactForm({
             aria-invalid={!!fieldErrors.email}
           />
           {fieldErrors.email && (
-            <span className="text-sm text-red-400" role="alert">
+            <span className={fieldErrorClass} role="alert">
               {fieldErrors.email}
             </span>
           )}
@@ -237,7 +256,7 @@ export default function ContactForm({
       </div>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-300">Betreff</span>
+        <span className={labelClass}>Betreff</span>
         <input
           type="text"
           name="subject"
@@ -250,14 +269,14 @@ export default function ContactForm({
           aria-invalid={!!fieldErrors.subject}
         />
         {fieldErrors.subject && (
-          <span className="text-sm text-red-400" role="alert">
+          <span className={fieldErrorClass} role="alert">
             {fieldErrors.subject}
           </span>
         )}
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-zinc-300">Nachricht</span>
+        <span className={labelClass}>Nachricht</span>
         <textarea
           name="message"
           required
@@ -268,14 +287,14 @@ export default function ContactForm({
           aria-invalid={!!fieldErrors.message}
         />
         {fieldErrors.message && (
-          <span className="text-sm text-red-400" role="alert">
+          <span className={fieldErrorClass} role="alert">
             {fieldErrors.message}
           </span>
         )}
       </label>
 
       {status === "error" && errorMessage && (
-        <p className="rounded-xl bg-red-500/15 px-4 py-3 text-sm text-red-400" role="alert">
+        <p className={errorBoxClass} role="alert">
           {errorMessage}
         </p>
       )}
@@ -284,7 +303,7 @@ export default function ContactForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex items-center justify-center rounded-full bg-cyan-400 px-8 py-4 text-base font-semibold text-black transition-colors hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          className={submitClass}
         >
           {status === "sending" ? "Wird gesendet …" : "Senden"}
         </button>

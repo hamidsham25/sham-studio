@@ -32,7 +32,6 @@ export default function Home() {
         <Services />
         <PricingSection />
         <About />
-        <div className="h-px w-full shrink-0 bg-zinc-600" aria-hidden />
         <Contact />
         <FaqSection items={HOME_FAQ} />
       </main>
