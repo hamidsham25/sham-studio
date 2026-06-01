@@ -27,4 +27,4 @@ export const AUTHOR = {
 } as const;
 
 /** Sichtbares Aktualisierungsdatum für E-E-A-T (bei inhaltlichen Änderungen anpassen). */
-export const CONTENT_LAST_UPDATED = "2026-05-27";
+export const CONTENT_LAST_UPDATED = "2026-06-01";
