@@ -5,12 +5,8 @@ type LogoProps = {
 };
 
 export default function Logo({ onDarkBackground = false, className = "" }: LogoProps) {
-  const shamClass = onDarkBackground
-    ? "text-white max-md:text-zinc-900"
-    : "text-zinc-900";
-  const studioClass = onDarkBackground
-    ? "text-zinc-400 max-md:text-zinc-500"
-    : "text-zinc-500";
+  const shamClass = onDarkBackground ? "text-white" : "text-zinc-900";
+  const studioClass = onDarkBackground ? "text-zinc-400" : "text-zinc-500";
 
   return (
     <span
