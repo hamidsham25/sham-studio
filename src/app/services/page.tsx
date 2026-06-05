@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServicesPageHero from "@/components/ServicesPageHero";
 import ServicesRows from "@/components/ServicesRows";
+import PricingSection from "@/components/PricingSection";
 import { ContactModalProvider } from "@/components/ContactModalContext";
 import { markLoadingScreenSeen } from "@/lib/loading-screen";
 
@@ -28,6 +29,8 @@ export default function ServicesPage() {
               <ServicesRows />
             </div>
           </section>
+
+          <PricingSection />
         </main>
         <Footer />
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useLayoutEffect } from "react";
@@ -31,13 +31,19 @@ const HOME_SECTIONS = [
   "contact",
 ] as const;
 const PROJEKTE_SECTIONS = ["projekte-hero", "projekte-list"] as const;
-const SERVICES_PAGE_SECTIONS = ["services-hero", "services-list"] as const;
+const SERVICES_PAGE_SECTIONS = ["services-hero", "services-list", "pricing"] as const;
 
 const NAV_PILL_CLASS =
   "rounded-full border border-zinc-800/70 bg-zinc-900/95 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md";
 
 const NAV_ITEM_SIZE_CLASS =
   "inline-flex items-center px-5 py-2.5 text-sm font-semibold md:px-6 md:py-3";
+
+const NAV_ACTIVE_PILL_TRANSITION = {
+  type: "spring" as const,
+  stiffness: 380,
+  damping: 32,
+};
 
 function useActiveSection(pathname: string) {
   const isHome = pathname === "/";
@@ -123,24 +129,32 @@ function NavLink({
   isActive,
   isHome,
   pathname,
+  indicatorLayoutId,
 }: {
   href: string;
   label: string;
   isActive: boolean;
   isHome: boolean;
   pathname: string;
+  indicatorLayoutId: string;
 }) {
   return (
     <Link
       href={navHref({ href }, isHome)}
       onClick={(e) => handleNavLinkClick(e, pathname, href, isHome)}
-      className={`${NAV_ITEM_SIZE_CLASS} whitespace-nowrap rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
-        isActive
-          ? "bg-white text-zinc-900"
-          : "text-zinc-300 hover:text-white"
+      className={`${NAV_ITEM_SIZE_CLASS} relative z-0 whitespace-nowrap rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2 ${
+        isActive ? "text-zinc-900" : "text-zinc-300 hover:text-white"
       }`}
     >
-      {label}
+      {isActive ? (
+        <motion.span
+          layoutId={indicatorLayoutId}
+          className="absolute inset-0 rounded-full bg-white"
+          transition={NAV_ACTIVE_PILL_TRANSITION}
+          aria-hidden
+        />
+      ) : null}
+      <span className="relative z-10">{label}</span>
     </Link>
   );
 }
@@ -285,58 +299,61 @@ export default function Header() {
             }}
             style={{ pointerEvents: navExpanded ? "auto" : "none" }}
           >
-            <motion.ul
-              className="flex items-center gap-0.5 overflow-hidden px-1 py-1"
-              initial={false}
-              animate={{
-                maxWidth: navExpanded ? 520 : 0,
-              }}
-              transition={expandTransition}
-            >
-              {navLinks.map((link, i) => (
-                <motion.li
-                  key={link.href}
-                  initial={false}
-                  animate={{
-                    opacity: navExpanded ? 1 : 0,
-                    x: navExpanded ? 0 : -6,
-                  }}
-                  transition={
-                    animateNav
-                      ? {
-                          opacity: {
-                            duration: 0.25,
-                            delay: navExpanded ? 0.12 + i * 0.05 : 0,
-                          },
-                          x: {
-                            duration: 0.35,
-                            delay: navExpanded ? 0.1 + i * 0.05 : 0,
-                            ease: [0.25, 0.46, 0.45, 0.94],
-                          },
-                        }
-                      : { duration: 0 }
-                  }
-                >
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    isActive={
-                      link.id === "projekte"
-                        ? isProjekte
-                        : link.id === "services"
-                          ? isServicesPage
-                          : link.id === "kontakt"
-                            ? isKontakt
-                            : link.id === "ueber-uns"
-                              ? isUeberUns
-                              : activeSection === link.id
+            <LayoutGroup id="desktop-nav">
+              <motion.ul
+                className="flex items-center gap-0.5 overflow-hidden px-1 py-1"
+                initial={false}
+                animate={{
+                  maxWidth: navExpanded ? 520 : 0,
+                }}
+                transition={expandTransition}
+              >
+                {navLinks.map((link, i) => (
+                  <motion.li
+                    key={link.href}
+                    initial={false}
+                    animate={{
+                      opacity: navExpanded ? 1 : 0,
+                      x: navExpanded ? 0 : -6,
+                    }}
+                    transition={
+                      animateNav
+                        ? {
+                            opacity: {
+                              duration: 0.25,
+                              delay: navExpanded ? 0.12 + i * 0.05 : 0,
+                            },
+                            x: {
+                              duration: 0.35,
+                              delay: navExpanded ? 0.1 + i * 0.05 : 0,
+                              ease: [0.25, 0.46, 0.45, 0.94],
+                            },
+                          }
+                        : { duration: 0 }
                     }
-                    isHome={isHome}
-                    pathname={pathname}
-                  />
-                </motion.li>
-              ))}
-            </motion.ul>
+                  >
+                    <NavLink
+                      href={link.href}
+                      label={link.label}
+                      isActive={
+                        link.id === "projekte"
+                          ? isProjekte
+                          : link.id === "services"
+                            ? isServicesPage
+                            : link.id === "kontakt"
+                              ? isKontakt
+                              : link.id === "ueber-uns"
+                                ? isUeberUns
+                                : activeSection === link.id
+                      }
+                      isHome={isHome}
+                      pathname={pathname}
+                      indicatorLayoutId="desktop-nav-active-pill"
+                    />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </LayoutGroup>
           </motion.nav>
 
           <Link
@@ -402,72 +419,80 @@ export default function Header() {
                 transition: { duration: 0.16 },
               }}
             >
-              <ul className="flex flex-col gap-0.5">
-                {navLinks.map((link, i) => {
-                  const isActive =
-                    link.id === "projekte"
-                      ? isProjekte
-                      : link.id === "services"
-                        ? isServicesPage
-                        : link.id === "kontakt"
-                          ? isKontakt
-                          : link.id === "ueber-uns"
-                            ? isUeberUns
-                            : activeSection === link.id;
-                  return (
-                    <motion.li
-                      key={link.href}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                        transition: { delay: 0.02 + i * 0.02, duration: 0.22 },
-                      }}
-                      exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
-                    >
-                      <Link
-                        href={navHref(link, isHome)}
-                        className={`block rounded-xl px-3 py-3 text-base font-medium transition-colors ${
-                          isActive
-                            ? "bg-white text-zinc-900"
-                            : "text-zinc-300 hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          handleNavLinkClick(e, pathname, link.href, isHome);
-                          setOpen(false);
+              <LayoutGroup id="mobile-nav">
+                <ul className="flex flex-col gap-0.5">
+                  {navLinks.map((link, i) => {
+                    const isActive =
+                      link.id === "projekte"
+                        ? isProjekte
+                        : link.id === "services"
+                          ? isServicesPage
+                          : link.id === "kontakt"
+                            ? isKontakt
+                            : link.id === "ueber-uns"
+                              ? isUeberUns
+                              : activeSection === link.id;
+                    return (
+                      <motion.li
+                        key={link.href}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{
+                          opacity: 1,
+                          x: 0,
+                          transition: { delay: 0.02 + i * 0.02, duration: 0.22 },
                         }}
+                        exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
                       >
-                        {link.label}
-                      </Link>
-                    </motion.li>
-                  );
-                })}
-                <motion.li
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                    transition: { delay: 0.02 + navLinks.length * 0.02, duration: 0.22 },
-                  }}
-                  exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
-                  className="mt-2 px-3 pb-1"
-                >
-                  <Link
-                    href="/anfragen"
-                    className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-zinc-700/80 bg-zinc-800 px-5 py-3 text-base font-semibold text-white"
-                    onClick={(e) => {
-                      if (pathname === "/anfragen") {
-                        e.preventDefault();
-                        scrollToPageTop();
-                      }
-                      setOpen(false);
+                        <Link
+                          href={navHref(link, isHome)}
+                          className={`relative z-0 block rounded-xl px-3 py-3 text-base font-medium transition-colors ${
+                            isActive ? "text-zinc-900" : "text-zinc-300 hover:text-white"
+                          }`}
+                          onClick={(e) => {
+                            handleNavLinkClick(e, pathname, link.href, isHome);
+                            setOpen(false);
+                          }}
+                        >
+                          {isActive ? (
+                            <motion.span
+                              layoutId="mobile-nav-active-pill"
+                              className="absolute inset-0 rounded-xl bg-white"
+                              transition={NAV_ACTIVE_PILL_TRANSITION}
+                              aria-hidden
+                            />
+                          ) : null}
+                          <span className="relative z-10">{link.label}</span>
+                        </Link>
+                      </motion.li>
+                    );
+                  })}
+                  <motion.li
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      transition: { delay: 0.02 + navLinks.length * 0.02, duration: 0.22 },
                     }}
+                    exit={{ opacity: 0, x: -6, transition: { duration: 0.15 } }}
+                    className="mt-2 px-3 pb-1"
                   >
-                    <StatusDot />
-                    Anfragen
-                  </Link>
-                </motion.li>
-              </ul>
+                    <Link
+                      href="/anfragen"
+                      className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-zinc-700/80 bg-zinc-800 px-5 py-3 text-base font-semibold text-white"
+                      onClick={(e) => {
+                        if (pathname === "/anfragen") {
+                          e.preventDefault();
+                          scrollToPageTop();
+                        }
+                        setOpen(false);
+                      }}
+                    >
+                      <StatusDot />
+                      Anfragen
+                    </Link>
+                  </motion.li>
+                </ul>
+              </LayoutGroup>
             </motion.div>
           )}
         </AnimatePresence>

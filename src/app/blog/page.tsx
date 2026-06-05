@@ -46,40 +46,40 @@ export default function BlogPage() {
 
               <div className="grid gap-5 md:grid-cols-2">
                 {posts.map((post) => (
-                  <article
+                  <Link
                     key={post.slug}
-                    className="group rounded-xl border border-zinc-200/90 bg-zinc-50/40 p-6 transition-colors hover:border-zinc-300"
+                    href={`/blog/${post.slug}`}
+                    className="group block rounded-xl border border-zinc-200/90 bg-zinc-50/40 p-6 transition-colors hover:border-zinc-300"
                   >
-                    <p className="text-xs font-medium uppercase tracking-widest text-zinc-500">
-                      {dateFormatter.format(new Date(post.date))}
-                    </p>
-                    <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-zinc-900 transition-colors group-hover:text-cyan-700">
-                      {post.title}
-                    </h2>
-                    <p className="mt-3 leading-relaxed text-zinc-600">
-                      {post.description}
-                    </p>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900 transition-colors group-hover:text-cyan-700"
-                    >
-                      Artikel lesen
-                      <svg
-                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        aria-hidden
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </Link>
-                  </article>
+                    <article>
+                      <p className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+                        {dateFormatter.format(new Date(post.date))}
+                      </p>
+                      <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-zinc-900 transition-colors group-hover:text-cyan-700">
+                        {post.title}
+                      </h2>
+                      <p className="mt-3 leading-relaxed text-zinc-600">
+                        {post.description}
+                      </p>
+                      <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-zinc-900 transition-colors group-hover:text-cyan-700">
+                        Artikel lesen
+                        <svg
+                          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          aria-hidden
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </span>
+                    </article>
+                  </Link>
                 ))}
               </div>
             </div>
