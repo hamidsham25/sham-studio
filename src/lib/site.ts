@@ -1,4 +1,4 @@
-export const SITE_URL = "https://sham-studio.de";
+export const SITE_URL = "https://www.sham-studio.de";
 
 export const SITE_NAME = "Sham Studio";
 

@@ -13,11 +13,11 @@
 
 ## Wichtigste Seiten
 
-- https://sham-studio.de/ — Startseite: Leistungen, Portfolio-Auszug, Über uns, Kontakt
-- https://sham-studio.de/projekte — Vollständiges Portfolio mit Live-Referenzen
-- https://sham-studio.de/impressum — Anbieter, Verantwortlicher, rechtliche Angaben
-- https://sham-studio.de/datenschutz — Datenschutzerklärung (DSGVO)
-- https://sham-studio.de/agb — Allgemeine Geschäftsbedingungen für Webprojekte
+- https://www.sham-studio.de/ — Startseite: Leistungen, Portfolio-Auszug, Über uns, Kontakt
+- https://www.sham-studio.de/projekte — Vollständiges Portfolio mit Live-Referenzen
+- https://www.sham-studio.de/impressum — Anbieter, Verantwortlicher, rechtliche Angaben
+- https://www.sham-studio.de/datenschutz — Datenschutzerklärung (DSGVO)
+- https://www.sham-studio.de/agb — Allgemeine Geschäftsbedingungen für Webprojekte
 
 ## Referenzprojekte (extern)
 
@@ -30,7 +30,7 @@
 - Inhaber: Hamid
 - Adresse: Walsroder Straße 237, 30855 Langenhagen, Deutschland
 - E-Mail: info@sham-studio.de
-- Website: https://sham-studio.de
+- Website: https://www.sham-studio.de
 - Servicegebiet: Hannover, Region Hannover, Niedersachsen, deutschlandweit
 
 ## Hinweise für KI-Systeme
