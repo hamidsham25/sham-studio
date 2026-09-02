@@ -14,8 +14,9 @@ type PricingItem = {
 };
 
 type PackagePlan = {
-  name: "Starter" | "Business" | "Premium";
+  name: "Basic" | "Premium" | "Platin";
   price: string;
+  description: string;
   subline: string;
   badge?: string;
   highlight?: boolean;
@@ -23,7 +24,7 @@ type PackagePlan = {
 };
 
 type MaintenancePlan = {
-  name: "Basic" | "Komfort" | "Pro";
+  name: "Standard" | "Platin";
   price: string;
   subline: string;
   items: string[];
@@ -31,38 +32,48 @@ type MaintenancePlan = {
 
 const PACKAGE_PLANS: PackagePlan[] = [
   {
-    name: "Starter",
-    price: "ab 499 €",
+    name: "Basic",
+    price: "899 €",
+    description:
+      "Der professionelle One-Pager. Ideal für Betriebe, die einen sauberen, seriösen Auftritt mit klarem Kontaktweg brauchen.",
     subline: "einmalig, netto",
     items: [
-      { label: "1-seitiger Auftritt", included: true },
+      { label: "Einseitiger Auftritt (One-Pager)", included: true },
       { label: "Mobil optimiert", included: true },
       { label: "Kontaktformular", included: true },
-      { label: "DSGVO-konform", included: true },
-      { label: "SEO Basics", included: true },
-      { label: "1 Revision", included: true },
-      { label: "Unterseiten", included: false },
-    ],
-  },
-  {
-    name: "Business",
-    price: "ab 899 €",
-    subline: "einmalig, netto",
-    badge: "Am beliebtesten",
-    highlight: true,
-    items: [
-      { label: "Bis zu 5 Unterseiten", included: true },
-      { label: "Mobil optimiert", included: true },
-      { label: "SEO-Grundausstattung", included: true },
-      { label: "Google Maps Integration", included: true },
-      { label: "2 Revisionen", included: true },
-      { label: "30 Tage Support", included: true },
-      { label: "Branding / Logo", included: false },
+      { label: "WhatsApp-Direktkontakt", included: true },
+      { label: "DSGVO-konform (Impressum & Datenschutz)", included: true },
+      { label: "SEO-Basics", included: true },
+      { label: "1 Revisionsrunde", included: true },
     ],
   },
   {
     name: "Premium",
+    price: "1.499 €",
+    description:
+      "Der vollständige Webauftritt mit mehreren Unterseiten. Für Betriebe, die ihre Leistungen ausführlich zeigen und besser gefunden werden wollen.",
+    subline: "einmalig, netto",
+    badge: "Am beliebtesten",
+    highlight: true,
+    items: [
+      {
+        label: "Bis zu 5 Unterseiten (z. B. Start, Leistungen, Über uns, Referenzen, Kontakt)",
+        included: true,
+      },
+      { label: "Mobil optimiert", included: true },
+      { label: "Kontaktformular & WhatsApp-Direktkontakt", included: true },
+      { label: "DSGVO-konform (Impressum & Datenschutz)", included: true },
+      { label: "SEO-Grundausstattung", included: true },
+      { label: "Google-Maps-Integration", included: true },
+      { label: "2 Revisionsrunden", included: true },
+      { label: "30 Tage Support nach Livegang", included: true },
+    ],
+  },
+  {
+    name: "Platin",
     price: "Auf Anfrage",
+    description:
+      "Individuelle Lösungen für größere Projekte. Umfang, Funktionen und Leistungen werden passend zu Ihrem Vorhaben kalkuliert.",
     subline: "individuell kalkuliert",
     items: [
       { label: "Bis zu 10+ Unterseiten", included: true },
@@ -77,33 +88,24 @@ const PACKAGE_PLANS: PackagePlan[] = [
 
 const MAINTENANCE_PLANS: MaintenancePlan[] = [
   {
-    name: "Basic",
-    price: "19 €/Monat",
-    subline: "monatlich, netto",
+    name: "Standard",
+    price: "29 €/Monat",
+    subline: "monatlich, netto · Mindestlaufzeit 12 Monate",
     items: [
-      "Updates & Sicherheit",
-      "1 kleine Änderung/Monat",
+      "Technische Updates & Sicherheit",
+      "Hosting-Überwachung",
+      "Kleine Textänderungen nach Absprache",
     ],
   },
   {
-    name: "Komfort",
+    name: "Platin",
     price: "49 €/Monat",
-    subline: "monatlich, netto",
+    subline: "monatlich, netto · Mindestlaufzeit 12 Monate",
     items: [
-      "Alles aus Basic",
-      "Bis 2h Änderungen/Monat",
-      "Priorität-Support",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "99 €/Monat",
-    subline: "monatlich, netto",
-    items: [
-      "Alles aus Komfort",
-      "Bis 4h Änderungen/Monat",
-      "SEO-Monitoring",
-      "Google Business Pflege",
+      "Alles aus Standard",
+      "Regelmäßige Backups",
+      "Erweiterte Änderungen",
+      "Bevorzugter Support",
     ],
   },
 ];
@@ -155,7 +157,10 @@ function PackageCard({
       <h3 className="relative mt-4 font-display text-2xl font-bold text-zinc-900">
         {plan.name}
       </h3>
-      <p className="relative mt-3 font-display text-3xl font-bold tracking-tight text-zinc-900">
+      <p className="relative mt-3 text-sm leading-relaxed text-zinc-600">
+        {plan.description}
+      </p>
+      <p className="relative mt-4 font-display text-3xl font-bold tracking-tight text-zinc-900">
         {plan.price}
       </p>
       <p className="relative mt-1 text-xs uppercase tracking-wide text-zinc-500">
@@ -322,10 +327,10 @@ export default function PricingSection() {
             Wartung & Pflege optional zu jedem Paket
           </h3>
           <p className="mt-3 text-zinc-600">
-            Monatlich kündbar. Keine Mindestlaufzeit.
+            Optional zu jedem Website-Paket. Mindestlaufzeit 12 Monate.
           </p>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
             {MAINTENANCE_PLANS.map((plan, i) => (
               <MaintenanceCard
                 key={plan.name}
