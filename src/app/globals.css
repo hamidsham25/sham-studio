@@ -209,3 +209,99 @@ button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   Preview-System (Kundenentwürfe unter /preview/[slug])
+   Eigenes Variablen-Set, getrennt vom Sham-Studio-Design oben.
+   Die Werte hier sind nur Defaults – pro Kunde werden sie per inline style
+   auf .preview-root überschrieben (siehe src/lib/previews/theme.ts).
+   ========================================================================== */
+:root {
+  --preview-primary: #2563eb;
+  --preview-primary-hover: #1d4ed8;
+  --preview-background: #ffffff;
+  --preview-foreground: #18181b;
+  --preview-muted: #71717a;
+}
+
+.preview-root {
+  /* Textfarbe auf der Akzentfarbe – per config.colors.onPrimary überschreibbar. */
+  --preview-on-primary: #ffffff;
+
+  /* Abgeleitete Töne: immer aus den Basisfarben gemischt, damit eine neue
+     Kundenfarbe automatisch alle Flächen mitfärbt. */
+  --preview-surface: color-mix(
+    in oklab,
+    var(--preview-foreground) 4%,
+    var(--preview-background)
+  );
+  --preview-border: color-mix(
+    in oklab,
+    var(--preview-foreground) 12%,
+    var(--preview-background)
+  );
+  --preview-tint: color-mix(
+    in oklab,
+    var(--preview-primary) 8%,
+    var(--preview-background)
+  );
+  --preview-tint-strong: color-mix(
+    in oklab,
+    var(--preview-primary) 18%,
+    var(--preview-background)
+  );
+  --preview-primary-border: color-mix(
+    in oklab,
+    var(--preview-primary) 35%,
+    var(--preview-background)
+  );
+  /* Halbtransparent für die Sticky-Navigation mit backdrop-blur. */
+  --preview-header-bg: color-mix(
+    in oklab,
+    var(--preview-background) 85%,
+    transparent
+  );
+
+  min-height: 100svh;
+  background: var(--preview-background);
+  color: var(--preview-foreground);
+  font-family: var(--preview-font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.preview-root a:focus-visible,
+.preview-root button:focus-visible,
+.preview-root input:focus-visible,
+.preview-root textarea:focus-visible,
+.preview-root select:focus-visible,
+.preview-root summary:focus-visible {
+  outline: 2px solid var(--preview-primary);
+  outline-offset: 2px;
+}
+
+/* Marker der Mobile-Navigation (<details>) ausblenden. */
+.preview-root summary::-webkit-details-marker {
+  display: none;
+}
+.preview-root summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+/* Button auf der Akzentfarbe (CTA-Block) – halbtransparente Kontur. */
+.preview-btn-on-primary {
+  color: var(--preview-on-primary);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in oklab, var(--preview-on-primary) 45%, transparent);
+}
+.preview-btn-on-primary:hover {
+  background: color-mix(in oklab, var(--preview-on-primary) 14%, transparent);
+  box-shadow: inset 0 0 0 1px var(--preview-on-primary);
+}
+
+/* Dekorative Farbkleckse im Hero – rein visuell, ohne Inhalt. */
+.preview-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  pointer-events: none;
+}

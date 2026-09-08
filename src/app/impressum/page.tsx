@@ -111,12 +111,9 @@ export default function ImpressumPage() {
 
           <section>
             <h2 className="font-display text-lg font-semibold text-white">
-              Umsatzsteuer
+              Steuernummer
             </h2>
-            <p className="mt-2">
-              Als Kleinunternehmer im Sinne von § 19 UStG wird keine
-              Umsatzsteuer-Identifikationsnummer angegeben.
-            </p>
+            <p className="mt-2">27/138/08396</p>
           </section>
 
           <section>
