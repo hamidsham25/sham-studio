@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
 
-type PreviewContainerProps = {
+type MalerNavContainerProps = {
   children: ReactNode;
   className?: string;
 };
 
-/** Seitenbreite mittig: nicht so eng wie max-w-6xl, nicht randvoll. */
-export default function PreviewContainer({
+/** Seitenabstand für TopBar/Navbar – angeglichen an die Sections. */
+export default function MalerNavContainer({
   children,
   className = "",
-}: PreviewContainerProps) {
+}: MalerNavContainerProps) {
   return (
     <div className={`mx-auto w-full max-w-7xl px-5 md:px-7 ${className}`}>
       {children}

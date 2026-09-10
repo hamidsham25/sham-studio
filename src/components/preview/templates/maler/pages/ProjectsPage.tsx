@@ -18,6 +18,7 @@ export default function MalerProjectsPage({ config }: Props) {
         eyebrow="Projekte"
         title={intro?.title ?? "Unsere Projekte"}
         text={intro?.text}
+        image={intro?.image}
       />
 
       {projects.length > 0 ? (

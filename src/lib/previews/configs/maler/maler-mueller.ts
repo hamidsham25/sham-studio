@@ -31,12 +31,22 @@ export const malerMueller: PreviewConfig = {
     "Kostenloses Aufmaß vor Ort – Festpreis-Angebot innerhalb von 48 Stunden",
 
   hero: {
-    eyebrow: "Maler- und Lackiererbetrieb aus Hannover",
-    headline: "Professionelle Malerarbeiten in Hannover",
+    eyebrow: "Meisterbetrieb aus Hannover",
+    headline: "Malerarbeiten, die halten – fest im Preis und im Termin",
     subline:
-      "Innenanstrich, Fassade und Wandgestaltung für Privat- und Gewerbekunden – saubere Ausführung, feste Termine und ein Festpreis, der hält.",
+      "Innenanstrich, Fassade und Wandgestaltung für Privat- und Gewerbekunden. Saubere Baustelle, feste Ansprechpartner, Angebot innerhalb von 48 Stunden.",
     primaryCta: { label: "Kostenloses Angebot" },
     secondaryCta: { label: "Leistungen ansehen" },
+    backgroundImages: [
+      {
+        src: "/images/preview/maler-mueller/hero-pinsel-regenbogen.jpg",
+        alt: "Bunte Malerpinsel mit Farbspritzern",
+      },
+      {
+        src: "/images/preview/maler-mueller/hero-farbwalzen-wand.jpg",
+        alt: "Farbwalzen streichen eine Wand in Grün, Rot, Orange und Blau",
+      },
+    ],
     trust: {
       text: "4,9 von 5 – über 180 Bewertungen",
       rating: 4.9,
@@ -45,13 +55,25 @@ export const malerMueller: PreviewConfig = {
 
   about: {
     eyebrow: "Über uns",
-    heading: "Seit 1998 der Malerbetrieb für Hannover und Umgebung",
+    heading: "Farben, die bleiben – Handwerk, dem man vertraut",
     text: "Was als Ein-Mann-Betrieb begann, ist heute ein Team aus zwölf Malern und Lackierern. Wir arbeiten für Hausbesitzer, Hausverwaltungen und Gewerbekunden in der ganzen Region – vom einzelnen Wohnzimmer bis zur kompletten Fassadensanierung. Dabei gilt bei uns immer dasselbe Versprechen: fester Preis, fester Termin, saubere Baustelle.",
     points: [
       "Meisterbetrieb mit eigener Ausbildungswerkstatt",
       "Feste Ansprechpartner vom Angebot bis zur Abnahme",
       "Möbel abdecken, Böden schützen, Endreinigung inklusive",
       "Vollversichert – Haftpflicht bis 5 Mio. €",
+    ],
+    sinceYear: "1998",
+    sinceLabel: "Seit",
+    images: [
+      {
+        src: "/images/preview/maler-mueller/about-arbeiter.jpg",
+        alt: "Maler taucht Farbwalze in weiße Farbe",
+      },
+      {
+        src: "/images/preview/maler-mueller/about-wand.jpg",
+        alt: "Maler streicht eine Wand",
+      },
     ],
     signature: {
       name: "Thomas Müller",
@@ -90,46 +112,100 @@ export const malerMueller: PreviewConfig = {
 
   services: [
     {
-      title: "Innenanstrich",
+      title: "Maler & Tapezierarbeiten",
       description:
-        "Wände, Decken und Treppenhäuser in Wunschfarbe – deckend, gleichmäßig und mit scharfen Kanten.",
+        "Innenanstrich, Tapezieren und Lackierarbeiten – deckend, gleichmäßig und mit scharfen Kanten.",
       icon: "roller",
-      bullets: ["Wohnräume & Büros", "Treppenhäuser", "Schimmelsanierung"],
+      linkLabel: "Malerarbeiten",
+      image: {
+        src: "/images/preview/maler-mueller/service-innenanstrich.jpg",
+        alt: "Handwerker streicht Innenwände mit der Farbwalze",
+      },
+      bullets: ["Innenanstrich", "Tapezieren", "Lackierarbeiten"],
     },
     {
-      title: "Fassadenanstrich",
+      title: "Fassaden & Aussenarbeiten",
       description:
         "Wetterschutz und neuer Auftritt für Ihr Haus, inklusive Reinigung und Rissesanierung.",
       icon: "home",
-      bullets: ["Silikonharz & Silikat", "Rissesanierung", "Gerüst über Partner"],
+      linkLabel: "Fassadenarbeiten",
+      image: {
+        src: "/images/preview/maler-mueller/service-fassade-arbeit.jpg",
+        alt: "Fassadenarbeiten an einem Haus mit Leiter",
+      },
+      bullets: ["Fassadenanstrich", "Rissesanierung", "Gerüst über Partner"],
     },
     {
-      title: "Tapezieren & Wandgestaltung",
+      title: "Boden-Beschichtungen",
       description:
-        "Vliestapete, Raufaser oder Designtapete – dazu Spachteltechniken und Akzentwände.",
-      icon: "brush",
-      bullets: ["Vlies & Raufaser", "Designtapeten", "Spachteltechnik"],
-    },
-    {
-      title: "Lack- & Holzschutzarbeiten",
-      description:
-        "Türen, Fenster, Zargen und Holzverkleidungen sauber lackiert und dauerhaft geschützt.",
-      icon: "droplet",
-      bullets: ["Türen & Zargen", "Fenster", "Holzfassaden"],
-    },
-    {
-      title: "Wärmedämmung (WDVS)",
-      description:
-        "Fachgerecht angebrachte Dämmung, die Heizkosten senkt – auf Wunsch mit Förderberatung.",
-      icon: "leaf",
-      bullets: ["WDVS-Systeme", "Förderberatung", "Energieausweis über Partner"],
-    },
-    {
-      title: "Boden- & Spachtelarbeiten",
-      description:
-        "Untergründe vorbereiten, ausgleichen und neue Beläge fachgerecht verlegen.",
+        "Untergründe vorbereiten, ausgleichen und Böden fachgerecht beschichten.",
       icon: "ruler",
-      bullets: ["Vinyl & Designboden", "Ausgleichsmasse", "Sockelleisten"],
+      linkLabel: "Bodenbeschichtungen",
+      image: {
+        src: "/images/preview/maler-mueller/service-boden.jpg",
+        alt: "Hochwertig beschichteter Boden in modernen Räumen",
+      },
+      bullets: ["Beschichtungen", "Ausgleichsmasse", "Sockelleisten"],
+    },
+    {
+      title: "Schimmel & Wasserschaden",
+      description:
+        "Ursachen finden, befallene Stellen sanieren und Flächen dauerhaft schützen.",
+      icon: "droplet",
+      linkLabel: "Schimmelsanierung",
+      image: {
+        src: "/images/preview/maler-mueller/service-schimmel-sanierung.jpg",
+        alt: "Hausfassade mit Sanierungsbedarf",
+      },
+      bullets: ["Ursachenanalyse", "Sanierung", "Schutzanstrich"],
+    },
+    {
+      title: "Neugestaltung Gewerbe",
+      description:
+        "Büros, Praxen und Ladenlokale neu gestalten – auch in Etappen und außerhalb der Öffnungszeiten.",
+      icon: "brush",
+      linkLabel: "Gewerbegestaltung",
+      image: {
+        src: "/images/preview/maler-mueller/service-gewerbe.jpg",
+        alt: "Frisch gestaltete Gewerberäume",
+      },
+      bullets: ["Büros & Praxen", "Ladenlokale", "Nacht- & Wochenendarbeiten"],
+    },
+    {
+      title: "Innenputz",
+      description:
+        "Unterputz, Feinputz und Spachtelarbeiten für glatte, streichefertige Wände.",
+      icon: "wall",
+      linkLabel: "Innenputz",
+      image: {
+        src: "/images/preview/maler-mueller/service-putz.jpg",
+        alt: "Wandvorbereitung und Putzarbeiten",
+      },
+      bullets: ["Unterputz", "Feinputz", "Spachteltechnik"],
+    },
+    {
+      title: "Fliesenanstrich",
+      description:
+        "Fliesen in Bad und Küche neu beschichten – ohne teuren Abriss der alten Beläge.",
+      icon: "roller",
+      linkLabel: "Fliesenanstrich",
+      image: {
+        src: "/images/preview/maler-mueller/service-fliesen.jpg",
+        alt: "Frisch renoviertes Bad mit Fliesen",
+      },
+      bullets: ["Bad & Küche", "Haftgrund", "Strapazierfähige Systeme"],
+    },
+    {
+      title: "Betonsanierung",
+      description:
+        "Betonflächen reinigen, ausbessern und schützen – für Fassade, Keller und Gewerbe.",
+      icon: "shield",
+      linkLabel: "Betonsanierung",
+      image: {
+        src: "/images/preview/maler-mueller/service-beton.jpg",
+        alt: "Betonarbeiten auf der Baustelle",
+      },
+      bullets: ["Ausbesserung", "Schutzbeschichtung", "Fassade & Keller"],
     },
   ],
 
@@ -140,6 +216,10 @@ export const malerMueller: PreviewConfig = {
       location: "Hannover",
       description:
         "120 m² Wohnfläche komplett neu gestrichen, Stuckdecken vorsichtig aufgearbeitet.",
+      image: {
+        src: "/images/preview/maler-mueller/project-altbau.jpg",
+        alt: "Renoviertes Wohnzimmer in Altbauwohnung",
+      },
     },
     {
       title: "Einfamilienhaus mit neuer Fassade",
@@ -147,6 +227,10 @@ export const malerMueller: PreviewConfig = {
       location: "Laatzen",
       description:
         "Fassadenreinigung, Rissesanierung und zweifacher Silikonharz-Anstrich.",
+      image: {
+        src: "/images/preview/maler-mueller/project-efh.jpg",
+        alt: "Einfamilienhaus nach Fassadenerneuerung",
+      },
     },
     {
       title: "Praxisräume Zahnarzt",
@@ -154,6 +238,10 @@ export const malerMueller: PreviewConfig = {
       location: "Hannover-Linden",
       description:
         "Anstrich in Etappen über zwei Wochenenden – ohne Ausfall im Praxisbetrieb.",
+      image: {
+        src: "/images/preview/maler-mueller/project-praxis.jpg",
+        alt: "Frisch gestrichene Praxisräume",
+      },
     },
     {
       title: "Treppenhaus Mehrfamilienhaus",
@@ -161,12 +249,20 @@ export const malerMueller: PreviewConfig = {
       location: "Garbsen",
       description:
         "Sechs Etagen inklusive Geländer-Lackierung und Ausbesserung der Wandsockel.",
+      image: {
+        src: "/images/preview/maler-mueller/project-treppe.jpg",
+        alt: "Innenräume nach Treppenhaus-Anstrich",
+      },
     },
     {
       title: "Wärmedämmung Doppelhaus",
       category: "WDVS",
       location: "Ronnenberg",
       description: "14 cm WDVS mit anschließendem Struktur-Oberputz.",
+      image: {
+        src: "/images/preview/maler-mueller/project-daemmung.jpg",
+        alt: "Fassadendämmung und Außenarbeiten",
+      },
     },
     {
       title: "Ladenlokal Innenstadt",
@@ -174,6 +270,10 @@ export const malerMueller: PreviewConfig = {
       location: "Hannover",
       description:
         "Farbkonzept nach Corporate Design, Umsetzung in fünf Nachtschichten.",
+      image: {
+        src: "/images/preview/maler-mueller/project-laden.jpg",
+        alt: "Gestaltetes Ladenlokal nach dem Anstrich",
+      },
     },
   ],
 
@@ -182,21 +282,25 @@ export const malerMueller: PreviewConfig = {
       title: "Beratung & Aufmaß",
       description:
         "Wir kommen kostenlos vorbei, hören zu, messen auf und beraten zu Farbe und Material.",
+      icon: "phone",
     },
     {
       title: "Festpreis-Angebot",
       description:
         "Innerhalb von 48 Stunden erhalten Sie ein transparentes Angebot – ohne Kleingedrucktes.",
+      icon: "euro",
     },
     {
       title: "Termin & Vorbereitung",
       description:
         "Fester Starttermin, Möbel werden abgedeckt, Böden geschützt, Nachbarn informiert.",
+      icon: "clock",
     },
     {
       title: "Ausführung & Abnahme",
       description:
         "Wir arbeiten zügig, räumen täglich auf und gehen am Ende gemeinsam durch alle Räume.",
+      icon: "check",
     },
   ],
 
@@ -250,18 +354,34 @@ export const malerMueller: PreviewConfig = {
     about: {
       title: "Der Betrieb hinter der Farbrolle",
       text: "Zwölf Kolleginnen und Kollegen, ein Malermeister und über 25 Jahre Erfahrung in Hannover.",
+      image: {
+        src: "/images/preview/maler-mueller/page-about.jpg",
+        alt: "Maler bei der Arbeit an der Wand",
+      },
     },
     services: {
       title: "Unsere Leistungen im Detail",
       text: "Innen, außen, Holz und Boden – alles aus einer Hand und mit festem Preis.",
+      image: {
+        src: "/images/preview/maler-mueller/page-services.jpg",
+        alt: "Fassadenarbeiten am Haus",
+      },
     },
     projects: {
       title: "Projekte aus Hannover und Region",
       text: "Ein Einblick in Aufträge, die wir in den letzten Monaten abgeschlossen haben.",
+      image: {
+        src: "/images/preview/maler-mueller/page-projects.jpg",
+        alt: "Haus mit Gerüst bei der Fassadensanierung",
+      },
     },
     contact: {
-      title: "Kontakt & kostenloses Angebot",
-      text: "Rufen Sie an, schreiben Sie per WhatsApp oder nutzen Sie das Formular – wir antworten innerhalb eines Werktages.",
+      title: "Kontakt & Angebot",
+      text: "Schreiben Sie uns kurz Ihr Vorhaben – wir melden uns innerhalb eines Werktages.",
+      image: {
+        src: "/images/preview/maler-mueller/page-contact.jpg",
+        alt: "Modern eingerichteter Innenraum",
+      },
     },
   },
 

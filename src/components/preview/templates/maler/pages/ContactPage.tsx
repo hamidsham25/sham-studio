@@ -16,6 +16,7 @@ export default function MalerContactPage({ config }: Props) {
         eyebrow="Kontakt"
         title={intro?.title ?? "Kontakt aufnehmen"}
         text={intro?.text}
+        image={intro?.image}
       />
 
       <Contact config={config} />

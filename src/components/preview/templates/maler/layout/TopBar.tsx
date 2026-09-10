@@ -1,47 +1,47 @@
 import { mailHref, telHref } from "@/lib/previews/core/links";
 import type { PreviewConfig } from "@/lib/previews/core/types";
 import PreviewIcon from "@/components/preview/core/ui/PreviewIcon";
-import PreviewSocialIcon, { socialLabel } from "@/components/preview/core/ui/PreviewSocialIcon";
-import PreviewContainer from "@/components/preview/core/ui/PreviewContainer";
+import PreviewSocialIcon, {
+  socialLabel,
+} from "@/components/preview/core/ui/PreviewSocialIcon";
+import MalerNavContainer from "./NavContainer";
 
-type PreviewTopBarProps = {
+type MalerTopBarProps = {
   config: PreviewConfig;
 };
 
-/** Schmale Info-Leiste über dem Header. Auf Mobil ausgeblendet. */
-export default function PreviewTopBar({ config }: PreviewTopBarProps) {
+/** Schwarze Info-Leiste – scrollt mit, nicht sticky. */
+export default function MalerTopBar({ config }: MalerTopBarProps) {
   const socials = config.footer?.socials ?? [];
 
   return (
-    <div className="hidden border-b border-[var(--preview-border)] bg-[var(--preview-tint)] md:block">
-      <PreviewContainer>
-        <div className="flex h-11 items-center justify-between gap-6 text-xs">
+    <div className="relative z-[60] bg-[#111111] text-white">
+      <MalerNavContainer>
+        <div className="flex h-10 items-center justify-between gap-6 text-[0.8rem] md:h-11">
           {config.topBarMessage ? (
-            <p className="truncate text-[var(--preview-muted)]">
-              {config.topBarMessage}
-            </p>
+            <p className="truncate text-white/80">{config.topBarMessage}</p>
           ) : (
             <span />
           )}
 
-          <div className="flex shrink-0 items-center gap-5">
+          <div className="flex shrink-0 items-center gap-4 md:gap-5">
             <a
               href={mailHref(config.contact.email)}
-              className="inline-flex items-center gap-1.5 font-medium transition-colors hover:text-[var(--preview-primary)]"
+              className="hidden items-center gap-1.5 text-white/90 transition-colors hover:text-white sm:inline-flex"
             >
               <PreviewIcon name="mail" className="h-3.5 w-3.5" />
               {config.contact.email}
             </a>
             <a
               href={telHref(config.contact.phone)}
-              className="inline-flex items-center gap-1.5 font-medium transition-colors hover:text-[var(--preview-primary)]"
+              className="inline-flex items-center gap-1.5 font-medium text-white transition-colors hover:text-white/80"
             >
               <PreviewIcon name="phone" className="h-3.5 w-3.5" />
               {config.contact.phone}
             </a>
 
             {socials.length > 0 ? (
-              <div className="flex items-center gap-3 border-l border-[var(--preview-border)] pl-5">
+              <div className="hidden items-center gap-3 border-l border-white/20 pl-4 md:flex">
                 {socials.map((social) => (
                   <a
                     key={social.platform}
@@ -49,7 +49,7 @@ export default function PreviewTopBar({ config }: PreviewTopBarProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={socialLabel(social.platform)}
-                    className="text-[var(--preview-muted)] transition-colors hover:text-[var(--preview-primary)]"
+                    className="text-white/70 transition-colors hover:text-white"
                   >
                     <PreviewSocialIcon platform={social.platform} />
                   </a>
@@ -58,7 +58,7 @@ export default function PreviewTopBar({ config }: PreviewTopBarProps) {
             ) : null}
           </div>
         </div>
-      </PreviewContainer>
+      </MalerNavContainer>
     </div>
   );
 }

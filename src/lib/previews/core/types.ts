@@ -91,6 +91,8 @@ export type PreviewService = {
   icon?: PreviewIconName;
   bullets?: string[];
   image?: PreviewImage;
+  /** Kurzlabel für den Card-Link, z. B. "Malerarbeiten" → "weiter zu Malerarbeiten". */
+  linkLabel?: string;
 };
 
 export type PreviewProject = {
@@ -104,6 +106,7 @@ export type PreviewProject = {
 export type PreviewProcessStep = {
   title: string;
   description: string;
+  icon?: PreviewIconName;
 };
 
 export type PreviewBenefit = {
@@ -120,7 +123,13 @@ export type PreviewHero = {
   subline?: string;
   primaryCta?: PreviewAction;
   secondaryCta?: PreviewAction;
+  /** Einzelnes Hero-Bild (Fallback, wenn backgroundImages fehlen). */
   image?: PreviewImage;
+  /**
+   * Hintergrundbilder für den Hero-Wechsel (Maler u. a.).
+   * Mehrere Bilder → automatischer Wechsel im Template.
+   */
+  backgroundImages?: PreviewImage[];
   /** Kleine Karten unten rechts im Hero (max. 3 werden gerendert). */
   thumbnails?: PreviewImage[];
   /** Vertrauens-Zeile unten links: Sterne + Text. */
@@ -137,7 +146,14 @@ export type PreviewAbout = {
   text: string;
   /** Aufzählung mit Häkchen. */
   points?: string[];
+  /** Einzelbild (Fallback, wenn images fehlen). */
   image?: PreviewImage;
+  /** Zwei Fotos für die Collage (Maler-Über-uns). */
+  images?: PreviewImage[];
+  /** Jahr im runden Badge, z. B. "1998". */
+  sinceYear?: string;
+  /** Kleines Label über dem Jahr. Default: "Seit". */
+  sinceLabel?: string;
   signature?: { name: string; role: string };
 };
 
@@ -167,6 +183,8 @@ export type PreviewFooterConfig = {
 export type PreviewPageIntro = {
   title?: string;
   text?: string;
+  /** Optionales Hintergrundbild für den Unterseiten-Kopf. */
+  image?: PreviewImage;
 };
 
 export type PreviewOpeningHours = {

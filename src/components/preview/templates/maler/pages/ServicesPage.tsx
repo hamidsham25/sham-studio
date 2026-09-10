@@ -3,7 +3,7 @@ import MalerLayout from "../layout/Layout";
 import Cta from "../sections/Cta";
 import PageHero from "../sections/PageHero";
 import Process from "../sections/Process";
-import ServicesDetailed from "../sections/ServicesDetailed";
+import Services from "../sections/Services";
 
 type Props = { config: PreviewConfig };
 
@@ -18,9 +18,10 @@ export default function MalerServicesPage({ config }: Props) {
         eyebrow="Leistungen"
         title={intro?.title ?? "Unsere Leistungen"}
         text={intro?.text}
+        image={intro?.image}
       />
 
-      <ServicesDetailed config={config} />
+      <Services config={config} showHeading={false} />
 
       {config.process?.length ? (
         <Process config={config} steps={config.process} />

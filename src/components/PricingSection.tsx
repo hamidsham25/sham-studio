@@ -36,7 +36,7 @@ const PACKAGE_PLANS: PackagePlan[] = [
     price: "899 €",
     description:
       "Der professionelle One-Pager. Ideal für Betriebe, die einen sauberen, seriösen Auftritt mit klarem Kontaktweg brauchen.",
-    subline: "einmalig, netto",
+    subline: "einmalig",
     items: [
       { label: "Einseitiger Auftritt (One-Pager)", included: true },
       { label: "Mobil optimiert", included: true },
@@ -52,7 +52,7 @@ const PACKAGE_PLANS: PackagePlan[] = [
     price: "1.499 €",
     description:
       "Der vollständige Webauftritt mit mehreren Unterseiten. Für Betriebe, die ihre Leistungen ausführlich zeigen und besser gefunden werden wollen.",
-    subline: "einmalig, netto",
+    subline: "einmalig",
     badge: "Am beliebtesten",
     highlight: true,
     items: [
@@ -90,7 +90,7 @@ const MAINTENANCE_PLANS: MaintenancePlan[] = [
   {
     name: "Standard",
     price: "29 €/Monat",
-    subline: "monatlich, netto · Mindestlaufzeit 12 Monate",
+    subline: "monatlich · Mindestlaufzeit 12 Monate",
     items: [
       "Technische Updates & Sicherheit",
       "Hosting-Überwachung",
@@ -100,7 +100,7 @@ const MAINTENANCE_PLANS: MaintenancePlan[] = [
   {
     name: "Platin",
     price: "49 €/Monat",
-    subline: "monatlich, netto · Mindestlaufzeit 12 Monate",
+    subline: "monatlich · Mindestlaufzeit 12 Monate",
     items: [
       "Alles aus Standard",
       "Regelmäßige Backups",

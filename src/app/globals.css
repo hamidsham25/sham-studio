@@ -268,6 +268,15 @@ button:focus-visible {
   font-family: var(--preview-font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Display-Schrift für Überschriften und Nav (pro Template gesetzt). */
+.preview-root h1,
+.preview-root h2,
+.preview-root h3,
+.preview-root .preview-nav-link {
+  font-family: var(--preview-font-display), var(--preview-font-sans), Georgia,
+    serif;
+}
+
 .preview-root a:focus-visible,
 .preview-root button:focus-visible,
 .preview-root input:focus-visible,

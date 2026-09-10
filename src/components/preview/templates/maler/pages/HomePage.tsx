@@ -4,7 +4,6 @@ import Benefits from "../sections/Benefits";
 import Cta from "../sections/Cta";
 import Hero from "../sections/Hero";
 import Process from "../sections/Process";
-import Projects from "../sections/Projects";
 import Services from "../sections/Services";
 import Stats from "../sections/Stats";
 import type { PreviewConfig } from "@/lib/previews/core/types";
@@ -22,11 +21,7 @@ export default function MalerHomePage({ config }: Props) {
 
       {config.stats?.length ? <Stats stats={config.stats} /> : null}
 
-      <Services config={config} limit={3} />
-
-      {config.projects?.length ? (
-        <Projects config={config} projects={config.projects} limit={3} />
-      ) : null}
+      <Services config={config} limit={4} />
 
       {config.process?.length ? (
         <Process config={config} steps={config.process} />

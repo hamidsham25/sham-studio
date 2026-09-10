@@ -8,7 +8,9 @@ type PreviewButtonVariant =
   | "secondary"
   | "outline"
   /** Für Buttons, die auf der Akzentfarbe stehen (siehe globals.css). */
-  | "onPrimary";
+  | "onPrimary"
+  /** Halbtransparent auf dunklem Hintergrund (z. B. Hero-Overlay). */
+  | "ghostLight";
 
 const VARIANT_CLASS: Record<PreviewButtonVariant, string> = {
   primary:
@@ -18,6 +20,8 @@ const VARIANT_CLASS: Record<PreviewButtonVariant, string> = {
   outline:
     "text-[var(--preview-primary)] ring-1 ring-[var(--preview-primary-border)] hover:bg-[var(--preview-tint)]",
   onPrimary: "preview-btn-on-primary",
+  ghostLight:
+    "bg-white/10 text-white ring-1 ring-white/35 hover:bg-white/20 hover:ring-white/55",
 };
 
 const SIZE_CLASS = {
@@ -42,7 +46,7 @@ export default function PreviewButton({
   icon,
   className = "",
 }: PreviewButtonProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-colors ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${className}`;
   const content = (
     <>
       {icon ? <PreviewIcon name={icon} className="h-4 w-4" /> : null}

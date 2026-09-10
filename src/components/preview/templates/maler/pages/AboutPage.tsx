@@ -19,6 +19,7 @@ export default function MalerAboutPage({ config }: Props) {
         eyebrow="Über uns"
         title={intro?.title ?? `Über ${config.businessName}`}
         text={intro?.text ?? config.tagline}
+        image={intro?.image}
       />
 
       {config.about ? (

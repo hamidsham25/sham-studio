@@ -2,70 +2,77 @@ import { previewPath } from "@/components/preview/templates/maler/navigation";
 import { TRADE_ICON } from "@/lib/previews/core/trade";
 import type { PreviewConfig } from "@/lib/previews/core/types";
 import PreviewButton from "@/components/preview/core/ui/PreviewButton";
-import PreviewIcon from "@/components/preview/core/ui/PreviewIcon";
+import PreviewImageFrame from "@/components/preview/core/ui/PreviewImageFrame";
 import PreviewSection from "@/components/preview/core/ui/PreviewSection";
 import PreviewSectionHeading from "@/components/preview/core/ui/PreviewSectionHeading";
 
 type MalerServicesProps = {
   config: PreviewConfig;
   limit?: number;
+  /** Auf der Unterseite ausblenden, wenn PageHero die Überschrift schon trägt. */
+  showHeading?: boolean;
 };
 
-/** Maler-Leistungen: Icon-Karten auf hellem Hintergrund. */
-export default function MalerServices({ config, limit }: MalerServicesProps) {
+/** Maler-Leistungen: eckige Bildkarten mit farbigem Textblock. */
+export default function MalerServices({
+  config,
+  limit,
+  showHeading = true,
+}: MalerServicesProps) {
   const titles = config.sectionTitles?.services;
   const services = limit ? config.services.slice(0, limit) : config.services;
   const hasMore = services.length < config.services.length;
+  const servicesHref = previewPath(config.slug, "services");
 
   return (
-    <PreviewSection id="leistungen" tone="surface">
-      <PreviewSectionHeading
-        eyebrow={titles?.eyebrow ?? "Leistungen"}
-        title={titles?.title ?? "Unsere Leistungen"}
-        text={titles?.text}
-      />
+    <PreviewSection id="leistungen" tone="default">
+      {showHeading ? (
+        <PreviewSectionHeading
+          eyebrow={titles?.eyebrow ?? "Leistungen"}
+          title={titles?.title ?? "Unsere Leistungen"}
+          text={titles?.text}
+          align="left"
+        />
+      ) : null}
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
-          <article
-            key={service.title}
-            className="flex flex-col rounded-3xl bg-[var(--preview-background)] p-7 ring-1 ring-[var(--preview-border)] transition-colors hover:ring-[var(--preview-primary-border)]"
-          >
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--preview-tint-strong)] text-[var(--preview-primary)]">
-              <PreviewIcon
-                name={service.icon ?? TRADE_ICON.maler}
-                className="h-6 w-6"
+      <div
+        className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5 ${
+          showHeading ? "mt-12" : ""
+        }`}
+      >
+        {services.map((service) => {
+          const linkLabel = service.linkLabel ?? service.title;
+
+          return (
+            <a
+              key={service.title}
+              href={servicesHref}
+              className="group flex flex-col overflow-hidden rounded-none outline-none transition-opacity hover:opacity-95 focus-visible:ring-2 focus-visible:ring-[var(--preview-primary)] focus-visible:ring-offset-2"
+            >
+              <PreviewImageFrame
+                image={service.image}
+                placeholderIcon={service.icon ?? TRADE_ICON.maler}
+                rounded="rounded-none"
+                className="aspect-3/4 w-full"
               />
-            </span>
 
-            <h3 className="mt-5 text-xl font-bold tracking-tight">
-              {service.title}
-            </h3>
-            <p className="mt-2.5 text-sm leading-relaxed text-[var(--preview-muted)]">
-              {service.description}
-            </p>
-
-            {service.bullets?.length ? (
-              <ul className="mt-5 space-y-2 border-t border-[var(--preview-border)] pt-5">
-                {service.bullets.map((bullet) => (
-                  <li key={bullet} className="flex items-center gap-2 text-sm">
-                    <PreviewIcon
-                      name="check"
-                      className="h-3.5 w-3.5 shrink-0 text-[var(--preview-primary)]"
-                    />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </article>
-        ))}
+              <div className="flex min-h-[9.5rem] flex-1 flex-col bg-[var(--preview-primary)] px-5 py-5 text-[var(--preview-on-primary)] sm:min-h-[10.5rem] sm:px-6 sm:py-6">
+                <h3 className="text-[1.15rem] font-bold leading-snug tracking-tight sm:text-xl">
+                  {service.title}
+                </h3>
+                <span className="mt-auto pt-5 text-sm font-normal opacity-90 transition-opacity group-hover:opacity-100">
+                  weiter zu {linkLabel}
+                </span>
+              </div>
+            </a>
+          );
+        })}
       </div>
 
       {hasMore ? (
-        <div className="mt-10 text-center">
+        <div className="mt-10">
           <PreviewButton
-            href={previewPath(config.slug, "services")}
+            href={servicesHref}
             variant="outline"
             size="lg"
             icon="arrowRight"
