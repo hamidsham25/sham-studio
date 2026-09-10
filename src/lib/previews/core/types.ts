@@ -150,6 +150,8 @@ export type PreviewAbout = {
   image?: PreviewImage;
   /** Zwei Fotos für die Collage (Maler-Über-uns). */
   images?: PreviewImage[];
+  /** Dezentes Sektions-Hintergrundbild (niedrige Sichtbarkeit). */
+  backgroundImage?: PreviewImage;
   /** Jahr im runden Badge, z. B. "1998". */
   sinceYear?: string;
   /** Kleines Label über dem Jahr. Default: "Seit". */

@@ -29,8 +29,23 @@ export default function MalerAbout({
   const collageImages = resolveCollageImages(about);
 
   return (
-    <PreviewSection id="ueber-uns">
-      <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 xl:gap-16">
+    <PreviewSection id="ueber-uns" className="relative overflow-hidden">
+      {about.backgroundImage ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={about.backgroundImage.src}
+            alt=""
+            loading="lazy"
+            className="h-full w-full object-cover opacity-[0.12]"
+          />
+        </div>
+      ) : null}
+
+      <div className="relative grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 xl:gap-16">
         <div>
           {about.eyebrow ? (
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--preview-primary)]">

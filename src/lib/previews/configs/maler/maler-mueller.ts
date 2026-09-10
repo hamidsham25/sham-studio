@@ -65,6 +65,10 @@ export const malerMueller: PreviewConfig = {
     ],
     sinceYear: "1998",
     sinceLabel: "Seit",
+    backgroundImage: {
+      src: "/images/preview/maler-mueller/about-bg.jpg",
+      alt: "Hand mit Farbwalze an der Wand",
+    },
     images: [
       {
         src: "/images/preview/maler-mueller/about-arbeiter.jpg",
