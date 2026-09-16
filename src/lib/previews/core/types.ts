@@ -8,7 +8,7 @@
  */
 
 /** Gewerk des Kunden – steuert später branchenspezifische Inhalte. */
-export type PreviewTrade = "maler" | "shk" | "pv" | "sanierung";
+export type PreviewTrade = "maler" | "shk" | "pv" | "sanierung" | "gartenbau";
 
 /** Icons der Preview-Bausteine, siehe components/preview/ui/PreviewIcon.tsx. */
 export type PreviewIconName =

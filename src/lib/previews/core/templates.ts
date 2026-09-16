@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { fallbackTemplate } from "@/components/preview/templates/fallback";
+import { gartenbauTemplate } from "@/components/preview/templates/gartenbau";
 import { malerTemplate } from "@/components/preview/templates/maler";
 import { shkTemplate } from "@/components/preview/templates/shk";
 import type { PreviewConfig, PreviewTrade } from "./types";
@@ -27,6 +28,7 @@ const TEMPLATES: Record<PreviewTrade, PreviewTemplate> = {
   shk: shkTemplate,
   pv: fallbackTemplate,
   sanierung: fallbackTemplate,
+  gartenbau: gartenbauTemplate,
 };
 
 export function getPreviewTemplate(trade: PreviewTrade): PreviewTemplate {

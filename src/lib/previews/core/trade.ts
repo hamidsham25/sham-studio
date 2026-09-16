@@ -6,6 +6,7 @@ export const TRADE_ICON: Record<PreviewTrade, PreviewIconName> = {
   shk: "droplet",
   pv: "sparkles",
   sanierung: "home",
+  gartenbau: "leaf",
 };
 
 export const TRADE_LABEL: Record<PreviewTrade, string> = {
@@ -13,4 +14,5 @@ export const TRADE_LABEL: Record<PreviewTrade, string> = {
   shk: "Sanitär, Heizung, Klima",
   pv: "Photovoltaik",
   sanierung: "Sanierung",
+  gartenbau: "Gartenbau",
 };

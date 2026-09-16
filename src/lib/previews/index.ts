@@ -1,5 +1,7 @@
 import type { PreviewConfig } from "./core/types";
 import { demo } from "./configs/demo";
+import { gartenbauDemo } from "./configs/gartenbau/gartenbau-demo";
+import { haffnerbau } from "./configs/gartenbau/haffnerbau";
 import { malerMueller } from "./configs/maler/maler-mueller";
 import { shkKlempner } from "./configs/shk/shk-klempner";
 
@@ -7,7 +9,13 @@ import { shkKlempner } from "./configs/shk/shk-klempner";
  * Registry aller Kunden-Configs.
  * Neuen Kunden anlegen: Datei unter configs/<trade>/ erstellen und hier eintragen.
  */
-const PREVIEW_CONFIGS: PreviewConfig[] = [demo, malerMueller, shkKlempner];
+const PREVIEW_CONFIGS: PreviewConfig[] = [
+  demo,
+  malerMueller,
+  shkKlempner,
+  gartenbauDemo,
+  haffnerbau,
+];
 
 const configsBySlug = new Map(
   PREVIEW_CONFIGS.map((config) => [config.slug, config]),

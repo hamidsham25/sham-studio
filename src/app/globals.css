@@ -10,6 +10,16 @@
   --header-height: 6.25rem;
 }
 
+@theme {
+  /* Gartenbau-Preview-Palette (bg-forest, bg-action, …) */
+  --color-forest: #0c3221;
+  --color-sage: #8a9a82;
+  --color-action: #4caf50;
+  --color-surface: #f4f6f2;
+  --color-ink: #1a1a1a;
+  --color-muted: #5a6b5a;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -17,6 +27,8 @@
   --font-display: var(--font-display), system-ui, sans-serif;
   --font-physio: var(--font-physio), "Iowan Old Style", serif;
   --font-tattoo: var(--font-tattoo), Georgia, serif;
+  --font-heading: var(--gb-font-heading), system-ui, sans-serif;
+  --font-body: var(--gb-font-body), system-ui, sans-serif;
 }
 
 html {
