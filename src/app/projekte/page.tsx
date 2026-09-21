@@ -25,10 +25,15 @@ function ProjectCard({
 }) {
   const cardRef = useRef<HTMLElement>(null);
   const isExternal = project.href.startsWith("http");
+  /** First row is typically above the fold on desktop (2-col) and mobile. */
+  const isAboveFold = index < 2;
 
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
+
+    // Keep above-fold cards visible so LCP uses the priority images.
+    if (isAboveFold) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -50,14 +55,18 @@ function ProjectCard({
     }, card);
 
     return () => ctx.revert();
-  }, [index]);
+  }, [index, isAboveFold]);
 
   const tags = project.isMockup
     ? [...project.tags, "Mockup"]
     : project.tags;
 
   return (
-    <article ref={cardRef} id={project.id} className="opacity-0 scroll-mt-28">
+    <article
+      ref={cardRef}
+      id={project.id}
+      className={`scroll-mt-28 ${isAboveFold ? "" : "opacity-0"}`}
+    >
       <Link
         href={project.href}
         className="group block"
@@ -70,7 +79,19 @@ function ProjectCard({
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover object-top"
+            // Full-res sources stay on disk; next/image still serves optimized sizes.
+            // Eager on all so scrolling never triggers the LCP console warning.
+            {...(isAboveFold
+              ? { priority: true }
+              : { loading: "eager" as const })}
           />
+          {project.isInProgress ? (
+            <div className="pointer-events-none absolute -right-11 top-7 z-10 flex w-44 rotate-45 items-center justify-center bg-zinc-900 py-2 sm:-right-12 sm:top-8 sm:w-48">
+              <span className="text-[10px] font-semibold uppercase leading-none tracking-[0.12em] text-white sm:text-[11px]">
+                In Bearbeitung
+              </span>
+            </div>
+          ) : null}
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
