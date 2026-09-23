@@ -70,7 +70,7 @@ const footerNavLinks = [
   { href: "/projekte", label: "Projekte" },
   { href: "/services", label: "Services" },
   { href: "/ueber-uns", label: "Über uns" },
-  { href: "/kontakt", label: "Kontakt" },
+  { href: "/anfragen", label: "Kontakt" },
   { href: "/blog", label: "Blog" },
 ] as const;
 
@@ -134,8 +134,8 @@ export default function Footer() {
               Bereit für das nächste Projekt?
             </p>
             <Link
-              href="/kontakt"
-              onClick={(e) => handleNavLinkClick(e, pathname, "/kontakt", false)}
+              href="/anfragen"
+              onClick={(e) => handleNavLinkClick(e, pathname, "/anfragen", false)}
               className="group inline-block max-w-full text-zinc-900 transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 focus-visible:outline-offset-4"
             >
               <h2

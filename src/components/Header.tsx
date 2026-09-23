@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/projekte", id: "projekte", label: "Projekte" },
   { href: "/services", id: "services", label: "Services" },
   { href: "/ueber-uns", id: "ueber-uns", label: "Über uns" },
-  { href: "/kontakt", id: "kontakt", label: "Kontakt" },
+  { href: "/anfragen", id: "kontakt", label: "Kontakt" },
 ];
 
 function navHref(link: { href: string }, isHome: boolean) {
@@ -173,7 +173,6 @@ export default function Header() {
   const isHome = pathname === "/";
   const isProjekte = pathname === "/projekte";
   const isServicesPage = pathname === "/services";
-  const isKontakt = pathname === "/kontakt";
   const isAnfragen = pathname === "/anfragen";
   const isUeberUns = pathname === "/ueber-uns";
   const [open, setOpen] = useState(false);
@@ -341,7 +340,7 @@ export default function Header() {
                           : link.id === "services"
                             ? isServicesPage
                             : link.id === "kontakt"
-                              ? isKontakt
+                              ? isAnfragen
                               : link.id === "ueber-uns"
                                 ? isUeberUns
                                 : activeSection === link.id
@@ -428,7 +427,7 @@ export default function Header() {
                         : link.id === "services"
                           ? isServicesPage
                           : link.id === "kontakt"
-                            ? isKontakt
+                            ? isAnfragen
                             : link.id === "ueber-uns"
                               ? isUeberUns
                               : activeSection === link.id;

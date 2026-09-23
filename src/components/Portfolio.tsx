@@ -74,7 +74,7 @@ const PROJECTS: PortfolioProject[] = [
     hoverPreview: "/images/portfolio/physio-hover.png",
     industryTag: { label: "Physiotherapie", corner: "top-right" },
     layout: "cover",
-    href: "https://physio-saglam.vercel.app",
+    href: "https://www.physio-saglam.de",
   },
   {
     title: "REIN Gebäudereinigung",

@@ -13,6 +13,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/kontakt",
+        destination: "/anfragen",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

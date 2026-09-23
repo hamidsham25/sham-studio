@@ -33,7 +33,7 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     description:
       "Praxiswebsite in Langenhagen. Freundlich, übersichtlich und mit Fokus auf Therapien, Team und Terminanfrage.",
     preview: "/images/portfolio/mock-ups/physio-mockup-full.png",
-    href: "https://physio-saglam.vercel.app",
+    href: "https://www.physio-saglam.de",
     tags: ["Webdesign", "Branding"],
   },
   {
@@ -45,6 +45,16 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     preview: "/images/portfolio/mock-ups/rein-gebaeudeservice-mockup-full.png",
     href: "https://www.rein-gebaeudeservice.de",
     tags: ["Webdesign", "Branding", "SEO", "Digital Marketing"],
+  },
+  {
+    id: "thavam",
+    title: "THAVAM Alltagshilfe",
+    category: "Web Design · Alltagshilfe",
+    description:
+      "Alltagshilfe und Seniorenbetreuung in Hannover. Vertrauensvoll, klar und mit Fokus auf Pflegegrad und Anfrage.",
+    preview: "/images/portfolio/mock-ups/thavam-mockup-full.png",
+    href: "https://www.thavam-alltagshilfe.de",
+    tags: ["Webdesign", "Branding", "SEO"],
   },
   {
     id: "noir-ink",
@@ -74,19 +84,8 @@ export const PORTFOLIO_PROJECTS: ProjectListItem[] = [
     description:
       "Umzugsunternehmen in Hannover. Klare Leistungen, Festpreis-Angebot und Express-Anfrage auf der Startseite.",
     preview: "/images/portfolio/mock-ups/packwerk-mockup-full.png",
-    href: "/projekte#packwerk",
+    href: "https://www.packwerk-umzuege.de",
     tags: ["Webdesign", "SEO", "Digital Marketing"],
-  },
-  {
-    id: "thavam",
-    title: "THAVAM Alltagshilfe",
-    category: "Web Design · Alltagshilfe",
-    description:
-      "Alltagshilfe und Seniorenbetreuung in Hannover. Vertrauensvoll, klar und mit Fokus auf Pflegegrad und Anfrage.",
-    preview: "/images/portfolio/mock-ups/thavam-mockup-full.png",
-    href: "/projekte#thavam",
-    tags: ["Webdesign", "Branding", "SEO"],
-    isInProgress: true,
   },
   {
     id: "sawitzki-trollmann",
